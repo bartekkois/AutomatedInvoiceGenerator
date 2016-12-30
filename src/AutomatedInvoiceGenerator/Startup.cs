@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using AutomatedInvoiceGenerator.Data;
 using AutomatedInvoiceGenerator.Models;
 using AutomatedInvoiceGenerator.Services;
+using AutomatedInvoiceGenerator.Models.SampleData;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -52,7 +51,31 @@ namespace AutomatedInvoiceGenerator
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 20;
+
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(90);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+
+                options.User.RequireUniqueEmail = true;
+            });
+
             services.AddMvc();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -72,10 +95,34 @@ namespace AutomatedInvoiceGenerator
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                    var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
+                    var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+
+                    context.Database.Migrate();
+                    context.EnsureSeedData().GetAwaiter().GetResult();
+                    roleManager.EnsureSeedRoles().GetAwaiter().GetResult();
+                    userManager.EnsureSeedAdministrators().GetAwaiter().GetResult();
+                    userManager.EnsureSeedUsers().GetAwaiter().GetResult();
+                }
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                    var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
+                    var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+
+                    context.Database.Migrate();
+                    roleManager.EnsureSeedRoles().GetAwaiter().GetResult();
+                    userManager.EnsureSeedAdministrators().GetAwaiter().GetResult();
+                }
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
