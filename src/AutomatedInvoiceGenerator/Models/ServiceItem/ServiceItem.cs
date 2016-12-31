@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.Models
 {
-    public abstract class ServiceItem
+    public abstract class ServiceItem : IAuditable
     {
         public int Id { get; set; }
 

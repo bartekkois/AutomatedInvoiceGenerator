@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.Models
 {
-    public class Group
+    public class Group : IAuditable
     {
         public int Id { get; set; }
 

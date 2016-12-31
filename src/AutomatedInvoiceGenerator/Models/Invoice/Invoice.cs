@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.Models
 {
-    public class Invoice
+    public class Invoice : IAuditable
     {
         public int Id { get; set; }
 
