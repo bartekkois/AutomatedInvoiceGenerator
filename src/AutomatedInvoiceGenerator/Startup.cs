@@ -11,6 +11,8 @@ using AutomatedInvoiceGenerator.Services;
 using AutomatedInvoiceGenerator.Models.SampleData;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -59,9 +61,6 @@ namespace AutomatedInvoiceGenerator
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
 
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 20;
-
                 options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(90);
                 options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
                 options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
@@ -78,13 +77,28 @@ namespace AutomatedInvoiceGenerator
             });
 
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IExportService, ExportService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            var supportedCultures = new[]
+{
+                      new CultureInfo("en-US"),
+                      new CultureInfo("en-GB"),
+                      new CultureInfo("en"),
+                      new CultureInfo("pl-PL"),
+                      new CultureInfo("pl")
+            };
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -137,7 +151,7 @@ namespace AutomatedInvoiceGenerator
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Customers}/{id?}");
             });
         }
     }

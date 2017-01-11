@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace AutomatedInvoiceGenerator.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Customers()
         {
+            ViewData["Version"] = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Invoices()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["Version"] = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Export()
         {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewData["Version"] = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             return View();
         }
 

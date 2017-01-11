@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AutomatedInvoiceGenerator</title>
+    <title>@ViewData["Title"] - Automated Invoice Generator</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -27,13 +27,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AutomatedInvoiceGenerator</a>
+                <a asp-area="" asp-controller="Home" asp-action="Customers" class="navbar-brand">AutomatedInvoiceGenerator</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Customers">Kontahenci</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Invoices">Faktury</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Export">Eksport</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -43,7 +43,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2016 - AutomatedInvoiceGenerator</p>
+            <p>&copy; 2016 - Automated Invoice Generator - ver. @ViewData["Version"]</p>
         </footer>
     </div>
 

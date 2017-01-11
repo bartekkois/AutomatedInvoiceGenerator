@@ -1,71 +1,71 @@
-﻿@model IndexViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model IndexViewModel
+@inject UserManager<ApplicationUser> UserManager
+
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = "Zarządzanie kontami";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div>
-    <h4>Change your account settings</h4>
     <hr />
+    <h4>Zmień ustawienia konta:</h4>
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
+        <dt class="accoutns-names">@UserManager.GetUserName(User)</dt>
         <dd>
-            @if (Model.HasPassword)
-            {
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
-            }
-            else
-            {
-                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
-            }
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-
-            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
-        </dd>
-        <dt>Phone Number:</dt>
-        <dd>
-            <p>
-                Phone Numbers can used as a second factor of verification in two-factor authentication.
-                See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-            </p>
-            @*@(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Change</a>
-                    <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post">
-                        [<button type="submit" class="btn-link">Remove</button>]
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Add</a>
-                }*@
-        </dd>
-
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for setting up this application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
-                        Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
-                        <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
-                    </form>
-                }*@
+            <a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-bracketed">Zmień hasło</a>
         </dd>
     </dl>
+    
+    @if (Model.ApplicationUsers.Any())
+    {
+        <hr />
+        <h4>Zmień ustawienia kont użytkowników: <a asp-controller="Manage" asp-action="AddUser" class="btn btn-bracketed">Dodaj użytkownika</a></h4>       
+        @foreach (var user in Model.ApplicationUsers)
+        {
+            @if (!UserManager.GetUserName(User).Equals(user.UserName))
+            {
+                <dl class="dl-horizontal">
+                    <dt class="accoutns-names">
+                        @user.Email
+                    </dt>
+                    <dd>
+                        @if (user.Roles.Contains("Admin"))
+                        {
+                            <span class="glyphicon glyphicon-star text-warning"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-star text-warning accounts-icon-hidden"></span>
+                        }
+
+                        @if (user.Roles.Contains("User"))
+                        {
+                            <span class="glyphicon glyphicon-user text-info"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-user text-info accounts-icon-hidden"></span>
+                        }
+
+                        @if (await UserManager.IsLockedOutAsync(await UserManager.FindByEmailAsync(user.Email)))
+                        {
+                            <span class="glyphicon glyphicon-lock text-danger"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-lock text-danger accounts-icon-hidden"></span>
+                        }
+
+                        <a asp-controller="Manage" asp-action="ChangeUserPassword" asp-route-email="@user.Email" class="btn btn-bracketed">Zmień hasło</a>
+                        <a asp-controller="Manage" asp-action="ChangeUserRoles" asp-route-email="@user.Email" class="btn btn-bracketed">Zmień uprawnienia</a>
+                        <a asp-controller="Manage" asp-action="LockUnlockUser" asp-route-email="@user.Email" class="btn btn-bracketed">Zablokuj/odblokuj</a>
+                        <a asp-controller="Manage" asp-action="RemoveUser" asp-route-email="@user.Email" class="btn btn-bracketed">Usuń</a>
+                    </dd>
+                </dl>
+            }
+        }
+    }
 </div>

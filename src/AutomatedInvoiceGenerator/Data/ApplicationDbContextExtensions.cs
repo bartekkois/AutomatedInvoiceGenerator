@@ -471,7 +471,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
         public static async Task EnsureSeedRoles(this RoleManager<IdentityRole> roleManager)
         {
             // Seed database - roles
-            var roles = new List<string> { "Administrator", "User" };
+            var roles = new List<string> { "Admin", "User" };
 
             foreach (var role in roles)
             {
@@ -492,7 +492,16 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
             if (await userManager.FindByNameAsync(admin.UserName) == null)
             {
                 await userManager.CreateAsync(admin, "admin");
-                await userManager.AddToRoleAsync(admin, "Administrator");
+            }
+
+            if (!await userManager.IsInRoleAsync(admin, "Admin"))
+            {
+                await userManager.AddToRoleAsync(admin, "Admin");
+            }
+
+            if (!await userManager.IsInRoleAsync(admin, "User"))
+            {
+                await userManager.AddToRoleAsync(admin, "User");
             }
         }
 
@@ -508,6 +517,10 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
             if (await userManager.FindByNameAsync(user.UserName) == null)
             {
                 await userManager.CreateAsync(user, "user");
+            }
+
+            if (!await userManager.IsInRoleAsync(user, "User"))
+            {
                 await userManager.AddToRoleAsync(user, "User");
             }
         }

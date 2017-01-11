@@ -2,22 +2,23 @@
 
 namespace AutomatedInvoiceGenerator.Models.ManageViewModels
 {
-    public class ChangePasswordViewModel
+    public class ChangeUserPasswordViewModel
     {
         [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Obecne hasło")]
-        public string OldPassword { get; set; }
+        [EmailAddress]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} musi mieć od {2} do {1} znaków.", MinimumLength = 4)]
+        [StringLength(50, ErrorMessage = "{0} musi mieć od {2} do {1} znaków.", MinimumLength = 4)]
         [DataType(DataType.Password)]
         [Display(Name = "Nowe hasło")]
         public string NewPassword { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Potwierdź hasło")]
-        [Compare("NewPassword", ErrorMessage = "Hasło oraz potwierdzone hasło różnią się od siebie.")]
+        [Compare("NewPassword", ErrorMessage = "Wprowadzone hasła różnią się od siebie.")]
         public string ConfirmPassword { get; set; }
     }
 }
