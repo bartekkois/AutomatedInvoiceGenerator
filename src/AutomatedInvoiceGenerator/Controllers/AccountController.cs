@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutomatedInvoiceGenerator.Models;
 using AutomatedInvoiceGenerator.Models.AccountViewModels;
+using AutomatedInvoiceGenerator.Filters;
 
 namespace AutomatedInvoiceGenerator.Controllers
 {
+    [AssemblyVersionFilter]
     [Authorize]
     public class AccountController : Controller
     {

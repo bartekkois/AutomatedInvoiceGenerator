@@ -1,25 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
+﻿using AutomatedInvoiceGenerator.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AutomatedInvoiceGenerator.Controllers
 {
+    [AssemblyVersionFilter]
     public class HomeController : Controller
     {
         public IActionResult Customers()
         {
-            ViewData["Version"] = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             return View();
         }
 
         public IActionResult Invoices()
         {
-            ViewData["Version"] = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             return View();
         }
 
         public IActionResult Export()
         {
-            ViewData["Version"] = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             return View();
         }
 

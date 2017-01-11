@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using AutomatedInvoiceGenerator.Filters;
 
 namespace AutomatedInvoiceGenerator.Controllers
 {
+    [AssemblyVersionFilter]
     [Authorize]
     public class ManageController : Controller
     {
