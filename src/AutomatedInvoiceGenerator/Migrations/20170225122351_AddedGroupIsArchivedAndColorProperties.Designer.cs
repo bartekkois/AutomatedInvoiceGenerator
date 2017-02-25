@@ -9,9 +9,10 @@ using AutomatedInvoiceGenerator.Models;
 namespace AutomatedInvoiceGenerator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170225122351_AddedGroupIsArchivedAndColorProperties")]
+    partial class AddedGroupIsArchivedAndColorProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

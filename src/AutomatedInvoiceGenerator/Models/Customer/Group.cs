@@ -15,6 +15,13 @@ namespace AutomatedInvoiceGenerator.Models
         [Required(ErrorMessage = "Opis grupy jest wymagany")]
         public string Description { get; set; }
 
+        [Display(Name = "Kolor:")]
+        public string Colour { get; set; }
+
+        [Display(Name = "Zarchiwizowany:")]
+        [Required]
+        public bool IsArchived { get; set; }
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
 

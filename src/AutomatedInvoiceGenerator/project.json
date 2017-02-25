@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-AutomatedInvoiceGenerator-27e36b7d-59e2-4343-a770-15e3619ad1a3",
 
   "title": "Automated Invoice Generator",
@@ -6,6 +6,8 @@
   "copyright": "Bartek Kois",
   "description": "Automated Invoice Generator is an ASP.NET Core web application intended for semi-automatic invoicing of subscription services.",
   "dependencies": {
+    "AutoMapper": "5.2.0",
+    "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.2.0",
     "BundlerMinifier.Core": "2.2.306",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",

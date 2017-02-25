@@ -14,6 +14,8 @@ using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using System.IO;
+using AutoMapper;
+using AutomatedInvoiceGenerator.DTO;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -78,6 +80,8 @@ namespace AutomatedInvoiceGenerator
             });
 
             // Add application services.
+            services.AddAutoMapper();
+
             services.AddTransient<IExportService, ExportService>();
         }
 
@@ -139,6 +143,11 @@ namespace AutomatedInvoiceGenerator
                     userManager.EnsureSeedAdministrators().GetAwaiter().GetResult();
                 }
             }
+
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<Group, GroupDto>().ReverseMap();
+            });
 
             app.Use(async (context, next) =>
             {
