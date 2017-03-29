@@ -4,19 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Automated Invoice Generator</title>
+    <base href="/">
 
     <environment names="Development">
         <link href="~/lib/bootswatch-sass/yeti/bootstrap.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
         <link href="~/lib/bootswatch-sass/yeti/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-bottom">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,11 +28,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Customers" class="navbar-brand">Automated Invoice Generator</a>
+                <a asp-area="" asp-controller="Home" asp-action="Customers" class="navbar-brand">eTabelki - ver. @ViewData["Version"]</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Customers">Kontahenci</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Customers">Kontrahenci</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Invoices">Faktury</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Export">Eksport</a></li>
                 </ul>
@@ -39,16 +42,13 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - Automated Invoice Generator - ver. @ViewData["Version"]</p>
-        </footer>
     </div>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/app/inline.bundle.js" asp-append-version="true"></script>
+        <script src="~/app/styles.bundle.js" asp-append-version="true"></script>
         <script src="~/app/vendor.bundle.js" asp-append-version="true"></script>
         <script src="~/app/main.bundle.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -63,6 +63,7 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/app/inline.bundle.min.js" asp-append-version="true"></script>
+        <script src="~/app/styles.bundle.js" asp-append-version="true"></script>
         <script src="~/app/vendor.bundle.min.js" asp-append-version="true"></script>
         <script src="~/app/main.bundle.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>

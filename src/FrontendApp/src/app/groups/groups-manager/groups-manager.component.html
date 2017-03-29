@@ -1,0 +1,34 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading">Zarządzaj grupami</div>
+  <div class="panel-body">
+    <p>
+      <a routerLink="/groups-manager/new" class="btn btn-primary">Dodaj grupę</a>
+    </p>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Opis</th>
+          <th>Kolor</th>
+          <th class="text-center">Edytuj</th>
+          <th class="text-center">Usuń</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groups">
+          <td><strong>{{ group.name }}</strong></td>
+          <td>{{ group.description }}</td>
+          <td><span [style.background-color]="group.colour">      </span> {{ group.colour }} </td>
+          <td class="text-center">
+            <a [routerLink]="['/groups-manager', group.id]">
+              <i class="glyphicon glyphicon-edit text-success"></i>
+            </a>
+          </td>
+          <td class="text-center text-danger">
+            <i (click)="deleteGroup(group)" class="glyphicon glyphicon-remove"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

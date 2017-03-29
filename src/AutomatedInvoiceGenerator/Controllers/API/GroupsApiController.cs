@@ -62,7 +62,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             _context.Groups.Add(newGroup);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return CreatedAtRoute("", new { id = newGroup.Id }, Mapper.Map<GroupDto>(newGroup));
         }
 
         // PUT api/Groups/5

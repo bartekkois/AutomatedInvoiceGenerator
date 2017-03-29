@@ -1,20 +1,40 @@
 ﻿body {
-	padding-top: 50px;
-	padding-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	max-height: calc(100vh - 10px);
+	overflow-y: scroll
 }
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-	padding-left: 15px;
-	padding-right: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
-	max-width: 280px;
+	max-width: 360px;
+}
+
+.validation-messages {
+	max-width: 360px;
+	font-weight: bold;
+}
+
+
+/* Increase container size on >1600px screens */
+@media (min-width: 1600px) {
+	.container {
+		width: 1500px;
+	}
+}
+
+/* Increase teable defautl font size */
+.table {
+	font-size: 14px;
 }
 
 /* Accounts management styles */
@@ -25,4 +45,9 @@ textarea {
 
 .accounts-icon-hidden {
 	visibility: hidden;
+}
+
+/* Navigation pills styles */
+.group-pill {
+	font-weight: bold;
 }

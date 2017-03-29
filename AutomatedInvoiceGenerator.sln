@@ -1,18 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AA4B6BDF-65B9-4CBC-93CB-558E59BDF55C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB512DB7-F8DB-44ED-9CC0-5AE04799DA62}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "AutomatedInvoiceGenerator", "src\AutomatedInvoiceGenerator\AutomatedInvoiceGenerator.xproj", "{DF77EF6F-EFF4-490D-9877-2E2BC927DB94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomatedInvoiceGenerator", "src\AutomatedInvoiceGenerator\AutomatedInvoiceGenerator.csproj", "{DF77EF6F-EFF4-490D-9877-2E2BC927DB94}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FrontendApp", "src\FrontendApp\FrontendApp.xproj", "{898F58EF-276D-4C63-9C89-8CB38D5DF2BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontendApp", "src\FrontendApp\FrontendApp.csproj", "{898F58EF-276D-4C63-9C89-8CB38D5DF2BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

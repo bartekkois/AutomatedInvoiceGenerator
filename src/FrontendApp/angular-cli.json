@@ -1,4 +1,4 @@
-{
+﻿{
   "project": {
     "version": "1.0.0-beta.26",
     "name": "automated-invoice-generator"
@@ -16,7 +16,11 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "mobile": false,
+      "styles": [
+        "styles.css"
+      ],
       "scripts": [],
+      "environmentSource": "./environments/environment.ts",
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
