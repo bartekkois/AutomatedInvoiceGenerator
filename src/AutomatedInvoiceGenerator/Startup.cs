@@ -147,6 +147,7 @@ namespace AutomatedInvoiceGenerator
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Group, GroupDto>().ReverseMap();
+                config.CreateMap<Customer, CustomerDto>().ReverseMap();
             });
 
             app.Use(async (context, next) =>

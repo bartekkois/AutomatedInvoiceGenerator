@@ -1,0 +1,144 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading">{{title}}</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form [formGroup]="customerForm" (ngSubmit)="save()">
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="groupId">Grupa</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="customer.groupId" formControlName="groupId">
+                    <option *ngFor="let group of groups" [ngValue]="group.id">{{group.name}}</option>
+                  </select>
+                  <div *ngIf="customerForm.controls.groupId.touched && !customerForm.controls.groupId.valid" class="alert alert-danger validation-messages">
+                    Grupa jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="customerCode">Kod kontrahenta</label>
+                  <input [(ngModel)]="customer.customerCode" formControlName="customerCode" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="customerForm.controls.customerCode.touched && !customerForm.controls.customerCode.valid" class="alert alert-danger validation-messages">
+                    Kod kontrahenta jest wymagany.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="name">Nazwa</label>
+                  <input [(ngModel)]="customer.name" formControlName="name" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="customerForm.controls.name.touched && !customerForm.controls.name.valid" class="alert alert-danger validation-messages">
+                    Nazwa jest wymagana.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="location">Lokalizacja</label>
+                  <input [(ngModel)]="customer.location" formControlName="location" type="text" class="form-control wide">
+                  <div *ngIf="customerForm.controls.location.touched && !customerForm.controls.location.valid" class="alert alert-danger validation-messages">
+                    Lokalizacja jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="invoiceCustomerSpecificTag">Tag kontrahenta</label>
+                  <input [(ngModel)]="customer.invoiceCustomerSpecificTag" formControlName="invoiceCustomerSpecificTag" type="text" class="form-control wide">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="priceCalculation">Faktura liczona od</label>
+                  <select class="form-control wide" [(ngModel)]="customer.priceCalculation" formControlName="priceCalculation">
+                    <option [ngValue]="0">netto</option>
+                    <option [ngValue]="1">brutto</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="invoiceDelivery">Wysyłka faktur</label>
+                  <select class="form-control wide" [(ngModel)]="customer.invoiceDelivery" formControlName="invoiceDelivery">
+                    <option [ngValue]="0">elektroniczna</option>
+                    <option [ngValue]="1">elektroniczna (wielokrotna)</option>
+                    <option [ngValue]="2">pocztowa</option>
+                    <option [ngValue]="3">bezpośrednia</option>
+                    <option [ngValue]="4">inna</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="paymentMethod">Typ płatności</label>
+                  <select class="form-control wide" [(ngModel)]="customer.paymentMethod" formControlName="paymentMethod">
+                    <option [ngValue]="0">przelew</option>
+                    <option [ngValue]="1">gotówka</option>
+                    <option [ngValue]="2">inny</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="paymentPeriod">Termin płatności (dni)</label>
+                  <input [(ngModel)]="customer.paymentPeriod" formControlName="paymentPeriod" type="text" class="form-control wide">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="notes">Notatki</label>
+                  <textarea [(ngModel)]="customer.notes" formControlName="notes" type="text" class="form-control wide notes-textarea"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <input [(ngModel)]="customer.isVatEu" formControlName="isVatEu" type="checkbox"> Kontrahent VAT-EU
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <input [(ngModel)]="customer.isBlocked" formControlName="isBlocked" type="checkbox"> Zablokowany abonent
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <input [(ngModel)]="customer.isSuspended" formControlName="isSuspended" type="checkbox"> Zawieszone fakturowanie
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <input [(ngModel)]="customer.isArchived" formControlName="isArchived" type="checkbox"> Zarchiwizowany abonent
+                </div>
+              </div>
+            </div>
+
+            <button [disabled]="!customerForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
+          </form>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

@@ -16,7 +16,22 @@
 input,
 select,
 textarea {
-	max-width: 360px;
+	max-width: 400px;
+}
+
+/* Set widths on the form inputs to 100% wide */
+input.wide,
+select.wide,
+textarea.wide {
+	max-width: none;
+}
+
+.inupt-bold {
+	font-weight: bold;
+}
+
+.notes-textarea {
+	min-height:200px;
 }
 
 .validation-messages {
@@ -32,9 +47,14 @@ textarea {
 	}
 }
 
-/* Increase teable defautl font size */
+/* Increase table default font size */
 .table {
 	font-size: 14px;
+}
+
+/* Increase default icon font size */
+.big-icon {
+	font-size: 25px;
 }
 
 /* Accounts management styles */

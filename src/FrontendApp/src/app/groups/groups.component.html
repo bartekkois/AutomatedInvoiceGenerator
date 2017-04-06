@@ -1,5 +1,5 @@
 ﻿<ul class="nav nav-pills" id="1">
-    <li routerLinkActive="active"><a routerLink="customers" title="Wszystkie grupy"><i class="glyphicon glyphicon-th-list"></i></a></li>
-    <li *ngFor="let group of groups" routerLinkActive="active"><a [routerLink]="['customersbygroup', group.id]" [style.box-shadow]="group.colour + ' 0px -10px 0px -2px inset'" class="group-pill" title="{{group.description}}">{{ group.name }}</a></li>
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><a routerLink="customers"  title="Wszystkie grupy"><i class="glyphicon glyphicon-th-list"></i></a></li>
+    <li *ngFor="let group of groups" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}"><a [routerLink]="['customers', group.id]" [style.box-shadow]="group.colour + ' 0px -10px 0px -2px inset'" class="group-pill" title="{{group.description}}">{{ group.name }}</a></li>
     <li routerLinkActive="active"><a routerLink="groups-manager" title="Edytuj grupy"><i class="glyphicon glyphicon-pencil"></i></a></li>
 </ul>

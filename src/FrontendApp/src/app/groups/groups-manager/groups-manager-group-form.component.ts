@@ -34,7 +34,7 @@ export class GroupsManagerGroupFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        var id = this._route.params
+        this._route.params
             .subscribe(params => {
                 var id = +params["id"];
 

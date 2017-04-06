@@ -1,13 +1,14 @@
-﻿import { NgModule }            from '@angular/core';
-import { CommonModule }        from '@angular/common';
-import { FormsModule,
-    ReactiveFormsModule } from '@angular/forms';
-import { RouterModule }        from '@angular/router';
-import { HttpModule }          from '@angular/http';
+﻿import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { Customer } from './customer';
 import { CustomersComponent } from './customers.component';
+import { CustomerFormComponent } from './customer-form.component';
 import { CustomersService } from './customers.service';
+import { GroupsService } from '../groups/groups.service';
 
 @NgModule({
     imports: [
@@ -18,13 +19,16 @@ import { CustomersService } from './customers.service';
         HttpModule
     ],
     declarations: [
-        CustomersComponent
+        CustomersComponent,
+        CustomerFormComponent
     ],
     exports: [
-        CustomersComponent
+        CustomersComponent,
+        CustomerFormComponent
     ],
     providers: [
-        CustomersService
+        CustomersService,
+        GroupsService
     ]
 })
 export class CustomersModule {

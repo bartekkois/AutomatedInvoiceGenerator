@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
 
+import { Group } from './group';
 import { GroupsService } from './groups.service';
 import { GroupsManagerComponent } from './groups-manager/groups-manager.component';
 import { RefreshGroupsNavigationService } from '../shared/refresh-groups-navigation.service';
@@ -10,7 +11,7 @@ import { RefreshGroupsNavigationService } from '../shared/refresh-groups-navigat
   styleUrls: ['./groups.component.css']
 })
 export class GroupsComponent implements OnInit {
-    groups: any[];
+    groups: [Group];
 
     constructor(private _groupsService: GroupsService, private _refreshGroupsNavigationService: RefreshGroupsNavigationService) { }
 

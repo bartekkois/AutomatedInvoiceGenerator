@@ -11,7 +11,7 @@ import { RefreshGroupsNavigationService } from '../../shared/refresh-groups-navi
   styleUrls: ['./groups-manager.component.css']
 })
 export class GroupsManagerComponent implements OnInit {
-    groups: any[];
+    groups: [Group];
 
     constructor(private _groupsService: GroupsService, private _refreshGroupsNavigationService: RefreshGroupsNavigationService) {
     }
