@@ -3,48 +3,100 @@
   <div class="panel-body">
     <p>
       <a routerLink="/customer/new" class="btn btn-primary">Dodaj kontrahenta</a>
-      <i (click)="toggleShowArchived()" class="glyphicon glyphicon-lock big-icon pull-right" [class.text-primary]="showArchived" [title]="showArchived ? 'Ukryj zarchiwizowanych' :'Pokaż zarchiwizowanych'"></i>
+      <i (click)="toggleShowArchived()" class="glyphicon glyphicon-folder-open big-icon pull-right" [style.color]="showArchived ? '#008cba' : '#c4e3f3' " [title]="showArchived ? 'Ukryj zarchiwizowanych' :'Pokaż zarchiwizowanych'"></i>
     </p>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th>Kod</th>
-          <th>Nazwa</th>
-          <th>Lokalizacja</th>
 
-          <th class="text-center">Edytuj</th>
-          <th class="text-center">Usuń</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let customer of customers">
-          <template [ngIf]="(showArchived && customer.isArchived == true) || customer.isArchived == false">
-            <td class="text-center text-danger">
-              <i *ngIf="customer.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
+    <!-- Customers -->
+    <template ngFor let-customer [ngForOf]="customers">
+      <table class="table table-hover service-item-set-rows-marker" *ngIf="(showArchived && customer.isArchived == true) || customer.isArchived == false">
+        <thead class="thead-inverse">
+          <tr>
+              <th class="text-center text-danger status-icon-width">
+                <i *ngIf="customer.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
+              </th>
+              <th class="text-center text-danger status-icon-width">
+                <i *ngIf="customer.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
+              </th>
+              <th class="text-center text-danger status-icon-width">
+                <i *ngIf="customer.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
+              </th>
+              <th class="customer-code-width"><strong>{{ customer.customerCode }}</strong></th>
+              <th class="text-left"><strong>{{ customer.name }}</strong></th>
+              <th class="text-right">{{ customer.location }}</th>
+              <th colspan="7"></th>
+              <th class="text-center status-icon-width">
+                <a [routerLink]="['/customer', customer.id]">
+                  <i class="glyphicon glyphicon-edit text-success"></i>
+                </a>
+              </th>
+              <th class="text-center text-danger status-icon-width">
+                <i (click)="deleteCustomer(customer)" class="glyphicon glyphicon-remove"></i>
+              </th>
+          </tr>
+        </thead>
+
+        <!-- Service Items Sets -->
+        <tbody *ngFor="let serviceItemsSet of customer.serviceItemsSets" >
+
+          <!-- Subscription Service Items -->
+          <tr *ngFor="let subscriptionServiceItem of serviceItemsSet.subscriptionServiceItems">
+            <td class="text-center text-danger status-icon-width">
+              <i *ngIf="subscriptionServiceItem.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
             </td>
-            <td class="text-center text-danger">
-              <i *ngIf="customer.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
+            <td class="text-center text-danger status-icon-width">
+              <i *ngIf="subscriptionServiceItem.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
             </td>
-            <td class="text-center text-danger">
-              <i *ngIf="customer.isArchived" class="glyphicon glyphicon-lock text-primary" title="Zarchiwizowany"></i>
+            <td class="text-center text-danger status-icon-width">
+              <i *ngIf="subscriptionServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
             </td>
-            <td><strong>{{ customer.customerCode }}</strong></td>
-            <td><strong>{{ customer.name }}</strong></td>
-            <td>{{ customer.location }}</td>
-            <td class="text-center">
-              <a [routerLink]="['/customer', customer.id]">
+            <td colspan="3">{{subscriptionServiceItem.name}} - {{subscriptionServiceItem.subName}}</td>
+            <td class="text-right value-width"><strong>{{subscriptionServiceItem.quantity}}</strong></td>
+            <td class="text-center sign-width"> x </td>
+            <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue}} PLN</strong></td>
+            <td class="text-center sign-width"> + </td>
+            <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate}} %</strong></td>
+            <td class="text-center sign-width"> = </td>
+            <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded}} PLN</strong></td>
+            <td class="text-center status-icon-width">
+              <a [routerLink]="['/subscriptionServiceItem', subscriptionServiceItem.id]">
+              <i class="glyphicon glyphicon-edit text-success"></i>
+            </a>
+            </td>
+            <td class="text-center text-danger status-icon-width">
+              <!--<i (click)="deleteSubscriptionServiceItem(subscriptionServiceItem)" class="glyphicon glyphicon-remove"></i>-->
+            </td>
+          </tr>
+
+          <!-- One Time Service Items -->
+          <tr *ngFor="let oneTimeServiceItem of serviceItemsSet.oneTimeServiceItems">
+            <td class="text-center text-danger status-icon-width">
+              <i *ngIf="oneTimeServiceItem.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
+            </td>
+            <td class="text-center text-danger status-icon-width">
+              <i *ngIf="oneTimeServiceItem.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
+            </td>
+            <td class="text-center text-danger status-icon-width">
+              <i *ngIf="oneTimeServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
+            </td>
+            <td colspan="3">{{oneTimeServiceItem.name}} - {{oneTimeServiceItem.subName}}</td>
+            <td class="text-right value-width"><strong>{{oneTimeServiceItem.quantity}}</strong></td>
+            <td class="text-center sign-width"> x </td>
+            <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue}} PLN</strong></td>
+            <td class="text-center sign-width"> + </td>
+            <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate}} %</strong></td>
+            <td class="text-center sign-width"> = </td>
+            <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded}} PLN</strong></td>
+            <td class="text-center status-icon-width">
+              <a [routerLink]="['/oneTimeServiceItem', oneTimeServiceItem.id]">
                 <i class="glyphicon glyphicon-edit text-success"></i>
               </a>
             </td>
-            <td class="text-center text-danger">
-              <i (click)="deleteCustomer(customer)" class="glyphicon glyphicon-remove"></i>
+            <td class="text-center text-danger status-icon-width">
+              <!--<i (click)="deleteOneTimeServiceItem(oneTimeServiceItem)" class="glyphicon glyphicon-remove"></i>-->
             </td>
-          </template>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          </tr>
+        </tbody>
+      </table>
+    </template>
+</div>
 </div>

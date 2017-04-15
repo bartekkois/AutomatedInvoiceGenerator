@@ -148,6 +148,10 @@ namespace AutomatedInvoiceGenerator
             {
                 config.CreateMap<Group, GroupDto>().ReverseMap();
                 config.CreateMap<Customer, CustomerDto>().ReverseMap();
+                config.CreateMap<ServiceItem, OneTimeServiceItemDto>().ReverseMap();
+                config.CreateMap<ServiceItemsSet, ServiceItemsSetDto>().ReverseMap();
+                config.CreateMap<OneTimeServiceItem, OneTimeServiceItemDto>().ReverseMap();
+                config.CreateMap<SubscriptionServiceItem, SubscriptionServiceItemDto>().ReverseMap();
             });
 
             app.Use(async (context, next) =>

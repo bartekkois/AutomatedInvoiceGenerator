@@ -24,24 +24,14 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var groups = await _context.Groups.Where(g => g.IsArchived == false).ToListAsync();
-
-            if (groups.Any())
-                return Json(Mapper.Map<IEnumerable<GroupDto>>(groups));
-
-            return NotFound();
+            return base.Json(Mapper.Map<IEnumerable<GroupDto>>(await _context.Groups.Where(g => g.IsArchived == false).ToListAsync()));
         }
 
         // GET api/Groups/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var group = await _context.Groups.Where(g => g.Id == id && g.IsArchived == false).ToListAsync();
-
-            if (group.Any())
-                return Json(Mapper.Map<GroupDto>(group.First())); 
-
-            return NotFound();
+            return base.Json(Mapper.Map<GroupDto>((await _context.Groups.Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First())); 
         }
 
         // POST api/Groups

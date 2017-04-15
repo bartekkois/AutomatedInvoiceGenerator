@@ -1,4 +1,7 @@
-﻿export class Customer {
+﻿import { ServiceItemSet } from './service-item-set';
+
+
+export class Customer {
     id: number;
     customerCode: string;
     name: string;
@@ -15,4 +18,6 @@
     isSuspended: boolean;
     isArchived: boolean;
     groupId: number;
+
+    serviceItemSets: ServiceItemSet[];
 }

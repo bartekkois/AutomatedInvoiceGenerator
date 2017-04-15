@@ -33,7 +33,7 @@ export class CustomersComponent implements OnInit {
                 else {
                     this._customersService.getCustomers()
                         .subscribe(
-                          customers => this.customers = customers,
+                          customers =>  this.customers = customers,
                           error => this.customers = []
                         );
                 }

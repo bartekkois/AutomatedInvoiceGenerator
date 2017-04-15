@@ -24,36 +24,44 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet("Customers")]
         public async Task<IActionResult> Get()
         {
-            var customers = await _context.Customers.ToListAsync();
+            var customers = await _context.Customers
+                .Include(s => s.ServiceItemsSets)
+                    .ThenInclude(i => i.OneTimeServiceItems)
+                .Include(s => s.ServiceItemsSets)
+                    .ThenInclude(i => i.SubscriptionServiceItems)
+                .ToListAsync();
 
-            if (customers.Any())
-                return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
-
-            return NotFound();
-        }
-
-        // GET api/Customers/5
-        [HttpGet("Customers/{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var customers = await _context.Customers.Where(g => g.Id == id).ToListAsync();
-
-            if (customers.Any())
-                return Json(Mapper.Map<CustomerDto>(customers.First()));
-
-            return NotFound();
+            return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
         }
 
         // GET: api/CustomersByGroup/5
         [HttpGet("CustomersByGroup/{groupId}")]
         public async Task<IActionResult> GetByGroup(int groupId)
         {
-            var customers = await _context.Customers.Where(g => g.GroupId == groupId).ToListAsync();
+            var customers = await _context.Customers
+                .Where(g => g.GroupId == groupId)
+                .Include(s => s.ServiceItemsSets)
+                    .ThenInclude(i => i.OneTimeServiceItems)
+                .Include(s => s.ServiceItemsSets)
+                    .ThenInclude(i => i.SubscriptionServiceItems)
+                .ToListAsync();
 
-            if (customers.Any())
-                return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
+            return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
+        }
 
-            return NotFound();
+        // GET api/Customers/5
+        [HttpGet("Customers/{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var customers = await _context.Customers
+                .Where(g => g.Id == id)
+                .Include(s => s.ServiceItemsSets)
+                    .ThenInclude(i => i.OneTimeServiceItems)
+                .Include(s => s.ServiceItemsSets)
+                    .ThenInclude(i => i.SubscriptionServiceItems)
+                .ToListAsync();
+
+            return Json(Mapper.Map<CustomerDto>(customers.First()));
         }
 
         // POST api/Customers

@@ -1,6 +1,4 @@
 ﻿body {
-	padding-top: 10px;
-	padding-bottom: 10px;
 	max-height: calc(100vh - 10px);
 	overflow-y: scroll
 }
@@ -8,8 +6,7 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-	padding-left: 10px;
-	padding-right: 10px;
+	padding: 10px 10px 50px 10px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -40,16 +37,60 @@ textarea.wide {
 }
 
 
-/* Increase container size on >1600px screens */
+/* Increase container size on bigger screens */
 @media (min-width: 1600px) {
 	.container {
 		width: 1500px;
 	}
 }
 
+@media (min-width: 1800px) {
+	.container {
+		width: 1700px;
+	}
+}
+
 /* Increase table default font size */
 .table {
 	font-size: 14px;
+}
+
+/* Add table styling */
+.thead-inverse {
+	background: #d9edf7;
+}
+
+.thead-inverse:hover {
+	background: #c4e3f3;
+}
+
+.status-icon-width {
+	min-width: 36px;
+	width: 36px;
+}
+
+.customer-code-width {
+	min-width: 80px;
+	width: 80px;
+}
+
+.sign-width {
+	min-width: 40px;
+	width: 40px;
+}
+
+.percent-width {
+	min-width: 60px;
+	width: 60px;
+}
+
+.value-width {
+	min-width: 110px;
+	width: 110px;
+}
+
+.service-item-set-rows-marker > tbody:nth-of-type(even) {
+	background-color: #fafafa;
 }
 
 /* Increase default icon font size */

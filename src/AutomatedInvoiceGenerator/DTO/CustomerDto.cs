@@ -1,4 +1,5 @@
 ﻿using AutomatedInvoiceGenerator.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.DTO
@@ -49,5 +50,7 @@ namespace AutomatedInvoiceGenerator.DTO
 
         [Required]
         public int GroupId { get; set; }
+
+        public virtual ICollection<ServiceItemsSetDto> ServiceItemsSets { get; set; }
     }
 }
