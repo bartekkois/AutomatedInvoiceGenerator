@@ -52,11 +52,11 @@
             <td colspan="3">{{subscriptionServiceItem.name}} - {{subscriptionServiceItem.subName}}</td>
             <td class="text-right value-width"><strong>{{subscriptionServiceItem.quantity}}</strong></td>
             <td class="text-center sign-width"> x </td>
-            <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue}} PLN</strong></td>
+            <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
             <td class="text-center sign-width"> + </td>
-            <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate}} %</strong></td>
+            <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
             <td class="text-center sign-width"> = </td>
-            <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded}} PLN</strong></td>
+            <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
             <td class="text-center status-icon-width">
               <a [routerLink]="['/subscriptionServiceItem', subscriptionServiceItem.id]">
               <i class="glyphicon glyphicon-edit text-success"></i>
@@ -81,11 +81,11 @@
             <td colspan="3">{{oneTimeServiceItem.name}} - {{oneTimeServiceItem.subName}}</td>
             <td class="text-right value-width"><strong>{{oneTimeServiceItem.quantity}}</strong></td>
             <td class="text-center sign-width"> x </td>
-            <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue}} PLN</strong></td>
+            <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
             <td class="text-center sign-width"> + </td>
-            <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate}} %</strong></td>
+            <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
             <td class="text-center sign-width"> = </td>
-            <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded}} PLN</strong></td>
+            <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
             <td class="text-center status-icon-width">
               <a [routerLink]="['/oneTimeServiceItem', oneTimeServiceItem.id]">
                 <i class="glyphicon glyphicon-edit text-success"></i>
