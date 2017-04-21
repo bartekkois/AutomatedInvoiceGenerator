@@ -3,11 +3,12 @@
   <div class="panel-body">
     <p>
       <a routerLink="/customer/new" class="btn btn-primary">Dodaj kontrahenta</a>
+      <input #filterTermInput class="form-control pull-right" placeholder="Szukaj..." [(ngModel)]="filterTerm" (input)="filterCustomers(filterTermInput.value)">
       <i (click)="toggleShowArchived()" class="glyphicon glyphicon-folder-open big-icon pull-right" [style.color]="showArchived ? '#008cba' : '#c4e3f3' " [title]="showArchived ? 'Ukryj zarchiwizowanych' :'Pokaż zarchiwizowanych'"></i>
     </p>
 
     <!-- Customers -->
-    <template ngFor let-customer [ngForOf]="customers">
+    <template ngFor let-customer [ngForOf]="filteredCustomers">
       <table class="table table-hover service-item-set-rows-marker" *ngIf="(showArchived && customer.isArchived == true) || customer.isArchived == false">
         <thead class="thead-inverse">
           <tr>

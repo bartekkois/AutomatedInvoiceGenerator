@@ -1,4 +1,4 @@
-﻿import { ServiceItemSet } from './service-item-set';
+﻿import { ServiceItemSet } from '../service-items-sets/service-items-set';
 
 
 export class Customer {

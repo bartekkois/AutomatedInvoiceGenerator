@@ -11,6 +11,7 @@ import { Customer } from './customer';
 })
 export class CustomersComponent implements OnInit {
     customers: Customer[];
+    filteredCustomers: Customer[];
     showArchived: boolean = false;
 
     constructor(private _customersService: CustomersService,
@@ -26,18 +27,41 @@ export class CustomersComponent implements OnInit {
                 if (!isNaN(groupId)) {
                     this._customersService.getCustomersByGroup(groupId)
                         .subscribe(
-                          customers => this.customers = customers,
-                          error => this.customers = []
-                        );
+                        customers => {
+                            this.customers = customers;
+                            this.filteredCustomers = customers
+                        },
+                        error => {
+                            this.customers = [];
+                            this.filteredCustomers = [];
+                        });
                 }
                 else {
                     this._customersService.getCustomers()
                         .subscribe(
-                          customers =>  this.customers = customers,
-                          error => this.customers = []
-                        );
+                        customers => {
+                            this.customers = customers;
+                            this.filteredCustomers = customers
+                        },
+                        error => {
+                            this.customers = [];
+                            this.filteredCustomers = [];
+                        });
                 }
             });
+    }
+
+    filterCustomers(filterTerm) {
+        if (filterTerm) {
+            var filterTermLowerCase = filterTerm.toLowerCase();
+            this.filteredCustomers = this.customers.filter(item =>
+                   (item.customerCode.toLowerCase().indexOf(filterTermLowerCase) > -1)
+                || (item.name.toLowerCase().indexOf(filterTermLowerCase) > -1)
+                || (item.location.toLowerCase().indexOf(filterTermLowerCase) > -1));
+        }
+        else {
+            this.filteredCustomers = this.customers;
+        }
     }
 
     toggleShowArchived() {
