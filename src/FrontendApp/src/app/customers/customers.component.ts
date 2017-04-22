@@ -13,6 +13,7 @@ export class CustomersComponent implements OnInit {
     customers: Customer[];
     filteredCustomers: Customer[];
     showArchived: boolean = false;
+    isBusy: boolean = false;
 
     constructor(private _customersService: CustomersService,
                 private _routerService: Router,
@@ -20,6 +21,8 @@ export class CustomersComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+        
         this._route.params
             .subscribe(params => {
                 var groupId = +params["id"];
@@ -49,6 +52,8 @@ export class CustomersComponent implements OnInit {
                         });
                 }
             });
+
+        this.isBusy = false;
     }
 
     filterCustomers(filterTerm) {

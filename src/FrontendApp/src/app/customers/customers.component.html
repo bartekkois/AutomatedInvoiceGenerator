@@ -7,11 +7,15 @@
       <i (click)="toggleShowArchived()" class="glyphicon glyphicon-folder-open big-icon pull-right" [style.color]="showArchived ? '#008cba' : '#c4e3f3' " [title]="showArchived ? 'Ukryj zarchiwizowanych' :'Pokaż zarchiwizowanych'"></i>
     </p>
 
-    <!-- Customers -->
-    <template ngFor let-customer [ngForOf]="filteredCustomers">
-      <table class="table table-hover service-item-set-rows-marker" *ngIf="(showArchived && customer.isArchived == true) || customer.isArchived == false">
-        <thead class="thead-inverse">
-          <tr>
+    <!-- Loading spinner -->
+    <div *ngIf="!isBusy" class="spinner"><div class="cube1"></div><div class="cube2"></div></div>
+    <div *ngIf="isBusy">
+
+      <!-- Customers -->
+      <template ngFor let-customer [ngForOf]="filteredCustomers">
+        <table class="table table-hover service-item-set-rows-marker" *ngIf="(showArchived && customer.isArchived == true) || customer.isArchived == false">
+          <thead class="thead-inverse">
+            <tr>
               <th class="text-center text-danger status-icon-width">
                 <i *ngIf="customer.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
               </th>
@@ -33,71 +37,72 @@
               <th class="text-center text-danger status-icon-width">
                 <i (click)="deleteCustomer(customer)" class="glyphicon glyphicon-remove"></i>
               </th>
-          </tr>
-        </thead>
+            </tr>
+          </thead>
 
-        <!-- Service Items Sets -->
-        <tbody *ngFor="let serviceItemsSet of customer.serviceItemsSets" >
+          <!-- Service Items Sets -->
+          <tbody *ngFor="let serviceItemsSet of customer.serviceItemsSets">
 
-          <!-- Subscription Service Items -->
-          <tr *ngFor="let subscriptionServiceItem of serviceItemsSet.subscriptionServiceItems">
-            <td class="text-center text-danger status-icon-width">
-              <i *ngIf="subscriptionServiceItem.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
-            </td>
-            <td class="text-center text-danger status-icon-width">
-              <i *ngIf="subscriptionServiceItem.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
-            </td>
-            <td class="text-center text-danger status-icon-width">
-              <i *ngIf="subscriptionServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
-            </td>
-            <td colspan="3">{{subscriptionServiceItem.name}} - {{subscriptionServiceItem.subName}}</td>
-            <td class="text-right value-width"><strong>{{subscriptionServiceItem.quantity}}</strong></td>
-            <td class="text-center sign-width"> x </td>
-            <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
-            <td class="text-center sign-width"> + </td>
-            <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
-            <td class="text-center sign-width"> = </td>
-            <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
-            <td class="text-center status-icon-width">
-              <a [routerLink]="['/subscriptionServiceItem', subscriptionServiceItem.id]">
-              <i class="glyphicon glyphicon-edit text-success"></i>
-            </a>
-            </td>
-            <td class="text-center text-danger status-icon-width">
-              <!--<i (click)="deleteSubscriptionServiceItem(subscriptionServiceItem)" class="glyphicon glyphicon-remove"></i>-->
-            </td>
-          </tr>
+            <!-- Subscription Service Items -->
+            <tr *ngFor="let subscriptionServiceItem of serviceItemsSet.subscriptionServiceItems">
+              <td class="text-center text-danger status-icon-width">
+                <i *ngIf="subscriptionServiceItem.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <i *ngIf="subscriptionServiceItem.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <i *ngIf="subscriptionServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
+              </td>
+              <td colspan="3">{{subscriptionServiceItem.name}} - {{subscriptionServiceItem.subName}}</td>
+              <td class="text-right value-width"><strong>{{subscriptionServiceItem.quantity}}</strong></td>
+              <td class="text-center sign-width"> x </td>
+              <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-center sign-width"> + </td>
+              <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
+              <td class="text-center sign-width"> = </td>
+              <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-center status-icon-width">
+                <a [routerLink]="['/subscriptionServiceItem', subscriptionServiceItem.id]">
+                  <i class="glyphicon glyphicon-edit text-success"></i>
+                </a>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <!--<i (click)="deleteSubscriptionServiceItem(subscriptionServiceItem)" class="glyphicon glyphicon-remove"></i>-->
+              </td>
+            </tr>
 
-          <!-- One Time Service Items -->
-          <tr *ngFor="let oneTimeServiceItem of serviceItemsSet.oneTimeServiceItems">
-            <td class="text-center text-danger status-icon-width">
-              <i *ngIf="oneTimeServiceItem.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
-            </td>
-            <td class="text-center text-danger status-icon-width">
-              <i *ngIf="oneTimeServiceItem.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
-            </td>
-            <td class="text-center text-danger status-icon-width">
-              <i *ngIf="oneTimeServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
-            </td>
-            <td colspan="3">{{oneTimeServiceItem.name}} - {{oneTimeServiceItem.subName}}</td>
-            <td class="text-right value-width"><strong>{{oneTimeServiceItem.quantity}}</strong></td>
-            <td class="text-center sign-width"> x </td>
-            <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
-            <td class="text-center sign-width"> + </td>
-            <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
-            <td class="text-center sign-width"> = </td>
-            <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
-            <td class="text-center status-icon-width">
-              <a [routerLink]="['/oneTimeServiceItem', oneTimeServiceItem.id]">
-                <i class="glyphicon glyphicon-edit text-success"></i>
-              </a>
-            </td>
-            <td class="text-center text-danger status-icon-width">
-              <!--<i (click)="deleteOneTimeServiceItem(oneTimeServiceItem)" class="glyphicon glyphicon-remove"></i>-->
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </template>
+            <!-- One Time Service Items -->
+            <tr *ngFor="let oneTimeServiceItem of serviceItemsSet.oneTimeServiceItems">
+              <td class="text-center text-danger status-icon-width">
+                <i *ngIf="oneTimeServiceItem.isBlocked" class="glyphicon glyphicon-remove-circle text-danger" title="Zablokowany"></i>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <i *ngIf="oneTimeServiceItem.isSuspended" class="glyphicon glyphicon-ban-circle text-warning" title="Zawieszony"></i>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <i *ngIf="oneTimeServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
+              </td>
+              <td colspan="3">{{oneTimeServiceItem.name}} - {{oneTimeServiceItem.subName}}</td>
+              <td class="text-right value-width"><strong>{{oneTimeServiceItem.quantity}}</strong></td>
+              <td class="text-center sign-width"> x </td>
+              <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-center sign-width"> + </td>
+              <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
+              <td class="text-center sign-width"> = </td>
+              <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-center status-icon-width">
+                <a [routerLink]="['/oneTimeServiceItem', oneTimeServiceItem.id]">
+                  <i class="glyphicon glyphicon-edit text-success"></i>
+                </a>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <!--<i (click)="deleteOneTimeServiceItem(oneTimeServiceItem)" class="glyphicon glyphicon-remove"></i>-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+    </div>
 </div>
 </div>
