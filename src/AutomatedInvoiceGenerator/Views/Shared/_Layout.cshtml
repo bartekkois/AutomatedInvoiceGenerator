@@ -9,12 +9,10 @@
     <environment names="Development">
         <link href="~/lib/bootswatch-sass/yeti/bootstrap.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </environment>
     <environment names="Staging,Production">
         <link href="~/lib/bootswatch-sass/yeti/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>

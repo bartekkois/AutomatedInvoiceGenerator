@@ -1,6 +1,6 @@
 ﻿body {
 	max-height: calc(100vh - 10px);
-	overflow-y: scroll
+	overflow-y: scroll;
 }
 
 /* Wrapping element */
