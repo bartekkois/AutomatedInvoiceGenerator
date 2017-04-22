@@ -8,8 +8,8 @@
     </p>
 
     <!-- Loading spinner -->
-    <div *ngIf="!isBusy" class="spinner"><div class="cube1"></div><div class="cube2"></div></div>
-    <div *ngIf="isBusy">
+    <div *ngIf="isBusy" class="spinner"><div class="cube1"></div><div class="cube2"></div></div>
+    <div *ngIf="!isBusy">
 
       <!-- Customers -->
       <template ngFor let-customer [ngForOf]="filteredCustomers">
