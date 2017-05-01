@@ -24,7 +24,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return base.Json(Mapper.Map<IEnumerable<GroupDto>>(await _context.Groups.Where(g => g.IsArchived == false).ToListAsync()));
+            return base.Json(Mapper.Map<IEnumerable<GroupDto>>(await _context.Groups.Where(g => g.IsArchived == false).OrderBy(o => o.Name).ToListAsync()));
         }
 
         // GET api/Groups/5
