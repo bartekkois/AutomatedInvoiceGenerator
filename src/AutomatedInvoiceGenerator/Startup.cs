@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Localization;
 using System.IO;
 using AutoMapper;
 using AutomatedInvoiceGenerator.DTO;
+using Microsoft.AspNetCore.Http;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -30,9 +31,6 @@ namespace AutomatedInvoiceGenerator
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
-
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
@@ -83,6 +81,8 @@ namespace AutomatedInvoiceGenerator
             services.AddAutoMapper();
 
             services.AddTransient<IExportService, ExportService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IUserResolverService, UserResolverService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,8 +106,6 @@ namespace AutomatedInvoiceGenerator
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseApplicationInsightsRequestTelemetry();
 
             if (env.IsDevelopment())
             {
@@ -159,22 +157,19 @@ namespace AutomatedInvoiceGenerator
                 await next();
 
                 if (context.Response.StatusCode == 404 &&
-                    !Path.HasExtension(context.Request.Path.Value) &&
-                    !context.Request.Path.Value.StartsWith("/api/"))
+                    !Path.HasExtension(context.Request.Path.Value))
                 {
-                    context.Request.Path = "/index.html";
+                    context.Request.Path = "/";
+                    context.Response.StatusCode = 200;
                     await next();
                 }
             });
-
-            app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
 
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

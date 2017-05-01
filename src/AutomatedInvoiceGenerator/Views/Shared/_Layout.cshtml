@@ -14,7 +14,7 @@
         <link href="~/lib/bootswatch-sass/yeti/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
+    @Html.Raw(snippet.FullScript)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-bottom">

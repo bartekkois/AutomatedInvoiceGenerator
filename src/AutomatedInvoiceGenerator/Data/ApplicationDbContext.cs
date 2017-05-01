@@ -5,7 +5,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Threading;
+using AutomatedInvoiceGenerator.Services;
 
 namespace AutomatedInvoiceGenerator.Data
 {
@@ -23,9 +25,11 @@ namespace AutomatedInvoiceGenerator.Data
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoicesItems { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        private readonly IUserResolverService _userResolverService;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IUserResolverService userResolverService) : base(options)
         {
+            _userResolverService = userResolverService;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -54,30 +58,24 @@ namespace AutomatedInvoiceGenerator.Data
             return base.SaveChanges();
         }
 
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            AuditEntities();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         private void AuditEntities()
         {
-            string currentUserId = null;
-            var currentUser = ClaimsPrincipal.Current;
-
-            if (currentUser != null)
-            {
-                var identity = currentUser.Identity;
-                if (identity != null)
-                {
-                    currentUserId = (from user in Users.Where(u => u.UserName == identity.Name) select user.Id).SingleOrDefault();
-                }
-            }
-
             foreach (EntityEntry<IAuditable> entry in ChangeTracker.Entries<IAuditable>())
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Property("CreatedById").CurrentValue = currentUserId;
+                    entry.Property("CreatedById").CurrentValue = _userResolverService.GetCurrentUserId();
                     entry.Property("CreatedAt").CurrentValue = DateTime.Now;
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    entry.Property("UpdatedById").CurrentValue = currentUserId;
+                    entry.Property("UpdatedById").CurrentValue = _userResolverService.GetCurrentUserId();
                     entry.Property("UpdatedAt").CurrentValue = DateTime.Now;
                 }
             }
