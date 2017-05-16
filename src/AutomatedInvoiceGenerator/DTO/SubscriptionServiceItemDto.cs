@@ -1,4 +1,5 @@
 ﻿using AutomatedInvoiceGenerator.Models;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -52,14 +53,19 @@ namespace AutomatedInvoiceGenerator.DTO
         [Required]
         public bool IsSuspended { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
+        [JsonConverter(typeof(JsonDateConverter))]
         [Required]
         public DateTime? StartDate { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime? EndDate { get; set; }
 
         [Required]
         public bool IsArchived { get; set; }
+
+        [Required]
+        public int ServiceItemsSetId { get; set; }
     }
 }

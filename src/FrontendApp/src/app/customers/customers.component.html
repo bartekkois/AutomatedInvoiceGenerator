@@ -63,7 +63,7 @@
               <td class="text-center sign-width"> = </td>
               <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
               <td class="text-center status-icon-width">
-                <a [routerLink]="['/subscriptionServiceItem', subscriptionServiceItem.id]">
+                <a [routerLink]="['/customer', customer.id, 'serviceItemsSet', serviceItemsSet.id, 'subscriptionServiceItem', subscriptionServiceItem.id]">
                   <i class="glyphicon glyphicon-edit text-success"></i>
                 </a>
               </td>
@@ -92,7 +92,7 @@
               <td class="text-center sign-width"> = </td>
               <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
               <td class="text-center status-icon-width">
-                <a [routerLink]="['/oneTimeServiceItem', oneTimeServiceItem.id]">
+                <a [routerLink]="['/customer', customer.id, 'serviceItemsSet', serviceItemsSet.id, 'oneTimeServiceItem', oneTimeServiceItem.id]">
                   <i class="glyphicon glyphicon-edit text-success"></i>
                 </a>
               </td>

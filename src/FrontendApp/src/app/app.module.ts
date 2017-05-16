@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { GroupsModule } from './groups/groups.module';
 import { groupsRouting } from './groups/groups.routing';
+import { subscriptionServiceItemsRouting } from './subscription-service-items/subscription-service-items.routing';
 import { routing } from './app.routing';
 import { CustomersModule }  from './customers/customers.module';
 import { customersRouting } from './customers/customers.routing';
@@ -30,6 +31,7 @@ import { SubscriptionServiceItemsModule } from './subscription-service-items/sub
     SubscriptionServiceItemsModule,
     groupsRouting,
     customersRouting,
+    subscriptionServiceItemsRouting,
     routing
   ],
   providers: [],

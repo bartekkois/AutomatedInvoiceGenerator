@@ -41,7 +41,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var newOneTimeServiceItem = Mapper.Map<ServiceItem>(newOneTimeServiceItemDto);
+            var newOneTimeServiceItem = Mapper.Map<OneTimeServiceItem>(newOneTimeServiceItemDto);
             newOneTimeServiceItem.IsArchived = false;
 
             _context.ServiceItems.Add(newOneTimeServiceItem);

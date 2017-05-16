@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { ServiceItemSet } from './service-items-set';
 import { OneTimeServiceItem } from '../one-time-service-items/one-time-service-item';
 import { SubscriptionServiceItem } from '../subscription-service-items/subscription-service-item';
+import { ServiceItemsSetsService } from './service-items-sets.service';
 
 @NgModule({
     imports: [
@@ -25,7 +26,7 @@ import { SubscriptionServiceItem } from '../subscription-service-items/subscript
         //ServiceItemSetFormComponent
     ],
     providers: [
-        //ServiceItemSetsService
+        ServiceItemsSetsService
     ]
 })
 export class ServiceItemsSetsModule {

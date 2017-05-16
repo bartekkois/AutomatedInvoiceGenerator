@@ -1,0 +1,230 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading">{{title}}</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form [formGroup]="subscriptionServiceItemForm" (ngSubmit)="save()">
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceItemsSetId">Zestaw usług</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="subscriptionServiceItem.serviceItemsSetId" formControlName="serviceItemsSetId">
+                    <option *ngFor="let serviceItemsSet of currentCustomerServiceItemsSets" [ngValue]="serviceItemsSet.id">{{serviceItemsSet.id}}</option>
+                  </select>
+                  <div *ngIf="subscriptionServiceItemForm.controls.serviceItemsSetId.touched && !subscriptionServiceItemForm.controls.serviceItemsSetId.valid" class="alert alert-danger validation-messages">
+                    Zestaw usług jest wymagany.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceTemplate">Szablon usługi abonamentowej</label>
+                  <select class="form-control wide inupt-bold" (change)="setSubscriptionServiceItemDefaultValues(serviceTemplate.value)" #serviceTemplate formControlName="serviceTemplate">
+                    <option [value]="0">Internet</option>
+                    <option [value]="1">Dzierżawa modemu z funckją routera Wi-Fi (firma)</option>
+                    <option [value]="2">Dzierżawa modemu z funckją routera Wi-Fi (prywatny)</option>
+                    <option [value]="3">Opłata za dodatkowy stały publiczny adres IP</option>
+                    <option [value]="4">Telefon (firma)</option>
+                    <option [value]="5">Telefon (prywatny)</option>
+                    <option [value]="6">Telefon - połączenia telefoniczne</option>
+                    <option [value]="7">Dzierżawa pary miedzianej</option>
+                    <option [value]="8">Dzierżawa ciemnych włókien światłowodowych</option>
+                    <option [value]="9">Transmisja danych</option>
+                    <option [value]="10">Telewizja</option>
+                    <option [value]="11">Opłata za fakturę tradycyjną</option>
+                    <option [value]="12">Inny</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceCategoryType">Typ usługi abonamentowej</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="subscriptionServiceItem.serviceCategoryType" formControlName="serviceCategoryType">
+                    <option [ngValue]="0">Internet</option>
+                    <option [ngValue]="1">Telefon</option>
+                    <option [ngValue]="2">Dzierżawa infrastruktury</option>
+                    <option [ngValue]="3">Transmisja danych </option>
+                    <option [ngValue]="4">Telewizja</option>
+                    <option [ngValue]="5">Inny</option>
+                  </select>
+                  <div *ngIf="subscriptionServiceItemForm.controls.serviceCategoryType.touched && !subscriptionServiceItemForm.controls.serviceCategoryType.valid" class="alert alert-danger validation-messages">
+                    Typ usługi abonamentowej jest wymagany.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="remoteSystemServiceCode">Kod usługi abonamentowej</label>
+                  <input [(ngModel)]="subscriptionServiceItem.remoteSystemServiceCode" formControlName="remoteSystemServiceCode" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="subscriptionServiceItemForm.controls.remoteSystemServiceCode.touched && !subscriptionServiceItemForm.controls.remoteSystemServiceCode.valid" class="alert alert-danger validation-messages">
+                    Kod usługi abonamentowej jest wymagany.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="name">Nazwa usługi abonamentowej</label>
+                  <input [(ngModel)]="subscriptionServiceItem.name" formControlName="name" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="subscriptionServiceItemForm.controls.name.touched && !subscriptionServiceItemForm.controls.name.valid" class="alert alert-danger validation-messages">
+                    Nazwa usługi abonamentowej jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="subName">Szczegóły usługi abonamentowej</label>
+                  <input [(ngModel)]="subscriptionServiceItem.subName" formControlName="subName" type="text" class="form-control wide inupt-bold">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="name">Lokalizacja usługi abonamentowej</label>
+                  <input [(ngModel)]="subscriptionServiceItem.specificLocation" formControlName="specificLocation" type="text" class="form-control wide">
+                  <div *ngIf="subscriptionServiceItemForm.controls.specificLocation.touched && !subscriptionServiceItemForm.controls.specificLocation.valid" class="alert alert-danger validation-messages">
+                    Lokalizacja usługi abonamentowej jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceItemCustomerSpecificTag">Tag kontrahenta</label>
+                  <input [(ngModel)]="subscriptionServiceItem.serviceItemCustomerSpecificTag" formControlName="serviceItemCustomerSpecificTag" type="text" class="form-control wide">
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="netValue">Wartość netto</label>
+                  <input currencyMask [options]="{ prefix: '', suffix: ' PLN', thousands: '.', decimal: ',', allowNegative : 'false' }" [(ngModel)]="subscriptionServiceItem.netValue" formControlName="netValue" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="subscriptionServiceItemForm.controls.netValue.touched && !subscriptionServiceItemForm.controls.netValue.valid" class="alert alert-danger validation-messages">
+                    Wartość netto jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                   x
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="quantity">Ilość</label>
+                  <input [(ngModel)]="subscriptionServiceItem.quantity" formControlName="quantity" type="number" min="1" step="1" class="form-control wide inupt-bold">
+                  <div *ngIf="subscriptionServiceItemForm.controls.quantity.touched && !subscriptionServiceItemForm.controls.quantity.valid" class="alert alert-danger validation-messages">
+                    Ilość jest wymagana
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                +
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="vatRate">Stawka VAT</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="subscriptionServiceItem.vatRate" formControlName="vatRate">
+                    <option [ngValue]="23">23%</option>
+                    <option [ngValue]="8">8%</option>
+                    <option [ngValue]="5">5%</option>
+                  </select>
+                  <div *ngIf="subscriptionServiceItemForm.controls.vatRate.touched && !subscriptionServiceItemForm.controls.vatRate.valid" class="alert alert-danger validation-messages">
+                    Stawka VAT jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                =
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="grossValueAdded">Wartość brutto</label>
+                  <input currencyMask [options]="{ prefix: '', suffix: ' PLN', thousands: '.', decimal: ',', allowNegative : 'false' }" [(ngModel)]="subscriptionServiceItem.grossValueAdded" formControlName="grossValueAdded" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="subscriptionServiceItemForm.controls.grossValueAdded.touched && !subscriptionServiceItemForm.controls.grossValueAdded.valid" class="alert alert-danger validation-messages">
+                    Wartość brutto jest wymagana
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="startDate">Data aktywacji</label>
+                  <input [(ngModel)]="subscriptionServiceItem.startDate" formControlName="startDate" type="date" class="form-control wide">
+                  <div *ngIf="subscriptionServiceItemForm.controls.startDate.touched && !subscriptionServiceItemForm.controls.startDate.valid" class="alert alert-danger validation-messages">
+                    Data uruchomienia jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="endDate">Data deaktywacji</label>
+                  <input [(ngModel)]="subscriptionServiceItem.endDate" formControlName="endDate" type="date" class="form-control wide">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="notes">Notatki</label>
+                  <textarea [(ngModel)]="subscriptionServiceItem.notes" formControlName="notes" type="text" class="form-control wide notes-textarea"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="subscriptionServiceItem.isValueVariable" formControlName="isValueVariable" type="checkbox"> Wartość zmienna w czasie
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="subscriptionServiceItem.isSubNamePrinted" formControlName="isSubNamePrinted" type="checkbox"> Szczegóły usługi są drukowane
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="subscriptionServiceItem.isManual" formControlName="isManual" type="checkbox"> Wartość ustawiana ręcznie
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="subscriptionServiceItem.isBlocked" formControlName="isBlocked" type="checkbox"> Zablokowana usługa
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="subscriptionServiceItem.isSuspended" formControlName="isSuspended" type="checkbox"> Zawieszone fakturowanie
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="subscriptionServiceItem.isArchived" formControlName="isArchived" type="checkbox"> Zarchiwizowana usługa
+                </div>
+              </div>
+            </div>
+
+            <button [disabled]="!subscriptionServiceItemForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
+          </form>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

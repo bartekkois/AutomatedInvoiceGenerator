@@ -1,5 +1,6 @@
 ﻿export class SubscriptionServiceItem {
     id: number;
+    serviceTemplate: number;
     serviceCategoryType: number;
     remoteSystemServiceCode: string;
     name: string;
@@ -19,4 +20,5 @@
     startDate: string;
     endDate: string;
     isArchived: boolean;
+    serviceItemsSetId: number;
 }

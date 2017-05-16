@@ -10,7 +10,7 @@ using AutomatedInvoiceGenerator.Models;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
-    [Route("api/ServiceItemsSets")]
+    [Route("api")]
     public class ServiceItemsSetsApiController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,21 +21,33 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         }
 
         // GET: api/ServiceItemsSets
-        [HttpGet]
+        [HttpGet("ServiceItemsSets")]
         public async Task<IActionResult> Get()
         {
-            return base.Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(await _context.ServiceItemsSets.ToListAsync()));
+            return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(await _context.ServiceItemsSets.ToListAsync()));
         }
 
         // GET api/ServiceItemsSets/5
-        [HttpGet("{id}")]
+        [HttpGet("ServiceItemsSets/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return base.Json(Mapper.Map<ServiceItemsSetDto>((await _context.ServiceItemsSets.Where(g => g.Id == id).ToListAsync()).First()));
+            return Json(Mapper.Map<ServiceItemsSetDto>((await _context.ServiceItemsSets.Where(g => g.Id == id).ToListAsync()).First()));
+        }
+
+        // GET: api/ServiceItemsSetsByCustomer/5
+        [HttpGet("ServiceItemsSetsByCustomer/{customerId}")]
+        public async Task<IActionResult> GetByCustomer(int customerId)
+        {
+            var serviceItemsSets = await _context.ServiceItemsSets
+                .Where(g => g.CustomerId == customerId)
+                .OrderBy(o => o.Id)
+                .ToListAsync();
+
+            return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(serviceItemsSets));
         }
 
         // POST api/ServiceItemsSets
-        [HttpPost]
+        [HttpPost("ServiceItemsSets")]
         public async Task<IActionResult> Post([FromBody]ServiceItemsSetDto newServiceItemsSetDto)
         {
             if (!ModelState.IsValid)
@@ -50,7 +62,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         }
 
         // PUT api/ServiceItemsSets/5
-        [HttpPut("{id}")]
+        [HttpPut("ServiceItemsSets/{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]ServiceItemsSetDto updatedServiceItemsSetDto)
         {
             if (!ModelState.IsValid || updatedServiceItemsSetDto.Id != id)
@@ -72,7 +84,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         }
 
         // DELETE api/ServiceItemsSets/5
-        [HttpDelete("{id}")]
+        [HttpDelete("ServiceItemsSets/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var serviceItemsSet = await _context.ServiceItemsSets.Where(g => g.Id == id).ToListAsync();

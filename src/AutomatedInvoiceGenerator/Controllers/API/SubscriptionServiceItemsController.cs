@@ -24,14 +24,14 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return base.Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.IsArchived == false).ToListAsync()));
+            return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.IsArchived == false).ToListAsync()));
         }
 
         // GET api/ServiceItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return base.Json(Mapper.Map<SubscriptionServiceItemDto>((await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First()));
+            return Json(Mapper.Map<SubscriptionServiceItemDto>((await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First()));
         }
 
         // POST api/ServiceItems
@@ -41,7 +41,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var newSubscriptionServiceItem = Mapper.Map<ServiceItem>(newSubscriptionServiceItemDto);
+            var newSubscriptionServiceItem = Mapper.Map<SubscriptionServiceItem>(newSubscriptionServiceItemDto);
             newSubscriptionServiceItem.IsArchived = false;
 
             _context.ServiceItems.Add(newSubscriptionServiceItem);

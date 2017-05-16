@@ -6,12 +6,12 @@ namespace AutomatedInvoiceGenerator.Models
     public class SubscriptionServiceItem : ServiceItem
     {
         [Display(Name = "Rozpoczęcie świadczenia usługi:")]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         [Required]
         public DateTime? StartDate { get; set; }
 
         [Display(Name = "Zakończenie świadczenia usługi:")]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
 
