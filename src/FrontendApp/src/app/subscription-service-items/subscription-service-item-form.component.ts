@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnChanges } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -15,7 +15,7 @@ import { ServiceItemsSetsService } from '../service-items-sets/service-items-set
   styleUrls: ['./subscription-service-item-form.component.css'],
   providers: [SubscriptionServiceItemsService]
 })
-export class SubscriptionServiceItemFormComponent implements OnInit, OnChanges  {
+export class SubscriptionServiceItemFormComponent implements OnInit  {
     subscriptionServiceItem = new SubscriptionServiceItem();
     subscriptionServiceItemForm: FormGroup;
     currentCustomerServiceItemsSet: ServiceItemSet;
