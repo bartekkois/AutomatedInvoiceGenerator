@@ -1,0 +1,224 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading">{{title}}</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form [formGroup]="oneTimeServiceItemForm" (ngSubmit)="save()">
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceItemsSetId">Zestaw usług</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="oneTimeServiceItem.serviceItemsSetId" formControlName="serviceItemsSetId">
+                    <option *ngFor="let serviceItemsSet of currentCustomerServiceItemsSets" [ngValue]="serviceItemsSet.id">{{serviceItemsSet.id}}</option>
+                  </select>
+                  <div *ngIf="oneTimeServiceItemForm.controls.serviceItemsSetId.touched && !oneTimeServiceItemForm.controls.serviceItemsSetId.valid" class="alert alert-danger validation-messages">
+                    Zestaw usług jest wymagany.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceTemplate">Szablon usługi jednorazowej</label>
+                  <select class="form-control wide inupt-bold" (change)="setOneTimeServiceItemDefaultValues(serviceTemplate.value)" #serviceTemplate formControlName="serviceTemplate">
+                    <option [value]="0">Internet - instalacja</option>
+                    <option [value]="1">Telefon - instalacja (firma)</option>
+                    <option [value]="2">Telefon - instalacja (prywatny)</option>
+                    <option [value]="3">Dzierżawa pary miedzianej - instalacja</option>
+                    <option [value]="4">Dzierżawa ciemnych włókien światłowodowych - instalacja</option>
+                    <option [value]="5">Transmisja danych - instalacja</option>
+                    <option [value]="6">Telewizja - instalacja</option>
+                    <option [value]="7">Inny</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceCategoryType">Typ usługi jednorazowej</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="oneTimeServiceItem.serviceCategoryType" formControlName="serviceCategoryType">
+                    <option [ngValue]="0">Internet</option>
+                    <option [ngValue]="1">Telefon</option>
+                    <option [ngValue]="2">Dzierżawa infrastruktury</option>
+                    <option [ngValue]="3">Transmisja danych </option>
+                    <option [ngValue]="4">Telewizja</option>
+                    <option [ngValue]="5">Inny</option>
+                  </select>
+                  <div *ngIf="oneTimeServiceItemForm.controls.serviceCategoryType.touched && !oneTimeServiceItemForm.controls.serviceCategoryType.valid" class="alert alert-danger validation-messages">
+                    Typ usługi jednorazowej jest wymagany.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="remoteSystemServiceCode">Kod usługi jednorazowej</label>
+                  <input [(ngModel)]="oneTimeServiceItem.remoteSystemServiceCode" formControlName="remoteSystemServiceCode" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="oneTimeServiceItemForm.controls.remoteSystemServiceCode.touched && !oneTimeServiceItemForm.controls.remoteSystemServiceCode.valid" class="alert alert-danger validation-messages">
+                    Kod usługi jednorazowej jest wymagany.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="name">Nazwa usługi jednorazowej</label>
+                  <input [(ngModel)]="oneTimeServiceItem.name" formControlName="name" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="oneTimeServiceItemForm.controls.name.touched && !oneTimeServiceItemForm.controls.name.valid" class="alert alert-danger validation-messages">
+                    Nazwa usługi jednorazowej jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="subName">Szczegóły usługi jednorazowej</label>
+                  <input [(ngModel)]="oneTimeServiceItem.subName" formControlName="subName" type="text" class="form-control wide inupt-bold">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="name">Lokalizacja usługi jednorazowej</label>
+                  <input [(ngModel)]="oneTimeServiceItem.specificLocation" formControlName="specificLocation" type="text" class="form-control wide">
+                  <div *ngIf="oneTimeServiceItemForm.controls.specificLocation.touched && !oneTimeServiceItemForm.controls.specificLocation.valid" class="alert alert-danger validation-messages">
+                    Lokalizacja usługi jednorazowej jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceItemCustomerSpecificTag">Tag kontrahenta</label>
+                  <input [(ngModel)]="oneTimeServiceItem.serviceItemCustomerSpecificTag" formControlName="serviceItemCustomerSpecificTag" type="text" class="form-control wide">
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="netValue">Wartość netto</label>
+                  <input currencyMask [options]="{ prefix: '', suffix: ' PLN', thousands: '.', decimal: ',', allowNegative : 'false' }" [(ngModel)]="oneTimeServiceItem.netValue" formControlName="netValue" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="oneTimeServiceItemForm.controls.netValue.touched && !oneTimeServiceItemForm.controls.netValue.valid" class="alert alert-danger validation-messages">
+                    Wartość netto jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                   x
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="quantity">Ilość</label>
+                  <input [(ngModel)]="oneTimeServiceItem.quantity" formControlName="quantity" type="number" min="1" step="1" class="form-control wide inupt-bold">
+                  <div *ngIf="oneTimeServiceItemForm.controls.quantity.touched && !oneTimeServiceItemForm.controls.quantity.valid" class="alert alert-danger validation-messages">
+                    Ilość jest wymagana
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                +
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="vatRate">Stawka VAT</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="oneTimeServiceItem.vatRate" formControlName="vatRate">
+                    <option [ngValue]="23">23%</option>
+                    <option [ngValue]="8">8%</option>
+                    <option [ngValue]="5">5%</option>
+                  </select>
+                  <div *ngIf="oneTimeServiceItemForm.controls.vatRate.touched && !oneTimeServiceItemForm.controls.vatRate.valid" class="alert alert-danger validation-messages">
+                    Stawka VAT jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                =
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="grossValueAdded">Wartość brutto</label>
+                  <input currencyMask [options]="{ prefix: '', suffix: ' PLN', thousands: '.', decimal: ',', allowNegative : 'false' }" [(ngModel)]="oneTimeServiceItem.grossValueAdded" formControlName="grossValueAdded" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="oneTimeServiceItemForm.controls.grossValueAdded.touched && !oneTimeServiceItemForm.controls.grossValueAdded.valid" class="alert alert-danger validation-messages">
+                    Wartość brutto jest wymagana
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="installtionDate">Data instalacji</label>
+                  <input [(ngModel)]="oneTimeServiceItem.installationDate" formControlName="installationDate" type="date" class="form-control wide">
+                  <div *ngIf="oneTimeServiceItemForm.controls.installationDate.touched && !oneTimeServiceItemForm.controls.installationDate.valid" class="alert alert-danger validation-messages">
+                    Data uruchomienia jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isInvoiced" formControlName="isInvoiced" type="checkbox"> Zafakturowano
+                </div>
+               </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="notes">Notatki</label>
+                  <textarea [(ngModel)]="oneTimeServiceItem.notes" formControlName="notes" type="text" class="form-control wide notes-textarea"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isValueVariable" formControlName="isValueVariable" type="checkbox"> Wartość zmienna w czasie
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isSubNamePrinted" formControlName="isSubNamePrinted" type="checkbox"> Szczegóły usługi są drukowane
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isManual" formControlName="isManual" type="checkbox"> Wartość ustawiana ręcznie
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isBlocked" formControlName="isBlocked" type="checkbox"> Zablokowana usługa
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isSuspended" formControlName="isSuspended" type="checkbox"> Zawieszone fakturowanie
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <input [(ngModel)]="oneTimeServiceItem.isArchived" formControlName="isArchived" type="checkbox"> Zarchiwizowana usługa
+                </div>
+              </div>
+            </div>
+
+            <button [disabled]="!oneTimeServiceItemForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
+          </form>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

@@ -19,4 +19,5 @@
     installtionDate: string;
     isInvoiced: boolean;
     isArchived: boolean;
+    serviceItemsSetId: number;
 }

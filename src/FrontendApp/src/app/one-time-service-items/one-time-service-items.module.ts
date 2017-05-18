@@ -3,8 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 import { OneTimeServiceItem } from './one-time-service-item';
+import { OneTimeServiceItemFormComponent } from './one-time-service-item-form.component';
+import { OneTimeServiceItemsService } from './one-time-service-items.service';
 
 @NgModule({
     imports: [
@@ -12,15 +15,16 @@ import { OneTimeServiceItem } from './one-time-service-item';
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        HttpModule
+        HttpModule,
+        CurrencyMaskModule
     ],
     declarations: [
         //OneTimeServiceItemsComponent,
-        //OneTimeServiceItemFormComponent
+        OneTimeServiceItemFormComponent
     ],
     exports: [
         //OneTimeServiceItemsComponent,
-        //OneTimeServiceItemFormComponent
+        OneTimeServiceItemFormComponent
     ],
     providers: [
         //OneTimeServiceItemsService

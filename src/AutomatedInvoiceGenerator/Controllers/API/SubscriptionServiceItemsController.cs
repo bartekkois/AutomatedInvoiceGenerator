@@ -83,6 +83,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             updatedSubscriptionServiceItem.StartDate = updatedSubscriptionServiceItemDto.StartDate;
             updatedSubscriptionServiceItem.EndDate = updatedSubscriptionServiceItemDto.EndDate;
             updatedSubscriptionServiceItem.IsArchived = updatedSubscriptionServiceItemDto.IsArchived;
+            updatedSubscriptionServiceItem.ServiceItemsSetId = updatedSubscriptionServiceItemDto.ServiceItemsSetId;
 
             _context.ServiceItems.Update(updatedSubscriptionServiceItem);
             await _context.SaveChangesAsync();

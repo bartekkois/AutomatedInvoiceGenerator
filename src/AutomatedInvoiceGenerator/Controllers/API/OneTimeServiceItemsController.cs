@@ -24,14 +24,14 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return base.Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.IsArchived == false).ToListAsync()));
+            return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.IsArchived == false).ToListAsync()));
         }
 
         // GET api/ServiceItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return base.Json(Mapper.Map<OneTimeServiceItemDto>((await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First()));
+            return Json(Mapper.Map<OneTimeServiceItemDto>((await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First()));
         }
 
         // POST api/ServiceItems
@@ -83,6 +83,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             updatedOneTimeServiceItem.InstallationDate = updatedOneTimeServiceItemDto.InstallationDate;
             updatedOneTimeServiceItem.IsInvoiced = updatedOneTimeServiceItemDto.IsInvoiced;
             updatedOneTimeServiceItem.IsArchived = updatedOneTimeServiceItemDto.IsArchived;
+            updatedOneTimeServiceItem.ServiceItemsSetId = updatedOneTimeServiceItemDto.ServiceItemsSetId;
 
             _context.ServiceItems.Update(updatedOneTimeServiceItem);
             await _context.SaveChangesAsync();

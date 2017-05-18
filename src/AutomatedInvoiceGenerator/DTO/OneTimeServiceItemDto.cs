@@ -63,5 +63,8 @@ namespace AutomatedInvoiceGenerator.DTO
 
         [Required]
         public bool IsArchived { get; set; }
+
+        [Required]
+        public int ServiceItemsSetId { get; set; }
     }
 }
