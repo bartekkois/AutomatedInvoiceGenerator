@@ -68,7 +68,7 @@
                 </a>
               </td>
               <td class="text-center text-danger status-icon-width">
-                <!--<i (click)="deleteSubscriptionServiceItem(subscriptionServiceItem)" class="glyphicon glyphicon-remove"></i>-->
+                <i (click)="deleteSubscriptionServiceItem(customer.id, serviceItemsSet.id, subscriptionServiceItem.id, subscriptionServiceItem)" class="glyphicon glyphicon-remove"></i>
               </td>
             </tr>
 
@@ -97,7 +97,7 @@
                 </a>
               </td>
               <td class="text-center text-danger status-icon-width">
-                <!--<i (click)="deleteOneTimeServiceItem(oneTimeServiceItem)" class="glyphicon glyphicon-remove"></i>-->
+                <i (click)="deleteOneTimeServiceItem(customer.id, serviceItemsSet.id, oneTimeServiceItem.id, oneTimeServiceItem)" class="glyphicon glyphicon-remove"></i>
               </td>
             </tr>
           </tbody>

@@ -12,6 +12,8 @@ import { CustomersComponent } from './customers.component';
 import { CustomerFormComponent } from './customer-form.component';
 import { CustomersService } from './customers.service';
 import { GroupsService } from '../groups/groups.service';
+import { SubscriptionServiceItemsService } from './../subscription-service-items/subscription-service-items.service';
+import { OneTimeServiceItemsService } from './../one-time-service-items/one-time-service-items.service';
 
 @NgModule({
     imports: [
@@ -31,7 +33,9 @@ import { GroupsService } from '../groups/groups.service';
     ],
     providers: [
         CustomersService,
-        GroupsService
+        GroupsService,
+        SubscriptionServiceItemsService,
+        OneTimeServiceItemsService
     ]
 })
 export class CustomersModule {

@@ -19,5 +19,5 @@ export class Customer {
     isArchived: boolean;
     groupId: number;
 
-    serviceItemSets: ServiceItemSet[];
+    serviceItemsSets: ServiceItemSet[];
 }

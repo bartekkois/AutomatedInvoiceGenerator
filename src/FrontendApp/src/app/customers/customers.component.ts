@@ -3,6 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { CustomersService } from './customers.service';
 import { Customer } from './customer';
+import { SubscriptionServiceItemsService } from './../subscription-service-items/subscription-service-items.service';
+import { OneTimeServiceItemsService } from './../one-time-service-items/one-time-service-items.service';
 
 @Component({
   selector: 'app-customers',
@@ -16,6 +18,8 @@ export class CustomersComponent implements OnInit {
     isBusy: boolean = false;
 
     constructor(private _customersService: CustomersService,
+                private _subscriptionServiceItemsService: SubscriptionServiceItemsService,
+                private _oneTimeServiceItemsService: OneTimeServiceItemsService,
                 private _routerService: Router,
                 private _route: ActivatedRoute) {
     }
@@ -85,6 +89,38 @@ export class CustomersComponent implements OnInit {
                 error => {
                     alert("Usunięcie kontrahenta nie powiodło się !!!");
                     this.customers.splice(index, 0, customer);
+                });
+        }
+    }
+
+    deleteSubscriptionServiceItem(customerId, serviceItemsSetId, subscriptionServiceItemId, subscriptionServiceItem) {
+        if (confirm("Czy na pewno chcesz usunąć usługę abonamentową " + subscriptionServiceItem.name + "?")) {
+            var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.indexOf(subscriptionServiceItem)
+            this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.splice(index, 1);
+
+            this._subscriptionServiceItemsService.deleteSubscriptionServiceItem(subscriptionServiceItem.id)
+                .subscribe(
+                success => {
+                },
+                error => {
+                    alert("Usunięcie usługi abonamnetowej nie powiodło się !!!");
+                    this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.splice(index, 0, subscriptionServiceItem);
+                });
+        }
+    }
+
+    deleteOneTimeServiceItem(customerId, serviceItemsSetId, oneTimeServiceItemId, oneTimeServiceItem) {
+        if (confirm("Czy na pewno chcesz usunąć usługę jednorazową " + oneTimeServiceItem.name + "?")) {
+            var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.indexOf(oneTimeServiceItem)
+            this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.splice(index, 1);
+
+            this._oneTimeServiceItemsService.deleteOneTimeServiceItem(oneTimeServiceItemId)
+                .subscribe(
+                success => {
+                },
+                error => {
+                    alert("Usunięcie usługi jednorazowej nie powiodło się !!!");
+                    this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.splice(index, 0, oneTimeServiceItem);
                 });
         }
     }
