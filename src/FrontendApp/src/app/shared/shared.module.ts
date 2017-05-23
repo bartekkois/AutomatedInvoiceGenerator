@@ -1,7 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ContenteditableComponent } from './contenteditable.component';
 import { RefreshGroupsNavigationService } from './refresh-groups-navigation.service';
 
 @NgModule({
@@ -9,10 +8,8 @@ import { RefreshGroupsNavigationService } from './refresh-groups-navigation.serv
         CommonModule
     ],
     declarations: [
-        ContenteditableComponent
     ],
     exports: [
-        ContenteditableComponent
     ],
     providers: [
         RefreshGroupsNavigationService
