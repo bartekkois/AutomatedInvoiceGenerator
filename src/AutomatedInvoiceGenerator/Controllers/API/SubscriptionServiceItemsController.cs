@@ -20,21 +20,21 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             _context = context;
         }
 
-        // GET: api/ServiceItems
+        // GET: api/SubscriptionServiceItems
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.IsArchived == false).ToListAsync()));
+            return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(await _context.ServiceItems.OfType<SubscriptionServiceItem>().OrderBy(o => o.IsArchived).ToListAsync()));
         }
 
-        // GET api/ServiceItems/5
+        // GET api/SubscriptionServiceItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Json(Mapper.Map<SubscriptionServiceItemDto>((await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First()));
+            return Json(Mapper.Map<SubscriptionServiceItemDto>((await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id).OrderBy(o => o.IsArchived).ToListAsync()).First()));
         }
 
-        // POST api/ServiceItems
+        // POST api/SubscriptionServiceItems
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]SubscriptionServiceItemDto newSubscriptionServiceItemDto)
         {
@@ -50,7 +50,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             return CreatedAtRoute("", new { id = newSubscriptionServiceItem.Id }, Mapper.Map<SubscriptionServiceItemDto>(newSubscriptionServiceItem));
         }
 
-        // PUT api/ServiceItems/5
+        // PUT api/SubscriptionServiceItems/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]SubscriptionServiceItemDto updatedSubscriptionServiceItemDto)
         {
@@ -91,7 +91,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             return new NoContentResult();
         }
 
-        // DELETE api/ServiceItems/5
+        // DELETE api/SubscriptionServiceItems/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

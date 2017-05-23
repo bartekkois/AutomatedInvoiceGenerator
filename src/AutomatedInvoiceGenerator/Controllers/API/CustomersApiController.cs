@@ -29,7 +29,8 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                     .ThenInclude(i => i.OneTimeServiceItems)
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.SubscriptionServiceItems)
-                .OrderBy(o => o.CustomerCode)
+                .OrderBy(o => o.IsArchived)
+                .ThenBy(o => o.CustomerCode)
                 .ToListAsync();
 
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
@@ -45,7 +46,8 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                     .ThenInclude(i => i.OneTimeServiceItems)
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.SubscriptionServiceItems)
-                .OrderBy(o => o.CustomerCode)
+                .OrderBy(o => o.IsArchived)
+                .ThenBy(o => o.CustomerCode)
                 .ToListAsync();
 
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));

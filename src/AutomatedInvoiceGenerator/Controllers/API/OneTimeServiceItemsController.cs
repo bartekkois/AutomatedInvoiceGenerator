@@ -20,21 +20,21 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             _context = context;
         }
 
-        // GET: api/ServiceItems
+        // GET: api/OneTimeServiceItems
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.IsArchived == false).ToListAsync()));
+            return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(await _context.ServiceItems.OfType<OneTimeServiceItem>().OrderBy(o => o.IsArchived).ToListAsync()));
         }
 
-        // GET api/ServiceItems/5
+        // GET api/OneTimeServiceItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Json(Mapper.Map<OneTimeServiceItemDto>((await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First()));
+            return Json(Mapper.Map<OneTimeServiceItemDto>((await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id).OrderBy(o => o.IsArchived).ToListAsync()).First()));
         }
 
-        // POST api/ServiceItems
+        // POST api/OneTimeServiceItems
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]OneTimeServiceItemDto newOneTimeServiceItemDto)
         {
@@ -50,7 +50,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             return CreatedAtRoute("", new { id = newOneTimeServiceItem.Id }, Mapper.Map<OneTimeServiceItemDto>(newOneTimeServiceItem));
         }
 
-        // PUT api/ServiceItems/5
+        // PUT api/OneTimeServiceItems/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]OneTimeServiceItemDto updatedOneTimeServiceItemDto)
         {
@@ -91,7 +91,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             return new NoContentResult();
         }
 
-        // DELETE api/ServiceItems/5
+        // DELETE api/OneTimeServiceItems/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
