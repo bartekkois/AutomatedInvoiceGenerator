@@ -8,16 +8,19 @@ import { OneTimeServiceItem } from './one-time-service-item';
 import { OneTimeServiceItemsService } from './one-time-service-items.service';
 import { ServiceItemSet } from '../service-items-sets/service-items-set';
 import { ServiceItemsSetsService } from '../service-items-sets/service-items-sets.service';
+import { Customer } from '../customers/customer';
+import { CustomersService } from '../customers/customers.service';
 
 @Component({
   selector: 'one-time-service-item-form',
   templateUrl: './one-time-service-item-form.component.html',
   styleUrls: ['./one-time-service-item-form.component.css'],
-  providers: [OneTimeServiceItemsService]
+  providers: [OneTimeServiceItemsService, ServiceItemsSetsService, CustomersService]
 })
 export class OneTimeServiceItemFormComponent implements OnInit  {
     oneTimeServiceItem = new OneTimeServiceItem();
     oneTimeServiceItemForm: FormGroup;
+    currentCustomer: Customer;
     currentCustomerServiceItemsSet: ServiceItemSet;
     currentCustomerServiceItemsSets = [ServiceItemSet];
     oneTimeServiceTemplateTypeIsSet = false;
@@ -26,6 +29,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
     constructor(private _fb: FormBuilder,
                 private _oneTimeServiceItemsService: OneTimeServiceItemsService,
                 private _serviceItemsSetsService: ServiceItemsSetsService,
+                private _customersService: CustomersService, 
                 private _routerService: Router,
                 private _route: ActivatedRoute) {
         this.createForm();
@@ -66,43 +70,44 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
 
                 this.title = oneTimeServiceItemId ? "Edytuj usługę jednorazową" : "Dodaj usługę jednorazową";
 
-                // Add OneTimeServiceItem
-                if (!oneTimeServiceItemId) {
-                    this._serviceItemsSetsService.getServiceItemsSetsByCustomer(customerId)
+                this._customersService.getCustomer(customerId)
+                    .subscribe(
+                    customer => {
+                        this.currentCustomer = customer;
+                    },
+                    response => {
+                        if (response.status == 404) {
+                            this._routerService.navigate(['customers']);
+                        }
+                    });
+
+                this._serviceItemsSetsService.getServiceItemsSetsByCustomer(customerId)
+                    .subscribe(
+                    serviceItemsSets => {
+                        this.currentCustomerServiceItemsSets = serviceItemsSets;
+                    },
+                    response => {
+                        if (response.status == 404) {
+                            this._routerService.navigate(['customers']);
+                        }
+                    });
+
+                    // Add OneTimeServiceItem
+                    if (!oneTimeServiceItemId) {
+                        return;
+                    }
+
+                    // Edit OneTimeServiceItem                  
+                    this._oneTimeServiceItemsService.getOneTimeServiceItem(oneTimeServiceItemId)
                       .subscribe(
-                      serviceItemsSets => {
-                          this.currentCustomerServiceItemsSets = serviceItemsSets;
+                      oneTimeServiceItem => {
+                          this.oneTimeServiceItem = oneTimeServiceItem;
                       },
                       response => {
                           if (response.status == 404) {
                               this._routerService.navigate(['customers']);
                           }
                       });
-                    return;
-                }
-
-                // Edit OneTimeServiceItem
-                this._serviceItemsSetsService.getServiceItemsSetsByCustomer(customerId)
-                  .subscribe(
-                  serviceItemsSets => {
-                      this.currentCustomerServiceItemsSets = serviceItemsSets;
-                  },
-                  response => {
-                      if (response.status == 404) {
-                          this._routerService.navigate(['customers']);
-                      }
-                  });
-                    
-                this._oneTimeServiceItemsService.getOneTimeServiceItem(oneTimeServiceItemId)
-                  .subscribe(
-                  oneTimeServiceItem => {
-                      this.oneTimeServiceItem = oneTimeServiceItem;
-                  },
-                  response => {
-                      if (response.status == 404) {
-                          this._routerService.navigate(['customers']);
-                      }
-                  });
             });
 
 
@@ -267,7 +272,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
         }
 
         oneTimeServiceItemTemplate.serviceItemsSetId = this.oneTimeServiceItem.serviceItemsSetId;
-        oneTimeServiceItemTemplate.specificLocation = "";
+        oneTimeServiceItemTemplate.specificLocation = this.currentCustomer.location;
         oneTimeServiceItemTemplate.serviceItemCustomerSpecificTag = "";
         oneTimeServiceItemTemplate.notes = "";
         oneTimeServiceItemTemplate.isManual = false;

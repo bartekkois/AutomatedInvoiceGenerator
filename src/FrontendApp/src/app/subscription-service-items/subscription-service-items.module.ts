@@ -5,9 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 
-import { SubscriptionServiceItem } from './subscription-service-item';
 import { SubscriptionServiceItemFormComponent } from './subscription-service-item-form.component';
-import { SubscriptionServiceItemsService } from './subscription-service-items.service';
 
 @NgModule({
     imports: [
@@ -19,15 +17,12 @@ import { SubscriptionServiceItemsService } from './subscription-service-items.se
         CurrencyMaskModule
     ],
     declarations: [
-        //SubscriptionServiceItemsComponent,
         SubscriptionServiceItemFormComponent
     ],
     exports: [
-        //SubscriptionServiceItemsComponent,
         SubscriptionServiceItemFormComponent
     ],
     providers: [
-        SubscriptionServiceItemsService
     ]
 })
 export class SubscriptionServiceItemsModule {

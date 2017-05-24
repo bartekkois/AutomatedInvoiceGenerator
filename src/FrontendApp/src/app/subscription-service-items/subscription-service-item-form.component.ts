@@ -8,16 +8,19 @@ import { SubscriptionServiceItem } from './subscription-service-item';
 import { SubscriptionServiceItemsService } from './subscription-service-items.service';
 import { ServiceItemSet } from '../service-items-sets/service-items-set';
 import { ServiceItemsSetsService } from '../service-items-sets/service-items-sets.service';
+import { Customer } from '../customers/customer';
+import { CustomersService } from '../customers/customers.service';
 
 @Component({
   selector: 'subscription-service-item-form',
   templateUrl: './subscription-service-item-form.component.html',
   styleUrls: ['./subscription-service-item-form.component.css'],
-  providers: [SubscriptionServiceItemsService]
+  providers: [SubscriptionServiceItemsService, ServiceItemsSetsService, CustomersService]
 })
 export class SubscriptionServiceItemFormComponent implements OnInit  {
     subscriptionServiceItem = new SubscriptionServiceItem();
     subscriptionServiceItemForm: FormGroup;
+    currentCustomer: Customer;
     currentCustomerServiceItemsSet: ServiceItemSet;
     currentCustomerServiceItemsSets = [ServiceItemSet];
     subscriptionServiceTemplateTypeIsSet = false;
@@ -26,6 +29,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
     constructor(private _fb: FormBuilder,
                 private _subscriptionServiceItemsService: SubscriptionServiceItemsService,
                 private _serviceItemsSetsService: ServiceItemsSetsService,
+                private _customersService: CustomersService, 
                 private _routerService: Router,
                 private _route: ActivatedRoute) {
         this.createForm();
@@ -66,43 +70,45 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
 
                 this.title = subscriptionServiceItemId ? "Edytuj usługę abonamentową" : "Dodaj usługę abonamentową";
 
-                // Add SubscriptionServiceItem
-                if (!subscriptionServiceItemId) {
-                    this._serviceItemsSetsService.getServiceItemsSetsByCustomer(customerId)
+                this._customersService.getCustomer(customerId)
+                    .subscribe(
+                    customer => {
+                        this.currentCustomer = customer;
+                    },
+                    response => {
+                        if (response.status == 404) {
+                            this._routerService.navigate(['customers']);
+                        }
+                    });
+
+                this._serviceItemsSetsService.getServiceItemsSetsByCustomer(customerId)
+                    .subscribe(
+                    serviceItemsSets => {
+                        this.currentCustomerServiceItemsSets = serviceItemsSets;
+                    },
+                    response => {
+                        if (response.status == 404) {
+                            this._routerService.navigate(['customers']);
+                        }
+                    });
+
+                    // Add SubscriptionServiceItem
+                    if (!subscriptionServiceItemId) {
+
+                        return;
+                    }
+
+                    // Edit SubscriptionServiceItem                   
+                    this._subscriptionServiceItemsService.getSubscriptionServiceItem(subscriptionServiceItemId)
                       .subscribe(
-                      serviceItemsSets => {
-                          this.currentCustomerServiceItemsSets = serviceItemsSets;
+                      subscriptionServiceItem => {
+                          this.subscriptionServiceItem = subscriptionServiceItem;
                       },
                       response => {
                           if (response.status == 404) {
                               this._routerService.navigate(['customers']);
                           }
                       });
-                    return;
-                }
-
-                // Edit SubscriptionServiceItem
-                this._serviceItemsSetsService.getServiceItemsSetsByCustomer(customerId)
-                  .subscribe(
-                  serviceItemsSets => {
-                      this.currentCustomerServiceItemsSets = serviceItemsSets;
-                  },
-                  response => {
-                      if (response.status == 404) {
-                          this._routerService.navigate(['customers']);
-                      }
-                  });
-                    
-                this._subscriptionServiceItemsService.getSubscriptionServiceItem(subscriptionServiceItemId)
-                  .subscribe(
-                  subscriptionServiceItem => {
-                      this.subscriptionServiceItem = subscriptionServiceItem;
-                  },
-                  response => {
-                      if (response.status == 404) {
-                          this._routerService.navigate(['customers']);
-                      }
-                  });
             });
 
 
@@ -327,7 +333,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
         }
 
         subscriptionServiceItemTemplate.serviceItemsSetId = this.subscriptionServiceItem.serviceItemsSetId;
-        subscriptionServiceItemTemplate.specificLocation = "";
+        subscriptionServiceItemTemplate.specificLocation = this.currentCustomer.location;
         subscriptionServiceItemTemplate.serviceItemCustomerSpecificTag = "";
         subscriptionServiceItemTemplate.notes = "";
         subscriptionServiceItemTemplate.isManual = false;
