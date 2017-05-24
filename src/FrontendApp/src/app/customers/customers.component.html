@@ -26,7 +26,7 @@
                 <i *ngIf="customer.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
               </th>
               <th class="customer-code-width"><strong>{{ customer.customerCode }}</strong></th>
-              <th class="text-left"><strong>{{ customer.name }}</strong></th>
+              <th class="text-left" title="{{ customer.notes }}"><strong>{{ customer.name }}</strong> <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ customer.notes }}" *ngIf="customer.notes"></span></th>
               <th class="text-right">{{ customer.location }}</th>
               <th colspan="7"></th>
               <th class="text-center status-icon-width">
@@ -54,7 +54,7 @@
                 <td class="text-center text-danger status-icon-width">
                   <i *ngIf="subscriptionServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
                 </td>
-                <td colspan="3">{{subscriptionServiceItem.name}} - {{subscriptionServiceItem.subName}}</td>
+                <td colspan="3">{{subscriptionServiceItem.name}} - {{subscriptionServiceItem.subName}} <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ subscriptionServiceItem.notes }}" *ngIf="subscriptionServiceItem.notes"></span></td>
                 <td class="text-right value-width"><strong>{{subscriptionServiceItem.quantity}}</strong></td>
                 <td class="text-center sign-width"> x </td>
                 <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
@@ -83,7 +83,7 @@
               <td class="text-center text-danger status-icon-width">
                 <i *ngIf="oneTimeServiceItem.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
               </td>
-              <td colspan="3">{{oneTimeServiceItem.name}} - {{oneTimeServiceItem.subName}}</td>
+              <td colspan="3" title="{{ subscriptionServiceItem.notes }}">{{oneTimeServiceItem.name}} - {{oneTimeServiceItem.subName}} <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ oneTimeServiceItem.notes }}" *ngIf="oneTimeServiceItem.notes"></span></td>
               <td class="text-right value-width"><strong>{{oneTimeServiceItem.quantity}}</strong></td>
               <td class="text-center sign-width"> x </td>
               <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>

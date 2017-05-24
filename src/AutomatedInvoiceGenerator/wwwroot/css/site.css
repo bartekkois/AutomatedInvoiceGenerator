@@ -96,6 +96,10 @@ textarea.wide {
 	font-size: large;
 }
 
+.notes-indicator {
+	color: #008cba;
+}
+
 .service-item-set-rows-marker > tbody:nth-of-type(even) {
 	background-color: #fafafa;
 }
