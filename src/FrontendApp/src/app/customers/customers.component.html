@@ -28,7 +28,17 @@
               <th class="customer-code-width"><strong>{{ customer.customerCode }}</strong></th>
               <th class="text-left" title="{{ customer.notes }}"><strong>{{ customer.name }}</strong> <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ customer.notes }}" *ngIf="customer.notes"></span></th>
               <th class="text-right">{{ customer.location }}</th>
-              <th colspan="7"></th>
+              <th colspan="6"></th>
+              <th class="text-center status-icon-width">
+                <a [routerLink]="['/customer', customer.id, 'subscriptionServiceItem', 'new']" title="Dodaj usługę abonamentową">
+                  <i class="glyphicon glyphicon-plus text-primary"></i>
+                </a>
+              </th>
+              <th class="text-center status-icon-width">
+                <a [routerLink]="['/customer', customer.id, 'oneTimeServiceItem', 'new']" title="Dodaj usługę jednorazową">
+                  <i class="glyphicon glyphicon-plus text-info"></i>
+                </a>
+              </th>
               <th class="text-center status-icon-width">
                 <a [routerLink]="['/customer', customer.id]">
                   <i class="glyphicon glyphicon-edit text-success"></i>
@@ -61,7 +71,7 @@
                 <td class="text-center sign-width"> + </td>
                 <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
                 <td class="text-center sign-width"> = </td>
-                <td class="text-right value-width"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td class="text-right value-width" colspan="2"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
                 <td class="text-center status-icon-width">
                   <a [routerLink]="['/customer', customer.id, 'serviceItemsSet', serviceItemsSet.id, 'subscriptionServiceItem', subscriptionServiceItem.id]">
                     <i class="glyphicon glyphicon-edit text-success"></i>
@@ -90,7 +100,7 @@
               <td class="text-center sign-width"> + </td>
               <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
               <td class="text-center sign-width"> = </td>
-              <td class="text-right value-width"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-right value-width" colspan="2"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
               <td class="text-center status-icon-width">
                 <a [routerLink]="['/customer', customer.id, 'serviceItemsSet', serviceItemsSet.id, 'oneTimeServiceItem', oneTimeServiceItem.id]">
                   <i class="glyphicon glyphicon-edit text-success"></i>
