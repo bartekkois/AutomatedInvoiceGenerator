@@ -9,9 +9,10 @@ using AutomatedInvoiceGenerator.Models;
 namespace AutomatedInvoiceGenerator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170527090259_Added Name property to ServiceItemsSet")]
+    partial class AddedNamepropertytoServiceItemsSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

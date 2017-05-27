@@ -7,6 +7,10 @@ namespace AutomatedInvoiceGenerator.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Nazwa:")]
+        [Required(ErrorMessage = "Nazwa zestawu usług jest wymagana")]
+        public string Name { get; set; }
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
 

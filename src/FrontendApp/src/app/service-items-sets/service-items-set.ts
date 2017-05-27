@@ -3,6 +3,7 @@ import { SubscriptionServiceItem } from '../subscription-service-items/subscript
 
 export class ServiceItemSet {
     id: number;
+    name: string;
     customerId: string;
 
     oneTimeServiceItems: OneTimeServiceItem[];

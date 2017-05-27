@@ -158,30 +158,37 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "CCR001").ToList().First().Id,
+                        Name = "Domyślny"
                     },
                     new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "CCR106").ToList().First().Id,
+                        Name = "Internet"
                     }
                     , new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "CCR106").ToList().First().Id,
+                        Name = "Telefon"
                     },
                     new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "MPJ156").ToList().First().Id,
+                        Name = "Domyślny"
                     },
                     new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "MPJ157").ToList().First().Id,
+                        Name = "Domyślny"
                     },
                     new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "MPR108").ToList().First().Id,
+                        Name = "Domyślny"
                     },
                     new ServiceItemsSet
                     {
                         CustomerId = context.Customers.Where(c => c.CustomerCode == "WRZ223").ToList().First().Id,
+                        Name = "Domyślny"
                     }
 
                    );

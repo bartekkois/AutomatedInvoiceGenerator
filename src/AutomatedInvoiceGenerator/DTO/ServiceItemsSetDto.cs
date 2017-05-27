@@ -7,6 +7,9 @@ namespace AutomatedInvoiceGenerator.DTO
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Nazwa zestawu usług jest wymagana")]
+        public string Name { get; set; }
+
         [Required]
         public int CustomerId { get; set; }
 

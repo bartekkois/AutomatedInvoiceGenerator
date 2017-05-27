@@ -76,6 +76,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             var updatedServiceItemsSet = serviceItemsSets.First();
 
             updatedServiceItemsSet.CustomerId = updatedServiceItemsSetDto.CustomerId;
+            updatedServiceItemsSet.Name = updatedServiceItemsSetDto.Name;
 
             _context.ServiceItemsSets.Update(updatedServiceItemsSet);
             await _context.SaveChangesAsync();
