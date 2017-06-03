@@ -94,7 +94,7 @@ export class CustomersComponent implements OnInit {
     }
 
     deleteSubscriptionServiceItem(customerId, serviceItemsSetId, subscriptionServiceItemId, subscriptionServiceItem) {
-        if (confirm("Czy na pewno chcesz usunąć usługę abonamentową " + subscriptionServiceItem.name + "?")) {
+        if (confirm("Czy na pewno chcesz usunąć usługę abonamentową " + subscriptionServiceItem.name + " - " +  subscriptionServiceItem.subName + "?")) {
             var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.indexOf(subscriptionServiceItem)
             this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.splice(index, 1);
 
@@ -103,14 +103,14 @@ export class CustomersComponent implements OnInit {
                 success => {
                 },
                 error => {
-                    alert("Usunięcie usługi abonamnetowej nie powiodło się !!!");
+                    alert("Usunięcie usługi abonamnetowej " + subscriptionServiceItem.name + " - " +  subscriptionServiceItem.subName + " nie powiodło się !!!");
                     this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.splice(index, 0, subscriptionServiceItem);
                 });
         }
     }
 
     deleteOneTimeServiceItem(customerId, serviceItemsSetId, oneTimeServiceItemId, oneTimeServiceItem) {
-        if (confirm("Czy na pewno chcesz usunąć usługę jednorazową " + oneTimeServiceItem.name + "?")) {
+        if (confirm("Czy na pewno chcesz usunąć usługę jednorazową " + oneTimeServiceItem.name + " - " +  oneTimeServiceItem.subName + "?")) {
             var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.indexOf(oneTimeServiceItem)
             this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.splice(index, 1);
 
@@ -119,7 +119,7 @@ export class CustomersComponent implements OnInit {
                 success => {
                 },
                 error => {
-                    alert("Usunięcie usługi jednorazowej nie powiodło się !!!");
+                    alert("Usunięcie usługi jednorazowej " + oneTimeServiceItem.name + " - " + oneTimeServiceItem.subName + "nie powiodło się !!!");
                     this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.splice(index, 0, oneTimeServiceItem);
                 });
         }

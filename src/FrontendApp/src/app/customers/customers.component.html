@@ -26,7 +26,7 @@
                 <i *ngIf="customer.isArchived" class="glyphicon glyphicon-folder-open text-primary" title="Zarchiwizowany"></i>
               </th>
               <th class="customer-code-width"><strong>{{ customer.customerCode }}</strong></th>
-              <th class="text-left" title="{{ customer.notes }}"><strong>{{ customer.name }}</strong> <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ customer.notes }}" *ngIf="customer.notes"></span></th>
+              <th class="text-left" title="{{ customer.notes }}"><strong>{{ customer.name }} <span *ngIf="customer.brandName">({{customer.brandName}})</span></strong> <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ customer.notes }}" *ngIf="customer.notes"></span></th>
               <th class="text-right">{{ customer.location }}</th>
               <th colspan="5"></th>
               <th class="text-center status-icon-width">

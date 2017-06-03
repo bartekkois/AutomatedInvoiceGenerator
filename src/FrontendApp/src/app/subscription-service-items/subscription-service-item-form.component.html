@@ -11,7 +11,7 @@
                 <div class="form-group">
                   <label for="serviceItemsSetId">Zestaw usług</label>
                   <select class="form-control wide inupt-bold" [(ngModel)]="subscriptionServiceItem.serviceItemsSetId" formControlName="serviceItemsSetId">
-                    <option *ngFor="let serviceItemsSet of currentCustomerServiceItemsSets" [ngValue]="serviceItemsSet.id">{{serviceItemsSet.name}}</option>
+                    <option *ngFor="let serviceItemsSet of currentCustomerServiceItemsSets; let i = index" [ngValue]="serviceItemsSet.id" [attr.selected]="i == 0 ? true : null">{{serviceItemsSet.name}}</option>
                   </select>
                   <div *ngIf="subscriptionServiceItemForm.controls.serviceItemsSetId.touched && !subscriptionServiceItemForm.controls.serviceItemsSetId.valid" class="alert alert-danger validation-messages">
                     Zestaw usług jest wymagany.
