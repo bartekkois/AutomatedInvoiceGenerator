@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 import { CustomersService } from './customers.service';
 import { Customer } from './customer';
@@ -21,12 +22,15 @@ export class CustomersComponent implements OnInit {
                 private _subscriptionServiceItemsService: SubscriptionServiceItemsService,
                 private _oneTimeServiceItemsService: OneTimeServiceItemsService,
                 private _routerService: Router,
-                private _route: ActivatedRoute) {
+                private _route: ActivatedRoute,
+                private _localStorageService: LocalStorageService) {
     }
 
     ngOnInit() {
         this.isBusy = true;
-        
+
+        this._localStorageService.get('showArchived') == "true" ? this.showArchived = true : this.showArchived = false;
+
         this._route.params
             .subscribe(params => {
                 var groupId = +params["id"];
@@ -75,6 +79,7 @@ export class CustomersComponent implements OnInit {
 
     toggleShowArchived() {
         this.showArchived = !this.showArchived;
+        this._localStorageService.set('showArchived', this.showArchived ? 'true' : 'false');
     }
 
     deleteCustomer(customer) {

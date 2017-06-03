@@ -2,6 +2,7 @@
 import { NgModule }         from '@angular/core';
 import { FormsModule }      from '@angular/forms';
 import { HttpModule }       from '@angular/http';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -26,6 +27,10 @@ import { SubscriptionServiceItemsModule } from './subscription-service-items/sub
     FormsModule,
     HttpModule,
     SharedModule,
+    LocalStorageModule.withConfig({
+        prefix: 'automated-invoice-generator',
+        storageType: 'localStorage'
+    }),
     GroupsModule,
     CustomersModule,
     ServiceItemsSetsModule,
