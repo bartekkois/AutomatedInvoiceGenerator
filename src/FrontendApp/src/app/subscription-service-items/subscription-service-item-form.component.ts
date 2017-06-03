@@ -6,7 +6,7 @@ import 'rxjs/add/operator/debounceTime';
 
 import { SubscriptionServiceItem } from './subscription-service-item';
 import { SubscriptionServiceItemsService } from './subscription-service-items.service';
-import { ServiceItemSet } from '../service-items-sets/service-items-set';
+import { ServiceItemsSet } from '../service-items-sets/service-items-set';
 import { ServiceItemsSetsService } from '../service-items-sets/service-items-sets.service';
 import { Customer } from '../customers/customer';
 import { CustomersService } from '../customers/customers.service';
@@ -21,8 +21,8 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
     subscriptionServiceItem = new SubscriptionServiceItem();
     subscriptionServiceItemForm: FormGroup;
     currentCustomer: Customer;
-    currentCustomerServiceItemsSet: ServiceItemSet;
-    currentCustomerServiceItemsSets = [ServiceItemSet];
+    currentCustomerServiceItemsSet: ServiceItemsSet;
+    currentCustomerServiceItemsSets = [ServiceItemsSet];
     subscriptionServiceTemplateTypeIsSet = false;
     title: string;
 
@@ -68,12 +68,11 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                 var customerId = +params["customerId"];
                 var serviceItemsSetId = +params["serviceItemsSetId"];
 
-                this.title = subscriptionServiceItemId ? "Edytuj usługę abonamentową" : "Dodaj usługę abonamentową";
-
                 this._customersService.getCustomer(customerId)
                     .subscribe(
                     customer => {
                         this.currentCustomer = customer;
+                        this.title = subscriptionServiceItemId ? "Edytuj usługę abonamentową kontrahenta " + this.currentCustomer.name : "Dodaj usługę abonamentową " + this.currentCustomer.name;
                     },
                     response => {
                         if (response.status == 404) {

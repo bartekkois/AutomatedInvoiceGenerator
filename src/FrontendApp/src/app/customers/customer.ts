@@ -1,4 +1,4 @@
-﻿import { ServiceItemSet } from '../service-items-sets/service-items-set';
+﻿import { ServiceItemsSet } from '../service-items-sets/service-items-set';
 
 
 export class Customer {
@@ -19,5 +19,5 @@ export class Customer {
     isArchived: boolean;
     groupId: number;
 
-    serviceItemsSets: ServiceItemSet[];
+    serviceItemsSets: ServiceItemsSet[];
 }

@@ -1,0 +1,29 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading">{{title}}</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form [formGroup]="serviceItemsSetForm" (ngSubmit)="save()">
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <label for="name">Nazwa zestawu usług</label>
+                  <input [(ngModel)]="serviceItemsSet.name" formControlName="name" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="serviceItemsSetForm.controls.name.touched && !serviceItemsSetForm.controls.name.valid" class="alert alert-danger validation-messages">
+                    Nazwa zestawu usług jest wymagana.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button [disabled]="!serviceItemsSetForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
+          </form>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

@@ -94,9 +94,10 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             {
                 var serviceItemsSetToBeDeleted = serviceItemsSet.First();
 
-                var serviceItemsSetRelatedServiceItems = await _context.ServiceItems.Where(g => g.Id == serviceItemsSetToBeDeleted.Id).ToListAsync();
+                var serviceItemsSetRelatedSubscriptionServiceItems = await _context.SubscriptionServiceItems.Where(g => g.ServiceItemsSetId == serviceItemsSetToBeDeleted.Id).ToListAsync();
+                var serviceItemsSetRelatedOneTimeServiceItems = await _context.OneTimeServiceItems.Where(g => g.ServiceItemsSetId == serviceItemsSetToBeDeleted.Id).ToListAsync();
 
-                if (serviceItemsSetRelatedServiceItems.Any())
+                if (serviceItemsSetRelatedSubscriptionServiceItems.Any() || serviceItemsSetRelatedOneTimeServiceItems.Any())
                     return BadRequest("Zestaw usług zawiera powiązane usługi.");
 
                 _context.ServiceItemsSets.Remove(serviceItemsSetToBeDeleted);

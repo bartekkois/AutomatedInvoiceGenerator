@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
 import { Customer } from './customer';
-import { ServiceItemSet } from '../service-items-sets/service-items-set';
+import { ServiceItemsSet } from '../service-items-sets/service-items-set';
 import { OneTimeServiceItem } from '../one-time-service-items/one-time-service-item';
 import { SubscriptionServiceItem } from '../subscription-service-items/subscription-service-item';
 import { CustomersComponent } from './customers.component';

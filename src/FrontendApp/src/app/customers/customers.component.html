@@ -28,7 +28,12 @@
               <th class="customer-code-width"><strong>{{ customer.customerCode }}</strong></th>
               <th class="text-left" title="{{ customer.notes }}"><strong>{{ customer.name }}</strong> <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ customer.notes }}" *ngIf="customer.notes"></span></th>
               <th class="text-right">{{ customer.location }}</th>
-              <th colspan="6"></th>
+              <th colspan="5"></th>
+              <th class="text-center status-icon-width">
+                <a [routerLink]="['/customer', customer.id, 'serviceItemsSet']" title="Zarządzaj zestawami usług">
+                  <i class="glyphicon glyphicon-inbox text-warning"></i>
+                </a>
+              </th>
               <th class="text-center status-icon-width">
                 <a [routerLink]="['/customer', customer.id, 'subscriptionServiceItem', 'new']" title="Dodaj usługę abonamentową">
                   <i class="glyphicon glyphicon-plus text-primary"></i>
@@ -45,7 +50,7 @@
                 </a>
               </th>
               <th class="text-center text-danger status-icon-width">
-                <i (click)="deleteCustomer(customer)" class="glyphicon glyphicon-remove"></i>
+                <i (click)="deleteCustomer(customer)" class="glyphicon glyphicon-remove remove-icon"></i>
               </th>
             </tr>
           </thead>
@@ -78,7 +83,7 @@
                   </a>
                 </td>
                 <td class="text-center text-danger status-icon-width">
-                  <i (click)="deleteSubscriptionServiceItem(customer.id, serviceItemsSet.id, subscriptionServiceItem.id, subscriptionServiceItem)" class="glyphicon glyphicon-remove"></i>
+                  <i (click)="deleteSubscriptionServiceItem(customer.id, serviceItemsSet.id, subscriptionServiceItem.id, subscriptionServiceItem)" class="glyphicon glyphicon-remove remove-icon"></i>
                 </td>
             </tr>
 
@@ -107,7 +112,7 @@
                 </a>
               </td>
               <td class="text-center text-danger status-icon-width">
-                <i (click)="deleteOneTimeServiceItem(customer.id, serviceItemsSet.id, oneTimeServiceItem.id, oneTimeServiceItem)" class="glyphicon glyphicon-remove"></i>
+                <i (click)="deleteOneTimeServiceItem(customer.id, serviceItemsSet.id, oneTimeServiceItem.id, oneTimeServiceItem)" class="glyphicon glyphicon-remove remove-icon"></i>
               </td>
             </tr>
           </tbody>

@@ -1,0 +1,35 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading">{{title}}</div>
+  <div class="panel-body">
+    <p>
+        <a [routerLink]="['/customer', currentCustomerId, 'serviceItemsSet', 'new']" class="btn btn-primary">Dodaj zestaw usług</a>
+    </p>
+    
+    <!-- Loading spinner -->
+    <div *ngIf="isBusy" class="spinner"><div class="cube1"></div><div class="cube2"></div></div>
+    <div *ngIf="!isBusy">
+
+    <!-- Customer -->
+      <table class="table table-hover">
+
+        <!-- Service Items Sets -->
+        <tbody *ngFor="let serviceItemsSet of filteredServiceItemsSets">
+          <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td colspan="3">{{serviceItemsSet.name}}</td>
+              <td class="text-center status-icon-width">
+                <a [routerLink]="['/customer', serviceItemsSet.customerId, 'serviceItemsSet', serviceItemsSet.id]">
+                  <i class="glyphicon glyphicon-edit text-success"></i>
+                </a>
+              </td>
+              <td class="text-center text-danger status-icon-width">
+                <i (click)="deleteServiceItemsSet(serviceItemsSet.customerId, serviceItemsSet.id, serviceItemsSet)" class="glyphicon glyphicon-remove remove-icon"></i>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>

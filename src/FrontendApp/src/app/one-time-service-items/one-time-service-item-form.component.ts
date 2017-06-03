@@ -6,7 +6,7 @@ import 'rxjs/add/operator/debounceTime';
 
 import { OneTimeServiceItem } from './one-time-service-item';
 import { OneTimeServiceItemsService } from './one-time-service-items.service';
-import { ServiceItemSet } from '../service-items-sets/service-items-set';
+import { ServiceItemsSet } from '../service-items-sets/service-items-set';
 import { ServiceItemsSetsService } from '../service-items-sets/service-items-sets.service';
 import { Customer } from '../customers/customer';
 import { CustomersService } from '../customers/customers.service';
@@ -21,8 +21,8 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
     oneTimeServiceItem = new OneTimeServiceItem();
     oneTimeServiceItemForm: FormGroup;
     currentCustomer: Customer;
-    currentCustomerServiceItemsSet: ServiceItemSet;
-    currentCustomerServiceItemsSets = [ServiceItemSet];
+    currentCustomerServiceItemsSet: ServiceItemsSet;
+    currentCustomerServiceItemsSets = [ServiceItemsSet];
     oneTimeServiceTemplateTypeIsSet = false;
     title: string;
 
@@ -68,12 +68,11 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
                 var customerId = +params["customerId"];
                 var serviceItemsSetId = +params["serviceItemsSetId"];
 
-                this.title = oneTimeServiceItemId ? "Edytuj usługę jednorazową" : "Dodaj usługę jednorazową";
-
                 this._customersService.getCustomer(customerId)
                     .subscribe(
                     customer => {
                         this.currentCustomer = customer;
+                        this.title = oneTimeServiceItemId ? "Edytuj usługę jednorazową kontrahenta " + this.currentCustomer.name : "Dodaj usługę jednorazową " + this.currentCustomer.name;
                     },
                     response => {
                         if (response.status == 404) {

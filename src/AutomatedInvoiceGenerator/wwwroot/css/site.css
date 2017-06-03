@@ -96,6 +96,10 @@ textarea.wide {
 	font-size: large;
 }
 
+.remove-icon {
+	cursor: pointer;
+}
+
 .notes-indicator {
 	color: #008cba;
 }

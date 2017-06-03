@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
-import { ServiceItemSet } from './service-items-set';
-import { OneTimeServiceItem } from '../one-time-service-items/one-time-service-item';
-import { SubscriptionServiceItem } from '../subscription-service-items/subscription-service-item';
-import { ServiceItemsSetsService } from './service-items-sets.service';
+import { ServiceItemsSetsComponent } from './service-items-sets.component';
+import { ServiceItemsSetFormComponent } from './service-items-set-form.component';
+import { ServiceItemsSetsService } from '../service-items-sets/service-items-sets.service';
+import { CustomersService } from '../customers/customers.service';
 
 @NgModule({
     imports: [
@@ -18,15 +18,16 @@ import { ServiceItemsSetsService } from './service-items-sets.service';
         HttpModule
     ],
     declarations: [
-        //ServiceItemSetsComponent,
-        //ServiceItemSetFormComponent
+        ServiceItemsSetsComponent,
+        ServiceItemsSetFormComponent
     ],
     exports: [
-        //ServiceItemSetsComponent,
-        //ServiceItemSetFormComponent
+        ServiceItemsSetsComponent,
+        ServiceItemsSetFormComponent
     ],
     providers: [
-        ServiceItemsSetsService
+        ServiceItemsSetsService,
+        CustomersService
     ]
 })
 export class ServiceItemsSetsModule {
