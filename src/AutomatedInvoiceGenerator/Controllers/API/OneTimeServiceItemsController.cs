@@ -7,9 +7,11 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
+    [Authorize]
     [Route("api/OneTimeServiceItems")]
     public class OneTimeServiceItemsApiController : Controller
     {

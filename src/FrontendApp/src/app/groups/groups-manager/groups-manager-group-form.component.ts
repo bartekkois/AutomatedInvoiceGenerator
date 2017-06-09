@@ -46,8 +46,11 @@ export class GroupsManagerGroupFormComponent implements OnInit {
                 this._groupsService.getGroup(id)
                     .subscribe(
                     group => this.group = group,
-                    response => {
-                        if (response.status == 404) {
+                    error => {
+                        if (error.status === 401)
+                            this._routerService.navigate(['unauthorized']);
+
+                        if (error.status == 404) {
                             this._routerService.navigate(['groups-manager']);
                         }
                     });

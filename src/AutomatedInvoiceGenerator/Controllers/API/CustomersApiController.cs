@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
+    [Authorize]
     [Route("api")]
     public class CustomersApiController : Controller
     {

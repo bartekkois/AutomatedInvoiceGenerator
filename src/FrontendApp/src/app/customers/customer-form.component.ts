@@ -75,8 +75,11 @@ export class CustomerFormComponent implements OnInit {
                     customer => {
                         this.customer = customer;
                     }, 
-                    response => {
-                        if (response.status == 404) {
+                    error => {
+                        if (error.status === 401)
+                            this._routerService.navigate(['unauthorized']);
+
+                        if (error.status === 404) {
                             this._routerService.navigate(['customers']);
                         }
                     });

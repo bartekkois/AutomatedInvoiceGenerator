@@ -43,6 +43,9 @@ export class CustomersComponent implements OnInit {
                             this.filteredCustomers = customers
                         },
                         error => {
+                            if (error.status === 401)
+                                this._routerService.navigate(['unauthorized']);
+
                             this.customers = [];
                             this.filteredCustomers = [];
                         });
@@ -55,6 +58,9 @@ export class CustomersComponent implements OnInit {
                             this.filteredCustomers = customers
                         },
                         error => {
+                            if (error.status === 401)
+                                this._routerService.navigate(['unauthorized']);
+
                             this.customers = [];
                             this.filteredCustomers = [];
                         });
@@ -92,6 +98,9 @@ export class CustomersComponent implements OnInit {
                 success => {
                 },
                 error => {
+                    if (error.status === 401)
+                        this._routerService.navigate(['unauthorized']);
+
                     alert("Usunięcie kontrahenta nie powiodło się !!!");
                     this.customers.splice(index, 0, customer);
                 });
@@ -108,6 +117,9 @@ export class CustomersComponent implements OnInit {
                 success => {
                 },
                 error => {
+                    if (error.status === 401)
+                        this._routerService.navigate(['unauthorized']);
+
                     alert("Usunięcie usługi abonamnetowej " + subscriptionServiceItem.name + " - " +  subscriptionServiceItem.subName + " nie powiodło się !!!");
                     this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.splice(index, 0, subscriptionServiceItem);
                 });
@@ -124,6 +136,9 @@ export class CustomersComponent implements OnInit {
                 success => {
                 },
                 error => {
+                    if (error.status === 401)
+                        this._routerService.navigate(['unauthorized']);
+
                     alert("Usunięcie usługi jednorazowej " + oneTimeServiceItem.name + " - " + oneTimeServiceItem.subName + "nie powiodło się !!!");
                     this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.splice(index, 0, oneTimeServiceItem);
                 });

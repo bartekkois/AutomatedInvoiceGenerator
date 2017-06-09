@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { GroupsService } from '../groups.service';
 import { Group } from '../group';
 import { RefreshGroupsNavigationService } from '../../shared/refresh-groups-navigation.service';
@@ -13,7 +13,9 @@ import { RefreshGroupsNavigationService } from '../../shared/refresh-groups-navi
 export class GroupsManagerComponent implements OnInit {
     groups: [Group];
 
-    constructor(private _groupsService: GroupsService, private _refreshGroupsNavigationService: RefreshGroupsNavigationService) {
+    constructor(private _groupsService: GroupsService,
+                private _routerService: Router,
+                private _refreshGroupsNavigationService: RefreshGroupsNavigationService) {
     }
 
     ngOnInit() {
@@ -32,6 +34,9 @@ export class GroupsManagerComponent implements OnInit {
                     this._refreshGroupsNavigationService.sendRefreshEvent();
                 },
                 error => {
+                    if (error.status === 401)
+                        this._routerService.navigate(['unauthorized']);
+
                     alert("Usunięcie grupy nie powiodło się !!!");
                     this.groups.splice(index, 0, group);
                 });

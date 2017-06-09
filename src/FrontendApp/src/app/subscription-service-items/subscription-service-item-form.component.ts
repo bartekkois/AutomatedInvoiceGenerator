@@ -74,8 +74,11 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                         this.currentCustomer = customer;
                         this.title = subscriptionServiceItemId ? "Edytuj usługę abonamentową kontrahenta " + this.currentCustomer.name : "Dodaj usługę abonamentową " + this.currentCustomer.name;
                     },
-                    response => {
-                        if (response.status == 404) {
+                    error => {
+                        if (error.status === 401)
+                            this._routerService.navigate(['unauthorized']);
+
+                        if (error.status === 404) {
                             this._routerService.navigate(['customers']);
                         }
                     });
@@ -85,8 +88,11 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                     serviceItemsSets => {
                         this.currentCustomerServiceItemsSets = serviceItemsSets;
                     },
-                    response => {
-                        if (response.status == 404) {
+                    error => {
+                        if (error.status === 401)
+                            this._routerService.navigate(['unauthorized']);
+
+                        if (error.status === 404) {
                             this._routerService.navigate(['customers']);
                         }
                     });
@@ -103,8 +109,11 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                       subscriptionServiceItem => {
                           this.subscriptionServiceItem = subscriptionServiceItem;
                       },
-                      response => {
-                          if (response.status == 404) {
+                      error => {
+                          if (error.status === 401)
+                              this._routerService.navigate(['unauthorized']);
+
+                          if (error.status === 404) {
                               this._routerService.navigate(['customers']);
                           }
                       });

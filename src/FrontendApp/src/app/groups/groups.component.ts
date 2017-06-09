@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Group } from './group';
 import { GroupsService } from './groups.service';
@@ -13,7 +14,9 @@ import { RefreshGroupsNavigationService } from '../shared/refresh-groups-navigat
 export class GroupsComponent implements OnInit {
     groups: [Group];
 
-    constructor(private _groupsService: GroupsService, private _refreshGroupsNavigationService: RefreshGroupsNavigationService) { }
+    constructor(private _groupsService: GroupsService,
+                private _routerService: Router,
+                private _refreshGroupsNavigationService: RefreshGroupsNavigationService) { }
 
     ngOnInit() {
         this.renderGroupsNavigation();
@@ -22,6 +25,10 @@ export class GroupsComponent implements OnInit {
             .subscribe(
             success => {
                 this.renderGroupsNavigation();
+            },
+            error => {
+                if (error.status === 401)
+                    this._routerService.navigate(['unauthorized']);
             });
     }
 

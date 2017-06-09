@@ -7,9 +7,11 @@ using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
+    [Authorize]
     [Route("api/Groups")]
     public class GroupsApiController : Controller
     {

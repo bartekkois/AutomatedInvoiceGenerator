@@ -46,8 +46,11 @@ export class ServiceItemsSetFormComponent implements OnInit  {
                         this.currentCustomer = customer;
                         this.title = serviceItemsSetId ? "Edytuj zestaw usług kontrahenta " + this.currentCustomer.name : "Dodaj zestaw usług kontrahenta " + this.currentCustomer.name;
                     },
-                    response => {
-                        if (response.status == 404) {
+                    error => {
+                        if (error.status === 401)
+                            this._routerService.navigate(['unauthorized']);
+
+                        if (error.status === 404) {
                             this._routerService.navigate(['customers']);
                         }
                     });
@@ -66,10 +69,13 @@ export class ServiceItemsSetFormComponent implements OnInit  {
                     serviceItemsSet => {
                         this.serviceItemsSet = serviceItemsSet;
                   },
-                  response => {
-                      if (response.status == 404) {
-                          this._routerService.navigate(['customers']);
-                      }
+                  error => {
+                      if (error.status === 401)
+                          this._routerService.navigate(['unauthorized']);
+
+                      if (error.status === 404) {
+                        this._routerService.navigate(['customers']);
+                    }
                   });
             });
     }
