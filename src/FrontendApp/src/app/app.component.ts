@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, LOCALE_ID } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +11,14 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class AppComponent implements OnInit {
     isPathUnauthorized: boolean = false;
 
-    constructor(private _routerService: Router,
-        private _route: ActivatedRoute) {
-    }
+    constructor(private _routerService: Router) {  }
 
     ngOnInit() {
-        if (this._routerService.url === '/unauthorized')
-            this.isPathUnauthorized = true;
-        else
-            this.isPathUnauthorized = false;
+        this._routerService.events.subscribe(event => {
+            if (event.url === '/unauthorized')
+                this.isPathUnauthorized = true;
+            else
+                this.isPathUnauthorized = false;
+            });
     }
 }
