@@ -1,15 +1,22 @@
 ﻿<div class="panel panel-default panel-primary">
-  <div class="panel-heading">Kontrahenci</div>
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left" >Kontrahenci</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+  
   <div class="panel-body">
     <p>
       <a routerLink="/customer/new" class="btn btn-primary">Dodaj kontrahenta</a>
       <input #filterTermInput class="form-control pull-right" placeholder="Szukaj..." [(ngModel)]="filterTerm" (input)="filterCustomers(filterTermInput.value)">
       <i (click)="toggleShowArchived()" class="glyphicon glyphicon-folder-open big-icon pull-right" [style.color]="showArchived ? '#008cba' : '#c4e3f3' " [title]="showArchived ? 'Ukryj zarchiwizowanych' :'Pokaż zarchiwizowanych'"></i>
     </p>
-
-    <!-- Loading spinner -->
-    <div *ngIf="isBusy" class="spinner"><div class="cube1"></div><div class="cube2"></div></div>
-    <div *ngIf="!isBusy">
 
       <!-- Customers -->
       <template ngFor let-customer [ngForOf]="filteredCustomers">
@@ -120,4 +127,4 @@
       </template>
     </div>
 </div>
-</div>
+

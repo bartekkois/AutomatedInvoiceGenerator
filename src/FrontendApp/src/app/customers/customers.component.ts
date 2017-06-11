@@ -40,7 +40,8 @@ export class CustomersComponent implements OnInit {
                         .subscribe(
                         customers => {
                             this.customers = customers;
-                            this.filteredCustomers = customers
+                            this.filteredCustomers = customers;
+                            this.isBusy = false;
                         },
                         error => {
                             if (error.status === 401)
@@ -48,14 +49,17 @@ export class CustomersComponent implements OnInit {
 
                             this.customers = [];
                             this.filteredCustomers = [];
-                        });
+                            this.isBusy = false;
+                        }
+                    );
                 }
                 else {
                     this._customersService.getCustomers()
                         .subscribe(
                         customers => {
                             this.customers = customers;
-                            this.filteredCustomers = customers
+                            this.filteredCustomers = customers;
+                            this.isBusy = false;
                         },
                         error => {
                             if (error.status === 401)
@@ -63,11 +67,11 @@ export class CustomersComponent implements OnInit {
 
                             this.customers = [];
                             this.filteredCustomers = [];
-                        });
+                            this.isBusy = false;
+                        }                       
+                    );
                 }
             });
-
-        this.isBusy = false;
     }
 
     filterCustomers(filterTerm) {

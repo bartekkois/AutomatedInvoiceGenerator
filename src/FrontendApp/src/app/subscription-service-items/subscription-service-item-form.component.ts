@@ -24,7 +24,8 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
     currentCustomerServiceItemsSet: ServiceItemsSet;
     currentCustomerServiceItemsSets = [ServiceItemsSet];
     subscriptionServiceTemplateTypeIsSet = false;
-    title: string;
+    title: string = " ";
+    isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
                 private _subscriptionServiceItemsService: SubscriptionServiceItemsService,
@@ -62,6 +63,8 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+
         var id = this._route.params
             .subscribe(params => {
                 var subscriptionServiceItemId = +params["subscriptionServiceItemId"];
@@ -99,6 +102,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
 
                     // Add SubscriptionServiceItem
                     if (!subscriptionServiceItemId) {
+                        this.isBusy = false;
 
                         return;
                     }
@@ -108,14 +112,16 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                       .subscribe(
                       subscriptionServiceItem => {
                           this.subscriptionServiceItem = subscriptionServiceItem;
+                          this.isBusy = false;
                       },
                       error => {
                           if (error.status === 401)
                               this._routerService.navigate(['unauthorized']);
 
-                          if (error.status === 404) {
+                          if (error.status === 404) 
                               this._routerService.navigate(['customers']);
-                          }
+                          
+                          this.isBusy = false;
                       });
             });
 

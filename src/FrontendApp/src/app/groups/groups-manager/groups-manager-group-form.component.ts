@@ -16,6 +16,7 @@ export class GroupsManagerGroupFormComponent implements OnInit {
     group = new Group();
     groupForm: FormGroup;
     title: string;
+    isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
                 private _groupsService: GroupsService,
@@ -34,25 +35,34 @@ export class GroupsManagerGroupFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+
         this._route.params
             .subscribe(params => {
                 var id = +params["id"];
 
                 this.title = id ? "Edytuj grupę" : "Dodaj grupę";
 
-                if (!id)
+                if (!id) {
+                    this.isBusy = false;
+
                     return;
+                }
 
                 this._groupsService.getGroup(id)
                     .subscribe(
-                    group => this.group = group,
+                    group => {
+                        this.group = group;
+                        this.isBusy = false;
+                    },
                     error => {
                         if (error.status === 401)
                             this._routerService.navigate(['unauthorized']);
 
-                        if (error.status == 404) {
+                        if (error.status == 404) 
                             this._routerService.navigate(['groups-manager']);
-                        }
+                        
+                        this.isBusy = false;
                     });
             });
     }

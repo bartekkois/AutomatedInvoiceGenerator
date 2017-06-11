@@ -11,7 +11,8 @@ import { RefreshGroupsNavigationService } from '../../shared/refresh-groups-navi
   styleUrls: ['./groups-manager.component.css']
 })
 export class GroupsManagerComponent implements OnInit {
-    groups: [Group];
+    groups: Group[];
+    isBusy: boolean = false;
 
     constructor(private _groupsService: GroupsService,
                 private _routerService: Router,
@@ -19,8 +20,19 @@ export class GroupsManagerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+
         this._groupsService.getGroups()
-            .subscribe(groups => this.groups = groups);
+            .subscribe(
+            groups => {
+                this.groups = groups;
+                this.isBusy = false;
+            },
+            error => {
+                this.groups = [];
+                this.isBusy = false;
+            }
+        );
     }
 
     deleteGroup(group) {

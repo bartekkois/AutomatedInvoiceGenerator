@@ -18,7 +18,8 @@ export class ServiceItemsSetFormComponent implements OnInit  {
     serviceItemsSet = new ServiceItemsSet();
     serviceItemsSetForm: FormGroup;
     currentCustomer: Customer;
-    title: string;
+    title: string = " ";
+    isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
                 private _serviceItemsSetsService: ServiceItemsSetsService,
@@ -35,6 +36,8 @@ export class ServiceItemsSetFormComponent implements OnInit  {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+
         var id = this._route.params
             .subscribe(params => {
                 var customerId = +params["customerId"];
@@ -59,6 +62,7 @@ export class ServiceItemsSetFormComponent implements OnInit  {
                 if (!serviceItemsSetId) {
                     this.serviceItemsSet.customerId = customerId;
                     this.serviceItemsSet.name = "domyślny";
+                    this.isBusy = false;
 
                     return;
                 }
@@ -68,14 +72,16 @@ export class ServiceItemsSetFormComponent implements OnInit  {
                   .subscribe(
                     serviceItemsSet => {
                         this.serviceItemsSet = serviceItemsSet;
+                        this.isBusy = false;
                   },
                   error => {
                       if (error.status === 401)
                           this._routerService.navigate(['unauthorized']);
 
-                      if (error.status === 404) {
+                      if (error.status === 404) 
                         this._routerService.navigate(['customers']);
-                    }
+                      
+                      this.isBusy = false;
                   });
             });
     }

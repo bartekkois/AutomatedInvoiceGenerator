@@ -24,7 +24,8 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
     currentCustomerServiceItemsSet: ServiceItemsSet;
     currentCustomerServiceItemsSets = [ServiceItemsSet];
     oneTimeServiceTemplateTypeIsSet = false;
-    title: string;
+    title: string = " ";
+    isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
                 private _oneTimeServiceItemsService: OneTimeServiceItemsService,
@@ -62,6 +63,8 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+
         var id = this._route.params
             .subscribe(params => {
                 var oneTimeServiceItemId = +params["oneTimeServiceItemId"];
@@ -99,6 +102,8 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
 
                     // Add OneTimeServiceItem
                     if (!oneTimeServiceItemId) {
+                        this.isBusy = false;
+
                         return;
                     }
 
@@ -107,14 +112,16 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
                       .subscribe(
                       oneTimeServiceItem => {
                           this.oneTimeServiceItem = oneTimeServiceItem;
+                          this.isBusy = false;
                       },
                       error => {
                           if (error.status === 401)
                               this._routerService.navigate(['unauthorized']);
 
-                          if (error.status === 404) {
+                          if (error.status === 404) 
                               this._routerService.navigate(['customers']);
-                          }
+                          
+                          this.isBusy = false;
                       });
             });
 

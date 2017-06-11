@@ -17,7 +17,8 @@ export class CustomerFormComponent implements OnInit {
     customer = new Customer();
     customerForm: FormGroup;
     groups = [Group];
-    title: string;
+    title: string = " ";
+    isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
                 private _customersService: CustomersService,
@@ -48,6 +49,8 @@ export class CustomerFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isBusy = true;
+
         this._groupsService.getGroups()
             .subscribe(groups => this.groups = groups);
 
@@ -67,6 +70,7 @@ export class CustomerFormComponent implements OnInit {
                     this.customer.isSuspended = false;
                     this.customer.isArchived = false;
 
+                    this.isBusy = false;
                     return;
                 }
 
@@ -74,6 +78,7 @@ export class CustomerFormComponent implements OnInit {
                     .subscribe(
                     customer => {
                         this.customer = customer;
+                        this.isBusy = false;
                     }, 
                     error => {
                         if (error.status === 401)
@@ -82,6 +87,7 @@ export class CustomerFormComponent implements OnInit {
                         if (error.status === 404) {
                             this._routerService.navigate(['customers']);
                         }
+                        this.isBusy = false;
                     });
             });
     }

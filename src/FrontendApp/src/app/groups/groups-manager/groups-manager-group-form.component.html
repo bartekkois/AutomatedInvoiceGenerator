@@ -1,5 +1,15 @@
 ﻿<div class="panel panel-default panel-primary">
-  <div class="panel-heading">{{title}}</div>
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left">{{title}}</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
   <div class="panel-body">
     <div class="row">
       <div class="col-md-4"> </div>

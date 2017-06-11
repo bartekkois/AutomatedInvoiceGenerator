@@ -54,14 +54,15 @@ export class ServiceItemsSetsComponent implements OnInit {
                     serviceItemsSets => {
                         this.serviceItemsSets = serviceItemsSets;
                         this.filteredServiceItemsSets = serviceItemsSets;
+                        this.isBusy = false;
                     },
                     error => {
                         this.serviceItemsSets = [];
                         this.filteredServiceItemsSets = [];
-                    });
+                        this.isBusy = false;
+                    }
+                );
             });
-
-        this.isBusy = false;
     }
 
     toggleShowArchived() {

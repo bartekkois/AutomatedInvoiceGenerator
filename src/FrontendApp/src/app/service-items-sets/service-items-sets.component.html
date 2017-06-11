@@ -1,13 +1,20 @@
 ﻿<div class="panel panel-default panel-primary">
-  <div class="panel-heading">{{title}}</div>
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left">{{title}}</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="panel-body">
     <p>
         <a [routerLink]="['/customer', currentCustomerId, 'serviceItemsSet', 'new']" class="btn btn-primary">Dodaj zestaw usług</a>
     </p>
-    
-    <!-- Loading spinner -->
-    <div *ngIf="isBusy" class="spinner"><div class="cube1"></div><div class="cube2"></div></div>
-    <div *ngIf="!isBusy">
 
     <!-- Customer -->
       <table class="table table-hover">
@@ -31,5 +38,4 @@
         </tbody>
       </table>
     </div>
-</div>
 </div>
