@@ -75,7 +75,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
                     .subscribe(
                     customer => {
                         this.currentCustomer = customer;
-                        this.title = oneTimeServiceItemId ? "Edytuj usługę jednorazową kontrahenta " + this.currentCustomer.name : "Dodaj usługę jednorazową " + this.currentCustomer.name;
+                        this.title = oneTimeServiceItemId ? "Edytuj usługę jednorazową kontrahenta " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name : "Dodaj usługę jednorazową " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name;
                     },
                     error => {
                         if (error.status === 401)

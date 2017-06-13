@@ -75,7 +75,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                     .subscribe(
                     customer => {
                         this.currentCustomer = customer;
-                        this.title = subscriptionServiceItemId ? "Edytuj usługę abonamentową kontrahenta " + this.currentCustomer.name : "Dodaj usługę abonamentową " + this.currentCustomer.name;
+                        this.title = subscriptionServiceItemId ? "Edytuj usługę abonamentową kontrahenta " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name : "Dodaj usługę abonamentową " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name;
                     },
                     error => {
                         if (error.status === 401)

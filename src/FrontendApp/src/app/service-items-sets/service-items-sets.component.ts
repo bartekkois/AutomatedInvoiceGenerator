@@ -38,7 +38,7 @@ export class ServiceItemsSetsComponent implements OnInit {
                     .subscribe(
                     customer => {
                         this.currentCustomer = customer;
-                        this.title = "Zestawy usług kontrahenta " + this.currentCustomer.name;
+                        this.title = "Zestawy usług kontrahenta " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name;
                     },
                     error => {
                         if (error.status === 401)

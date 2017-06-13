@@ -47,7 +47,7 @@ export class ServiceItemsSetFormComponent implements OnInit  {
                     .subscribe(
                     customer => {
                         this.currentCustomer = customer;
-                        this.title = serviceItemsSetId ? "Edytuj zestaw usług kontrahenta " + this.currentCustomer.name : "Dodaj zestaw usług kontrahenta " + this.currentCustomer.name;
+                        this.title = serviceItemsSetId ? "Edytuj zestaw usług kontrahenta " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name : "Dodaj zestaw usług kontrahenta " + this.currentCustomer.customerCode + " - " + this.currentCustomer.name;
                     },
                     error => {
                         if (error.status === 401)
