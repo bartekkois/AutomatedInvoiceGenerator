@@ -11,6 +11,8 @@ namespace AutomatedInvoiceGenerator.DTO
         [Required(ErrorMessage = "Kod kontrahenta jest wymagany i musi być unikalny")]
         public string CustomerCode { get; set; }
 
+        public string ShippingCustomerCode { get; set; }
+
         [Required(ErrorMessage = "Nazwa kontrahenta jest wymagana")]
         public string Name { get; set; }
 

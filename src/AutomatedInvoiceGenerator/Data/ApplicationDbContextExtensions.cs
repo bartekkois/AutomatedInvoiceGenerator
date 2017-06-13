@@ -53,6 +53,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new Customer
                     {
                         CustomerCode = "CCR001",
+                        ShippingCustomerCode = "",
                         GroupId = context.Groups.Where(g => g.Name == "CCR").ToList().First().Id,
                         Name = "LDD S. A.",
                         BrandName = "Say Say",
@@ -70,6 +71,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new Customer
                     {
                         CustomerCode = "CCR106",
+                        ShippingCustomerCode = "",
                         GroupId = context.Groups.Where(g => g.Name == "CCR").ToList().First().Id,
                         Name = "Kadidi Sp. z o.o.",
                         BrandName = "Kadidi",
@@ -86,6 +88,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new Customer
                     {
                         CustomerCode = "MPJ156",
+                        ShippingCustomerCode = "",
                         GroupId = context.Groups.Where(g => g.Name == "MPJ").ToList().First().Id,
                         Name = "Max-Vario Paweł Nowak",
                         BrandName = "Max-Vario",
@@ -102,6 +105,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new Customer
                     {
                         CustomerCode = "MPJ157",
+                        ShippingCustomerCode = "",
                         GroupId = context.Groups.Where(g => g.Name == "MPJ").ToList().First().Id,
                         Name = "CDM Andrzej Jawo",
                         BrandName = "CDM",
@@ -118,6 +122,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new Customer
                     {
                         CustomerCode = "MPR108",
+                        ShippingCustomerCode = "",
                         GroupId = context.Groups.Where(g => g.Name == "MPR").ToList().First().Id,
                         Name = "DownRest Sp. z o.o.",
                         BrandName = "DownRest",
@@ -134,6 +139,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     new Customer
                     {
                         CustomerCode = "WRZ223",
+                        ShippingCustomerCode = "",
                         GroupId = context.Groups.Where(g => g.Name == "WRZ").ToList().First().Id,
                         Name = "Aleksander Nowak",
                         Location = "War 800, 38-200 Jasło",

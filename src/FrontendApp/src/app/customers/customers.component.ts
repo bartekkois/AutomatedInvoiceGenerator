@@ -78,9 +78,10 @@ export class CustomersComponent implements OnInit {
         if (filterTerm) {
             var filterTermLowerCase = filterTerm.toLowerCase();
             this.filteredCustomers = this.customers.filter(item =>
-                   (item.customerCode.toLowerCase().indexOf(filterTermLowerCase) > -1)
-                || (item.name.toLowerCase().indexOf(filterTermLowerCase) > -1)
-                || (item.location.toLowerCase().indexOf(filterTermLowerCase) > -1));
+                    (item.customerCode.replace(/null/i, "\"\"").toLowerCase().indexOf(filterTermLowerCase) > -1)
+                || ((item.shippingCustomerCode).replace(/null/i, "\"\"").toLowerCase().indexOf(filterTermLowerCase) > -1)
+                || (item.name.toLowerCase().replace(/null/i, "\"\"").indexOf(filterTermLowerCase) > -1)
+                || (item.location.replace(/null/i, "\"\"").toLowerCase().indexOf(filterTermLowerCase) > -1));
         }
         else {
             this.filteredCustomers = this.customers;

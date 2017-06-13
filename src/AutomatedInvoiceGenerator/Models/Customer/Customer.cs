@@ -7,9 +7,12 @@ namespace AutomatedInvoiceGenerator.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Kod:")]
+        [Display(Name = "Kod nabywcy:")]
         [Required(ErrorMessage = "Kod kontrahenta jest wymagany i musi być unikalny")]
         public string CustomerCode { get; set; }
+
+        [Display(Name = "Kod odbiorcy:")]
+        public string ShippingCustomerCode { get; set; }
 
         [Display(Name = "Nazwa:")]
         [Required(ErrorMessage = "Nazwa kontrahenta jest wymagana")]

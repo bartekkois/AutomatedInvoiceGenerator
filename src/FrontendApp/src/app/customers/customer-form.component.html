@@ -27,13 +27,19 @@
                   </div>
                 </div>
               </div>
-              <div class="col-xs-6">
+              <div class="col-xs-3">
                 <div class="form-group">
-                  <label for="customerCode">Kod kontrahenta</label>
+                  <label for="customerCode">Kod kontrahenta (nabywcy)</label>
                   <input [(ngModel)]="customer.customerCode" formControlName="customerCode" type="text" class="form-control wide inupt-bold">
                   <div *ngIf="customerForm.controls.customerCode.touched && !customerForm.controls.customerCode.valid" class="alert alert-danger validation-messages">
-                    Kod kontrahenta jest wymagany.
+                    Kod kontrahenta (nabywcy) jest wymagany.
                   </div>
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="shippingCustomerCode">Kod kontrahenta (odbiorcy)</label>
+                  <input [(ngModel)]="customer.shippingCustomerCode" formControlName="shippingCustomerCode" type="text" class="form-control wide inupt-bold">
                 </div>
               </div>
             </div>

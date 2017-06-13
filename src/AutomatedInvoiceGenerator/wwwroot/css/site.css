@@ -104,6 +104,10 @@ textarea.wide {
 	color: #008cba;
 }
 
+.warning-indicator {
+	color: #e99002;
+}
+
 .service-item-set-rows-marker > tbody:nth-of-type(even) {
 	background-color: #fafafa;
 }

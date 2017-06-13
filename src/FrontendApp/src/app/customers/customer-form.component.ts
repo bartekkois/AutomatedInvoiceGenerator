@@ -31,6 +31,7 @@ export class CustomerFormComponent implements OnInit {
     createForm() {
         this.customerForm = this._fb.group({
             customerCode: ['', Validators.required],
+            shippingCustomerCode: [],
             name: ['', Validators.required],
             brandName: [],
             location: [],

@@ -104,6 +104,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
             Customer updatedCustomer = customers.First();
             updatedCustomer.CustomerCode = updatedCustomerDto.CustomerCode;
+            updatedCustomer.ShippingCustomerCode = updatedCustomerDto.ShippingCustomerCode;
             updatedCustomer.Name = updatedCustomerDto.Name;
             updatedCustomer.BrandName = updatedCustomerDto.BrandName;
             updatedCustomer.Location = updatedCustomerDto.Location;
