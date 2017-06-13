@@ -1,4 +1,4 @@
-# AutomatedInvoiceGenerator
+# Automated Invoice Generator
 Automated invoicing system for ISP
 
 ![Automated Invoice Generator home page](https://raw.githubusercontent.com/bartekkois/AutomatedInvoiceGenerator/master/screenshot.png)
