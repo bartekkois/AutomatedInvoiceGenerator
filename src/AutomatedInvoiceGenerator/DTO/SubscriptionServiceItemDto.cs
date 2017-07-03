@@ -16,8 +16,21 @@ namespace AutomatedInvoiceGenerator.DTO
         [Required(ErrorMessage = "Nazwa usługi jest wymagana")]
         public string Name { get; set; }
 
-        [Display(Name = "Szczegóły usługi:")]
         public string SubName { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                string currentItemDetails = "";
+                if (IsSubNamePrinted == true)
+                    currentItemDetails = SubName;
+                else
+                    currentItemDetails = "";
+
+                return Name.Replace("%DETALE%", currentItemDetails).Replace("%OKRES%", DateTime.Now.ToString("MM/yyyy"));
+            }
+        }
 
         [Required]
         public bool IsSubNamePrinted { get; set; }

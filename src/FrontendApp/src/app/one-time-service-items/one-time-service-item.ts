@@ -4,6 +4,7 @@
     remoteSystemServiceCode: string;
     name: string;
     subName: string;
+    fullName: string;
     isSubNamePrinted: boolean;
     specificLocation: string;
     serviceItemCustomerSpecificTag: string;

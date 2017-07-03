@@ -9,9 +9,10 @@ using AutomatedInvoiceGenerator.Models;
 namespace AutomatedInvoiceGenerator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170619171019_Added properties to the Invoice model")]
+    partial class AddedpropertiestotheInvoicemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -220,17 +221,13 @@ namespace AutomatedInvoiceGenerator.Migrations
 
                     b.Property<int>("InvoiceId");
 
-                    b.Property<DateTime?>("InvoicePeriodEndTime")
-                        .IsRequired();
+                    b.Property<DateTime>("InvoicePeriodEndTime");
 
-                    b.Property<DateTime?>("InvoicePeriodStartTime")
-                        .IsRequired();
+                    b.Property<DateTime>("InvoicePeriodStartTime");
 
                     b.Property<decimal>("NetUnitPrice");
 
                     b.Property<decimal>("NetValueAdded");
-
-                    b.Property<int?>("OneTimeServiceItemId");
 
                     b.Property<decimal>("Quantity");
 
@@ -242,8 +239,6 @@ namespace AutomatedInvoiceGenerator.Migrations
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<int?>("ServiceItemId");
-
-                    b.Property<int?>("SubscriptionServiceItemId");
 
                     b.Property<string>("Units")
                         .IsRequired();
@@ -258,11 +253,7 @@ namespace AutomatedInvoiceGenerator.Migrations
 
                     b.HasIndex("InvoiceId");
 
-                    b.HasIndex("OneTimeServiceItemId");
-
                     b.HasIndex("ServiceItemId");
-
-                    b.HasIndex("SubscriptionServiceItemId");
 
                     b.ToTable("InvoicesItems");
                 });
@@ -474,9 +465,13 @@ namespace AutomatedInvoiceGenerator.Migrations
                     b.Property<DateTime?>("InstallationDate")
                         .IsRequired();
 
+                    b.Property<int?>("InvoiceItemsId");
+
                     b.Property<bool>("IsInvoiced");
 
                     b.Property<int>("ServiceItemsSetId");
+
+                    b.HasIndex("InvoiceItemsId");
 
                     b.HasIndex("ServiceItemsSetId");
 
@@ -491,10 +486,14 @@ namespace AutomatedInvoiceGenerator.Migrations
 
                     b.Property<DateTime?>("EndDate");
 
+                    b.Property<int?>("InvoiceItemsId");
+
                     b.Property<int>("ServiceItemsSetId");
 
                     b.Property<DateTime?>("StartDate")
                         .IsRequired();
+
+                    b.HasIndex("InvoiceItemsId");
 
                     b.HasIndex("ServiceItemsSetId");
 
@@ -530,17 +529,9 @@ namespace AutomatedInvoiceGenerator.Migrations
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("AutomatedInvoiceGenerator.Models.OneTimeServiceItem")
-                        .WithMany("InvoiceItems")
-                        .HasForeignKey("OneTimeServiceItemId");
-
                     b.HasOne("AutomatedInvoiceGenerator.Models.ServiceItem", "ServiceItem")
                         .WithMany()
                         .HasForeignKey("ServiceItemId");
-
-                    b.HasOne("AutomatedInvoiceGenerator.Models.SubscriptionServiceItem")
-                        .WithMany("InvoiceItems")
-                        .HasForeignKey("SubscriptionServiceItemId");
                 });
 
             modelBuilder.Entity("AutomatedInvoiceGenerator.Models.ServiceItemsSet", b =>
@@ -590,6 +581,10 @@ namespace AutomatedInvoiceGenerator.Migrations
 
             modelBuilder.Entity("AutomatedInvoiceGenerator.Models.OneTimeServiceItem", b =>
                 {
+                    b.HasOne("AutomatedInvoiceGenerator.Models.InvoiceItem", "InvoiceItems")
+                        .WithMany()
+                        .HasForeignKey("InvoiceItemsId");
+
                     b.HasOne("AutomatedInvoiceGenerator.Models.ServiceItemsSet", "ServiceItemsSet")
                         .WithMany("OneTimeServiceItems")
                         .HasForeignKey("ServiceItemsSetId")
@@ -598,6 +593,10 @@ namespace AutomatedInvoiceGenerator.Migrations
 
             modelBuilder.Entity("AutomatedInvoiceGenerator.Models.SubscriptionServiceItem", b =>
                 {
+                    b.HasOne("AutomatedInvoiceGenerator.Models.InvoiceItem", "InvoiceItems")
+                        .WithMany()
+                        .HasForeignKey("InvoiceItemsId");
+
                     b.HasOne("AutomatedInvoiceGenerator.Models.ServiceItemsSet", "ServiceItemsSet")
                         .WithMany("SubscriptionServiceItems")
                         .HasForeignKey("ServiceItemsSetId")

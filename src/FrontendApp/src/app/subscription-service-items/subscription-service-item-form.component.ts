@@ -180,7 +180,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "0":
                 subscriptionServiceItemTemplate.serviceCategoryType = 0;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1200";
-                subscriptionServiceItemTemplate.name = "Internet";
+                subscriptionServiceItemTemplate.name = "Internet %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "fiberPORT 100/20 Mb/s";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -192,7 +192,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "1":
                 subscriptionServiceItemTemplate.serviceCategoryType = 5;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1209";
-                subscriptionServiceItemTemplate.name = "Dzierżawa modemu z funkcją routera Wi-Fi";
+                subscriptionServiceItemTemplate.name = "Dzierżawa modemu z funkcją routera Wi-Fi %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -204,7 +204,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "2":
                 subscriptionServiceItemTemplate.serviceCategoryType = 5;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1209";
-                subscriptionServiceItemTemplate.name = "Dzierżawa modemu z funkcją routera Wi-Fi";
+                subscriptionServiceItemTemplate.name = "Dzierżawa modemu z funkcją routera Wi-Fi %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -216,7 +216,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "3":
                 subscriptionServiceItemTemplate.serviceCategoryType = 0;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1275";
-                subscriptionServiceItemTemplate.name = "Opłata za dodatkowy stały publiczny adres IP";
+                subscriptionServiceItemTemplate.name = "Opłata za dodatkowy stały publiczny adres IP %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -228,7 +228,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "4":
                 subscriptionServiceItemTemplate.serviceCategoryType = 1;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1210";
-                subscriptionServiceItemTemplate.name = "Telefon";
+                subscriptionServiceItemTemplate.name = "Telefon %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -240,7 +240,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "5":
                 subscriptionServiceItemTemplate.serviceCategoryType = 1;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1210";
-                subscriptionServiceItemTemplate.name = "Telefon";
+                subscriptionServiceItemTemplate.name = "Telefon %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -252,7 +252,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "6":
                 subscriptionServiceItemTemplate.serviceCategoryType = 1;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1211";
-                subscriptionServiceItemTemplate.name = "Telefon - połączenia telefoniczne";
+                subscriptionServiceItemTemplate.name = "Telefon %DETALE% - połączenia telefoniczne %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = true;
@@ -264,7 +264,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "7":
                 subscriptionServiceItemTemplate.serviceCategoryType = 2;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1230";
-                subscriptionServiceItemTemplate.name = "Dzierżawa pary miedzianej";
+                subscriptionServiceItemTemplate.name = "Dzierżawa pary miedzianej %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -276,7 +276,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "8":
                 subscriptionServiceItemTemplate.serviceCategoryType = 2;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "1263";
-                subscriptionServiceItemTemplate.name = "Dzierżawa ciemnych włókien światłowodowych";
+                subscriptionServiceItemTemplate.name = "Dzierżawa ciemnych włókien światłowodowych %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -288,7 +288,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "9":
                 subscriptionServiceItemTemplate.serviceCategoryType = 3;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "";
-                subscriptionServiceItemTemplate.name = "Transmisja danych";
+                subscriptionServiceItemTemplate.name = "Transmisja danych %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -300,7 +300,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "10":
                 subscriptionServiceItemTemplate.serviceCategoryType = 4;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "";
-                subscriptionServiceItemTemplate.name = "Telewizja";
+                subscriptionServiceItemTemplate.name = "Telewizja %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -324,7 +324,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             case "12":
                 subscriptionServiceItemTemplate.serviceCategoryType = 5;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "";
-                subscriptionServiceItemTemplate.name = "Inny";
+                subscriptionServiceItemTemplate.name = "Inny %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;
@@ -336,7 +336,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
             default:
                 subscriptionServiceItemTemplate.serviceCategoryType = 5;
                 subscriptionServiceItemTemplate.remoteSystemServiceCode = "";
-                subscriptionServiceItemTemplate.name = "Inny";
+                subscriptionServiceItemTemplate.name = "Inny %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
                 subscriptionServiceItemTemplate.isValueVariable = false;

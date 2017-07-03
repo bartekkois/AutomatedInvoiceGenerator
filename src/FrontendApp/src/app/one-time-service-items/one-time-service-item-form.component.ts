@@ -180,7 +180,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "0":
                 oneTimeServiceItemTemplate.serviceCategoryType = 0;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1201";
-                oneTimeServiceItemTemplate.name = "Internet - instalacja";
+                oneTimeServiceItemTemplate.name = "Internet %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -192,7 +192,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "1":
                 oneTimeServiceItemTemplate.serviceCategoryType = 5;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1211";
-                oneTimeServiceItemTemplate.name = "Telefon - instalacja (firma)";
+                oneTimeServiceItemTemplate.name = "Telefon %DETALE% - instalacja (firma)";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -204,7 +204,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "2":
                 oneTimeServiceItemTemplate.serviceCategoryType = 5;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1211";
-                oneTimeServiceItemTemplate.name = "Telefon -instalacja (prywatny)";
+                oneTimeServiceItemTemplate.name = "Telefon %DETALE% - instalacja (prywatny)";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -216,7 +216,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "3":
                 oneTimeServiceItemTemplate.serviceCategoryType = 0;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1275";
-                oneTimeServiceItemTemplate.name = "Dzierżawa pary miedzianej - instalacja";
+                oneTimeServiceItemTemplate.name = "Dzierżawa pary miedzianej %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -228,7 +228,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "4":
                 oneTimeServiceItemTemplate.serviceCategoryType = 1;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1210";
-                oneTimeServiceItemTemplate.name = "Dzierżawa ciemnych włókien światłowodowych - instalacja";
+                oneTimeServiceItemTemplate.name = "Dzierżawa ciemnych włókien światłowodowych %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -240,7 +240,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "5":
                 oneTimeServiceItemTemplate.serviceCategoryType = 1;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1210";
-                oneTimeServiceItemTemplate.name = "Transmisja danych - instalacja";
+                oneTimeServiceItemTemplate.name = "Transmisja danych %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -252,7 +252,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "6":
                 oneTimeServiceItemTemplate.serviceCategoryType = 1;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "1211";
-                oneTimeServiceItemTemplate.name = "Telewizja - instalacja";
+                oneTimeServiceItemTemplate.name = "Telewizja %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = true;
@@ -264,7 +264,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             case "7":
                 oneTimeServiceItemTemplate.serviceCategoryType = 5;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "";
-                oneTimeServiceItemTemplate.name = "Inny";
+                oneTimeServiceItemTemplate.name = "Inny %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;
@@ -276,7 +276,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
             default:
                 oneTimeServiceItemTemplate.serviceCategoryType = 5;
                 oneTimeServiceItemTemplate.remoteSystemServiceCode = "";
-                oneTimeServiceItemTemplate.name = "Inny";
+                oneTimeServiceItemTemplate.name = "Inny %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
                 oneTimeServiceItemTemplate.isValueVariable = false;

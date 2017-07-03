@@ -124,6 +124,7 @@ namespace AutomatedInvoiceGenerator
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddFile("Logs/{Date}.txt");
 
             if (env.IsDevelopment())
             {

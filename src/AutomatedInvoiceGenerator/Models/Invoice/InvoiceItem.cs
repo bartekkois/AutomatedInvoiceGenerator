@@ -41,11 +41,11 @@ namespace AutomatedInvoiceGenerator.Models
 
         [Display(Name = "Początek okresu fakturowania:")]
         [Required]
-        public DateTime InvoicePeriodStartTime { get; set; }
+        public DateTime? InvoicePeriodStartTime { get; set; }
 
         [Display(Name = "Koniec okresu fakturowania:")]
         [Required]
-        public DateTime InvoicePeriodEndTime { get; set; }
+        public DateTime? InvoicePeriodEndTime { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

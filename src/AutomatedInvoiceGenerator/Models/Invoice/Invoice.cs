@@ -20,9 +20,22 @@ namespace AutomatedInvoiceGenerator.Models
         [Required]
         public bool IsExported { get; set; }
 
+        [Display(Name = "Wysyłka faktur:")]
+        [EnumDataType(typeof(InvoiceDeliveryType))]
+        [Required]
+        public InvoiceDeliveryType InvoiceDelivery { get; set; }
+
         [Display(Name = "Faktura liczona od:")]
         [Required]
         public PriceCalculationType PriceCalculation { get; set; }
+
+        [Display(Name = "Typ płatności:")]
+        [EnumDataType(typeof(PaymentMethodType))]
+        [Required]
+        public PaymentMethodType PaymentMethod { get; set; }
+
+        [Display(Name = "Termin płatności (dni):")]
+        public int PaymentPeriod { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

@@ -210,7 +210,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Internet,
                         RemoteSystemServiceCode = "1200",
-                        Name = "Internet - abonament",
+                        Name = "Internet %DETALE% - abonament %OKRES%",
                         SubName = "fiberPORT 50/25 Mb/s",
                         IsSubNamePrinted = false,
                         SpecificLocation = "al. Piłsudskiego 190, 35-001 Rzeszów",
@@ -230,7 +230,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1210",
-                        Name = "Telefon - abonament",
+                        Name = "Telefon %DETALE% - abonament %OKRES%",
                         SubName = "179991085",
                         IsSubNamePrinted = false,
                         SpecificLocation = "al. Piłsudskiego 190, 35-001 Rzeszów",
@@ -250,7 +250,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1211",
-                        Name = "Telefon - rozmowy telefoniczne",
+                        Name = "Telefon %DETALE% - połączenia telefoniczne %OKRES%",
                         SubName = "179991085",
                         IsSubNamePrinted = false,
                         SpecificLocation = "al. Piłsudskiego 190, 35-001 Rzeszów",
@@ -267,7 +267,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Internet,
                         RemoteSystemServiceCode = "1200",
-                        Name = "Internet - abonament",
+                        Name = "Internet %DETALE% - abonament %OKRES%",
                         SubName = "fiberPORT 50/25 Mb/s",
                         IsSubNamePrinted = false,
                         SpecificLocation = "al. Piłsudskiego 190, 35-001 Rzeszów",
@@ -287,7 +287,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1210",
-                        Name = "Telefon - abonament",
+                        Name = "Telefon %DETALE% - abonament %OKRES%",
                         SubName = "179991129",
                         IsSubNamePrinted = false,
                         SpecificLocation = "al. Piłsudskiego 190, 35-001 Rzeszów",
@@ -307,7 +307,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1211",
-                        Name = "Telefon - rozmowy telefoniczne",
+                        Name = "Telefon %DETALE% - połączenia telefoniczne %OKRES%",
                         SubName = "179991129",
                         IsSubNamePrinted = false,
                         SpecificLocation = "al. Piłsudskiego 190, 35-001 Rzeszów",
@@ -324,7 +324,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Internet,
                         RemoteSystemServiceCode = "1200",
-                        Name = "Internet - abonament",
+                        Name = "Internet %DETALE% - abonament %OKRES%",
                         SubName = "fiberPORT 50/25 Mb/s",
                         IsSubNamePrinted = false,
                         SpecificLocation = "ul. Kwiatowa 1120, 38-200 Jasło",
@@ -344,7 +344,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Internet,
                         RemoteSystemServiceCode = "1200",
-                        Name = "Internet - abonament",
+                        Name = "Internet %DETALE% - abonament %OKRES%",
                         SubName = "fiberPORT 50/25 Mb/s",
                         IsSubNamePrinted = false,
                         SpecificLocation = "ul. Towarowa 331, 38-200 Jasło",
@@ -364,7 +364,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Internet,
                         RemoteSystemServiceCode = "1200",
-                        Name = "Internet - abonament",
+                        Name = "Internet %DETALE% - abonament %OKRES%",
                         SubName = "fiberPORT 100/100 Mb/s",
                         IsSubNamePrinted = false,
                         SpecificLocation = "ul. Plac Wolności 333, 35-035 Rzeszów",
@@ -384,7 +384,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1210",
-                        Name = "Telefon - abonament",
+                        Name = "Telefon %DETALE% - abonament %OKRES%",
                         SubName = "179991421",
                         IsSubNamePrinted = false,
                         SpecificLocation = "ul. Plac Wolności 333, 35-035 Rzeszów",
@@ -404,7 +404,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1211",
-                        Name = "Telefon - rozmowy telefoniczne",
+                        Name = "Telefon %DETALE% - połączenia telefoniczne %OKRES%",
                         SubName = "179991421",
                         IsSubNamePrinted = false,
                         SpecificLocation = "ul. Plac Wolności 333, 35-035 Rzeszów",
@@ -421,7 +421,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1275",
-                        Name = "Opłata za dodatkowy publiczny adres IP",
+                        Name = "Opłata za dodatkowy publiczny adres IP %DETALE% - abonament %OKRES%",
                         IsSubNamePrinted = false,
                         SpecificLocation = "ul. Plac Wolności 333, 35-035 Rzeszów",
                         IsValueVariable = false,
@@ -440,7 +440,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Internet,
                         RemoteSystemServiceCode = "1200",
-                        Name = "Internet - abonament",
+                        Name = "Internet %DETALE% - abonament %OKRES%",
                         SubName = "fiberPORT 150/5 Mb/s",
                         IsSubNamePrinted = true,
                         SpecificLocation = "War 800, 38-200 Jasło",
@@ -460,7 +460,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                     {
                         ServiceCategoryType = ServiceCategoryType.Phone,
                         RemoteSystemServiceCode = "1208",
-                        Name = "Dzierżawa modemu z funckją routera Wi-Fi",
+                        Name = "Dzierżawa modemu z funckją routera Wi-Fi %DETALE% - abonament %OKRES%",
                         IsSubNamePrinted = false,
                         SpecificLocation = "War 800, 38-200 Jasło",
                         IsValueVariable = false,
