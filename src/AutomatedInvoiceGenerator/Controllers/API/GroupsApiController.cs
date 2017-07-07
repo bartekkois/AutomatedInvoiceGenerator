@@ -8,6 +8,7 @@ using AutomatedInvoiceGenerator.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -26,14 +27,24 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return base.Json(Mapper.Map<IEnumerable<GroupDto>>(await _context.Groups.Where(g => g.IsArchived == false).OrderBy(o => o.Name).ToListAsync()));
+            var groups = await _context.Groups.Where(g => g.IsArchived == false).OrderBy(o => o.Name).ToListAsync();
+
+            if (!groups.Any())
+                return NotFound();
+
+            return base.Json(Mapper.Map<IEnumerable<GroupDto>>(groups));
         }
 
         // GET api/Groups/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return base.Json(Mapper.Map<GroupDto>((await _context.Groups.Where(g => g.Id == id && g.IsArchived == false).ToListAsync()).First())); 
+            var groups = await _context.Groups.Where(g => g.Id == id && g.IsArchived == false).ToListAsync();
+
+            if (!groups.Any())
+                return NotFound();
+
+            return base.Json(Mapper.Map<GroupDto>(groups.First())); 
         }
 
         // POST api/Groups
@@ -51,8 +62,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             var newGroup = Mapper.Map<Group>(newGroupDto);
             newGroup.IsArchived = false;
 
-            _context.Groups.Add(newGroup);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Groups.Add(newGroup);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception exception)
+            {
+                return BadRequest(exception);
+            }
 
             return CreatedAtRoute("", new { id = newGroup.Id }, Mapper.Map<GroupDto>(newGroup));
         }
@@ -71,12 +89,17 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
             var updatedGroup = groups.First();
 
-            updatedGroup.Name = updatedGroupDto.Name;
-            updatedGroup.Description = updatedGroupDto.Description;
-            updatedGroup.Colour = updatedGroupDto.Colour;
+            Mapper.Map(updatedGroupDto, updatedGroup);
 
-            _context.Groups.Update(updatedGroup);
-            await _context.SaveChangesAsync();
+            try
+            { 
+                _context.Groups.Update(updatedGroup);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception);
+            }
 
             return new NoContentResult();
         }
@@ -97,8 +120,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
                 groupToBeDeleted.IsArchived = true;
 
-                _context.Groups.Update(groupToBeDeleted);
-                await _context.SaveChangesAsync();
+                try
+                { 
+                    _context.Groups.Update(groupToBeDeleted);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception exception)
+                {
+                    return BadRequest(exception);
+                }
 
                 return new NoContentResult();
             }
