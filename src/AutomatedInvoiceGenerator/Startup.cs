@@ -169,6 +169,8 @@ namespace AutomatedInvoiceGenerator
                 config.CreateMap<ServiceItemsSet, ServiceItemsSetDto>().ReverseMap();
                 config.CreateMap<OneTimeServiceItem, OneTimeServiceItemDto>().ReverseMap();
                 config.CreateMap<SubscriptionServiceItem, SubscriptionServiceItemDto>().ReverseMap();
+                config.CreateMap<Invoice, InvoiceDto>().ReverseMap();
+                config.CreateMap<InvoiceItem, InvoiceItemDto>().ReverseMap();
             });
 
             app.Use(async (context, next) =>
@@ -176,7 +178,8 @@ namespace AutomatedInvoiceGenerator
                 await next();
 
                 if (context.Response.StatusCode == 404 &&
-                    !Path.HasExtension(context.Request.Path.Value))
+                    !Path.HasExtension(context.Request.Path.Value) &&
+                    !context.Request.Path.Value.StartsWith("/api/"))
                 {
                     context.Request.Path = "/";
                     context.Response.StatusCode = 200;
