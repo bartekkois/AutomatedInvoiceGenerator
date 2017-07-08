@@ -8,6 +8,7 @@ using AutoMapper;
 using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -35,6 +36,9 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .ThenBy(o => o.CustomerCode)
                 .ToListAsync();
 
+            if (!customers.Any())
+                return NotFound();
+
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
         }
 
@@ -52,6 +56,9 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .ThenBy(o => o.CustomerCode)
                 .ToListAsync();
 
+            if (!customers.Any())
+                return NotFound();
+
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
         }
 
@@ -66,6 +73,9 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.SubscriptionServiceItems)
                 .ToListAsync();
+
+            if (!customers.Any())
+                return NotFound();
 
             return Json(Mapper.Map<CustomerDto>(customers.First()));
         }
@@ -84,8 +94,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
             var newCustomer = Mapper.Map<Customer>(newCustomerDto);
 
-            _context.Customers.Add(newCustomer);
-            await _context.SaveChangesAsync();
+            try
+            { 
+                _context.Customers.Add(newCustomer);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return CreatedAtRoute("", new { id = newCustomer.Id }, Mapper.Map<CustomerDto>(newCustomer));
         }
@@ -103,25 +120,17 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 return NotFound();
 
             Customer updatedCustomer = customers.First();
-            updatedCustomer.CustomerCode = updatedCustomerDto.CustomerCode;
-            updatedCustomer.ShippingCustomerCode = updatedCustomerDto.ShippingCustomerCode;
-            updatedCustomer.Name = updatedCustomerDto.Name;
-            updatedCustomer.BrandName = updatedCustomerDto.BrandName;
-            updatedCustomer.Location = updatedCustomerDto.Location;
-            updatedCustomer.Notes = updatedCustomerDto.Notes;
-            updatedCustomer.InvoiceCustomerSpecificTag = updatedCustomerDto.InvoiceCustomerSpecificTag;
-            updatedCustomer.InvoiceDelivery = updatedCustomerDto.InvoiceDelivery;
-            updatedCustomer.PriceCalculation = updatedCustomerDto.PriceCalculation;
-            updatedCustomer.PaymentMethod = updatedCustomerDto.PaymentMethod;
-            updatedCustomer.PaymentPeriod = updatedCustomerDto.PaymentPeriod;
-            updatedCustomer.IsVatEu = updatedCustomerDto.IsVatEu;
-            updatedCustomer.IsBlocked = updatedCustomerDto.IsBlocked;
-            updatedCustomer.IsSuspended = updatedCustomerDto.IsSuspended;
-            updatedCustomer.IsArchived = updatedCustomerDto.IsArchived;
-            updatedCustomer.GroupId = updatedCustomerDto.GroupId;
+            Mapper.Map(updatedCustomerDto, updatedCustomer);
 
-            _context.Customers.Update(updatedCustomer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Customers.Update(updatedCustomer);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return new NoContentResult();
         }
@@ -140,8 +149,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 if (customerRelatedCustomers.Any())
                     return BadRequest("Kontrahent zawiera powiązane zestawy usług.");
 
-                _context.Customers.Remove(customerToBeDeleted);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Customers.Remove(customerToBeDeleted);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception exception)
+                {
+                    BadRequest(exception);
+                }
 
                 return new NoContentResult();
             }
