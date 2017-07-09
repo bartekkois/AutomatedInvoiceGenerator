@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using System.Threading.Tasks;
+using Serilog;
+using Serilog.Filters;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -27,6 +29,13 @@ namespace AutomatedInvoiceGenerator
     {
         public Startup(IHostingEnvironment env)
         {
+            Log.Logger = new LoggerConfiguration()
+                .Filter.ByIncludingOnly(Matching.FromSource<GenerateInvoiceService>())
+                .Filter.ByIncludingOnly(Matching.FromSource<ExportService>())
+                .MinimumLevel.Information()
+                .WriteTo.RollingFile("Logs/Log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100)
+                .CreateLogger();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -124,7 +133,7 @@ namespace AutomatedInvoiceGenerator
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            loggerFactory.AddFile("Logs/{Date}.txt");
+            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {
