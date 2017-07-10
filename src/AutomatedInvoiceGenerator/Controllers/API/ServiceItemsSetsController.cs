@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -26,14 +27,24 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet("ServiceItemsSets")]
         public async Task<IActionResult> Get()
         {
-            return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(await _context.ServiceItemsSets.ToListAsync()));
+            var serviceItemsSets = await _context.ServiceItemsSets.ToListAsync();
+
+            if (!serviceItemsSets.Any())
+                return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(Enumerable.Empty<ServiceItemsSet>()));
+
+            return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(serviceItemsSets));
         }
 
         // GET api/ServiceItemsSets/5
         [HttpGet("ServiceItemsSets/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Json(Mapper.Map<ServiceItemsSetDto>((await _context.ServiceItemsSets.Where(g => g.Id == id).ToListAsync()).First()));
+            var serviceItemsSets = await _context.ServiceItemsSets.Where(g => g.Id == id).ToListAsync();
+
+            if (!serviceItemsSets.Any())
+                return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(Enumerable.Empty<ServiceItemsSet>()));
+
+            return Json(Mapper.Map<ServiceItemsSetDto>(serviceItemsSets.First()));
         }
 
         // GET: api/ServiceItemsSetsByCustomer/5
@@ -44,6 +55,9 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .Where(g => g.CustomerId == customerId)
                 .OrderBy(o => o.Id)
                 .ToListAsync();
+
+            if (!serviceItemsSets.Any())
+                return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(Enumerable.Empty<ServiceItemsSet>()));
 
             return Json(Mapper.Map<IEnumerable<ServiceItemsSetDto>>(serviceItemsSets));
         }
@@ -57,8 +71,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
             var newServiceItemsSet = Mapper.Map<ServiceItemsSet>(newServiceItemsSetDto);
 
-            _context.ServiceItemsSets.Add(newServiceItemsSet);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ServiceItemsSets.Add(newServiceItemsSet);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return CreatedAtRoute("", new { id = newServiceItemsSet.Id }, Mapper.Map<ServiceItemsSetDto>(newServiceItemsSet));
         }
@@ -76,12 +97,17 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 return NotFound();
 
             var updatedServiceItemsSet = serviceItemsSets.First();
+            Mapper.Map(updatedServiceItemsSetDto, updatedServiceItemsSet);
 
-            updatedServiceItemsSet.CustomerId = updatedServiceItemsSetDto.CustomerId;
-            updatedServiceItemsSet.Name = updatedServiceItemsSetDto.Name;
-
-            _context.ServiceItemsSets.Update(updatedServiceItemsSet);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ServiceItemsSets.Update(updatedServiceItemsSet);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return new NoContentResult();
         }
@@ -102,8 +128,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 if (serviceItemsSetRelatedSubscriptionServiceItems.Any() || serviceItemsSetRelatedOneTimeServiceItems.Any())
                     return BadRequest("Zestaw usług zawiera powiązane usługi.");
 
-                _context.ServiceItemsSets.Remove(serviceItemsSetToBeDeleted);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.ServiceItemsSets.Remove(serviceItemsSetToBeDeleted);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception exception)
+                {
+                    BadRequest(exception);
+                }
 
                 return new NoContentResult();
             }
