@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -26,14 +27,24 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(await _context.ServiceItems.OfType<SubscriptionServiceItem>().OrderBy(o => o.IsArchived).ToListAsync()));
+            var subscriptionTimeServiceItems = await _context.ServiceItems.OfType<SubscriptionServiceItem>().OrderBy(o => o.IsArchived).ToListAsync();
+
+            if (!subscriptionTimeServiceItems.Any())
+                return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(Enumerable.Empty<SubscriptionServiceItem>()));
+
+            return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(subscriptionTimeServiceItems));
         }
 
         // GET api/SubscriptionServiceItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Json(Mapper.Map<SubscriptionServiceItemDto>((await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id).OrderBy(o => o.IsArchived).ToListAsync()).First()));
+            var subscriptionTimeServiceItems = await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id).OrderBy(o => o.IsArchived).ToListAsync();
+
+            if (!subscriptionTimeServiceItems.Any())
+                return Json(Mapper.Map<IEnumerable<SubscriptionServiceItemDto>>(Enumerable.Empty<SubscriptionServiceItem>()));
+
+            return Json(Mapper.Map<SubscriptionServiceItemDto>(subscriptionTimeServiceItems.First()));
         }
 
         // POST api/SubscriptionServiceItems
@@ -46,8 +57,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             var newSubscriptionServiceItem = Mapper.Map<SubscriptionServiceItem>(newSubscriptionServiceItemDto);
             newSubscriptionServiceItem.IsArchived = false;
 
-            _context.ServiceItems.Add(newSubscriptionServiceItem);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ServiceItems.Add(newSubscriptionServiceItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return CreatedAtRoute("", new { id = newSubscriptionServiceItem.Id }, Mapper.Map<SubscriptionServiceItemDto>(newSubscriptionServiceItem));
         }
@@ -65,30 +83,17 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 return NotFound();
 
             var updatedSubscriptionServiceItem = subscriptionServiceItems.First();
+            Mapper.Map(updatedSubscriptionServiceItemDto, updatedSubscriptionServiceItem);
 
-            updatedSubscriptionServiceItem.ServiceCategoryType = updatedSubscriptionServiceItemDto.ServiceCategoryType;
-            updatedSubscriptionServiceItem.RemoteSystemServiceCode = updatedSubscriptionServiceItemDto.RemoteSystemServiceCode;
-            updatedSubscriptionServiceItem.Name = updatedSubscriptionServiceItemDto.Name;
-            updatedSubscriptionServiceItem.SubName = updatedSubscriptionServiceItemDto.SubName;
-            updatedSubscriptionServiceItem.IsSubNamePrinted = updatedSubscriptionServiceItemDto.IsSubNamePrinted;
-            updatedSubscriptionServiceItem.SpecificLocation = updatedSubscriptionServiceItemDto.SpecificLocation;
-            updatedSubscriptionServiceItem.ServiceItemCustomerSpecificTag = updatedSubscriptionServiceItemDto.ServiceItemCustomerSpecificTag;
-            updatedSubscriptionServiceItem.Notes = updatedSubscriptionServiceItemDto.Notes;
-            updatedSubscriptionServiceItem.IsValueVariable = updatedSubscriptionServiceItemDto.IsValueVariable;
-            updatedSubscriptionServiceItem.NetValue = updatedSubscriptionServiceItemDto.NetValue;
-            updatedSubscriptionServiceItem.Quantity = updatedSubscriptionServiceItemDto.Quantity;
-            updatedSubscriptionServiceItem.VATRate = updatedSubscriptionServiceItemDto.VATRate;
-            updatedSubscriptionServiceItem.GrossValueAdded = updatedSubscriptionServiceItemDto.GrossValueAdded;
-            updatedSubscriptionServiceItem.IsManual = updatedSubscriptionServiceItemDto.IsManual;
-            updatedSubscriptionServiceItem.IsBlocked = updatedSubscriptionServiceItemDto.IsBlocked;
-            updatedSubscriptionServiceItem.IsSuspended = updatedSubscriptionServiceItemDto.IsSuspended;
-            updatedSubscriptionServiceItem.StartDate = updatedSubscriptionServiceItemDto.StartDate;
-            updatedSubscriptionServiceItem.EndDate = updatedSubscriptionServiceItemDto.EndDate;
-            updatedSubscriptionServiceItem.IsArchived = updatedSubscriptionServiceItemDto.IsArchived;
-            updatedSubscriptionServiceItem.ServiceItemsSetId = updatedSubscriptionServiceItemDto.ServiceItemsSetId;
-
-            _context.ServiceItems.Update(updatedSubscriptionServiceItem);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ServiceItems.Update(updatedSubscriptionServiceItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return new NoContentResult();
         }
@@ -103,8 +108,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             {
                 var subscriptionServiceItemToBeDeleted = subscriptionServiceItems.First();
 
-                _context.ServiceItems.Remove(subscriptionServiceItemToBeDeleted);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.ServiceItems.Remove(subscriptionServiceItemToBeDeleted);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception exception)
+                {
+                    BadRequest(exception);
+                }
 
                 return new NoContentResult();
             }

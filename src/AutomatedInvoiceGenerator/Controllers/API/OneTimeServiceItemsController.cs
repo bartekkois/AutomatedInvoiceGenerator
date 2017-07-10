@@ -67,7 +67,6 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 BadRequest(exception);
             }
 
-
             return CreatedAtRoute("", new { id = newOneTimeServiceItem.Id }, Mapper.Map<OneTimeServiceItemDto>(newOneTimeServiceItem));
         }
 
