@@ -37,7 +37,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .ToListAsync();
 
             if (!customers.Any())
-                return NotFound();
+                return Json(Mapper.Map<IEnumerable<CustomerDto>>(Enumerable.Empty<Customer>()));
 
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
         }
@@ -57,7 +57,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .ToListAsync();
 
             if (!customers.Any())
-                return NotFound();
+                return Json(Mapper.Map<IEnumerable<CustomerDto>>(Enumerable.Empty<Customer>()));
 
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
         }
@@ -75,7 +75,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .ToListAsync();
 
             if (!customers.Any())
-                return NotFound();
+                return Json(Mapper.Map<IEnumerable<CustomerDto>>(Enumerable.Empty<Customer>()));
 
             return Json(Mapper.Map<CustomerDto>(customers.First()));
         }
