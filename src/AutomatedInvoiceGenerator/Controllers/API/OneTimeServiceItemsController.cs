@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -26,14 +27,24 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(await _context.ServiceItems.OfType<OneTimeServiceItem>().OrderBy(o => o.IsArchived).ToListAsync()));
+            var oneTimeServiceItems = await _context.ServiceItems.OfType<OneTimeServiceItem>().OrderBy(o => o.IsArchived).ToListAsync();
+
+            if (!oneTimeServiceItems.Any())
+                return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(Enumerable.Empty<OneTimeServiceItem>()));
+
+            return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(oneTimeServiceItems));
         }
 
         // GET api/OneTimeServiceItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Json(Mapper.Map<OneTimeServiceItemDto>((await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id).OrderBy(o => o.IsArchived).ToListAsync()).First()));
+            var oneTimeServiceItems = await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id).OrderBy(o => o.IsArchived).ToListAsync();
+
+            if (!oneTimeServiceItems.Any())
+                return Json(Mapper.Map<IEnumerable<OneTimeServiceItemDto>>(Enumerable.Empty<OneTimeServiceItem>()));
+
+            return Json(Mapper.Map<OneTimeServiceItemDto>(oneTimeServiceItems.First()));
         }
 
         // POST api/OneTimeServiceItems
@@ -46,8 +57,16 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             var newOneTimeServiceItem = Mapper.Map<OneTimeServiceItem>(newOneTimeServiceItemDto);
             newOneTimeServiceItem.IsArchived = false;
 
-            _context.ServiceItems.Add(newOneTimeServiceItem);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ServiceItems.Add(newOneTimeServiceItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
+
 
             return CreatedAtRoute("", new { id = newOneTimeServiceItem.Id }, Mapper.Map<OneTimeServiceItemDto>(newOneTimeServiceItem));
         }
@@ -65,30 +84,17 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 return NotFound();
 
             var updatedOneTimeServiceItem = oneTimeServiceItems.First();
+            Mapper.Map(updatedOneTimeServiceItemDto, updatedOneTimeServiceItem);
 
-            updatedOneTimeServiceItem.ServiceCategoryType = updatedOneTimeServiceItemDto.ServiceCategoryType;
-            updatedOneTimeServiceItem.RemoteSystemServiceCode = updatedOneTimeServiceItemDto.RemoteSystemServiceCode;
-            updatedOneTimeServiceItem.Name = updatedOneTimeServiceItemDto.Name;
-            updatedOneTimeServiceItem.SubName = updatedOneTimeServiceItemDto.SubName;
-            updatedOneTimeServiceItem.IsSubNamePrinted = updatedOneTimeServiceItemDto.IsSubNamePrinted;
-            updatedOneTimeServiceItem.SpecificLocation = updatedOneTimeServiceItemDto.SpecificLocation;
-            updatedOneTimeServiceItem.ServiceItemCustomerSpecificTag = updatedOneTimeServiceItemDto.ServiceItemCustomerSpecificTag;
-            updatedOneTimeServiceItem.Notes = updatedOneTimeServiceItemDto.Notes;
-            updatedOneTimeServiceItem.IsValueVariable = updatedOneTimeServiceItemDto.IsValueVariable;
-            updatedOneTimeServiceItem.NetValue = updatedOneTimeServiceItemDto.NetValue;
-            updatedOneTimeServiceItem.Quantity = updatedOneTimeServiceItemDto.Quantity;
-            updatedOneTimeServiceItem.VATRate = updatedOneTimeServiceItemDto.VATRate;
-            updatedOneTimeServiceItem.GrossValueAdded = updatedOneTimeServiceItemDto.GrossValueAdded;
-            updatedOneTimeServiceItem.IsManual = updatedOneTimeServiceItemDto.IsManual;
-            updatedOneTimeServiceItem.IsBlocked = updatedOneTimeServiceItemDto.IsBlocked;
-            updatedOneTimeServiceItem.IsSuspended = updatedOneTimeServiceItemDto.IsSuspended;
-            updatedOneTimeServiceItem.InstallationDate = updatedOneTimeServiceItemDto.InstallationDate;
-            updatedOneTimeServiceItem.IsInvoiced = updatedOneTimeServiceItemDto.IsInvoiced;
-            updatedOneTimeServiceItem.IsArchived = updatedOneTimeServiceItemDto.IsArchived;
-            updatedOneTimeServiceItem.ServiceItemsSetId = updatedOneTimeServiceItemDto.ServiceItemsSetId;
-
-            _context.ServiceItems.Update(updatedOneTimeServiceItem);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ServiceItems.Update(updatedOneTimeServiceItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                BadRequest(exception);
+            }
 
             return new NoContentResult();
         }
@@ -103,8 +109,15 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             {
                 var oneTimeServiceItemToBeDeleted = oneTimeserviceItems.First();
 
-                _context.ServiceItems.Remove(oneTimeServiceItemToBeDeleted);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.ServiceItems.Remove(oneTimeServiceItemToBeDeleted);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception exception)
+                {
+                    BadRequest(exception);
+                }
 
                 return new NoContentResult();
             }

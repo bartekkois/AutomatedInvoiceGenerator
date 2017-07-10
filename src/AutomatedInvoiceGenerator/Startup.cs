@@ -175,7 +175,7 @@ namespace AutomatedInvoiceGenerator
                 config.CreateMap<Group, GroupDto>().ReverseMap();
                 config.CreateMap<Customer, CustomerDto>().ReverseMap().ForMember(dest => dest.ServiceItemsSets, opt => opt.Ignore());
                 config.CreateMap<ServiceItemsSet, ServiceItemsSetDto>().ReverseMap().ForMember(dest => dest.OneTimeServiceItems, opt => opt.Ignore()).ForMember(dest => dest.SubscriptionServiceItems, opt => opt.Ignore());
-                config.CreateMap<OneTimeServiceItem, OneTimeServiceItemDto>().ReverseMap();
+                config.CreateMap<OneTimeServiceItem, OneTimeServiceItemDto>().ReverseMap().ForMember(dest => dest.InvoiceItems, opt => opt.Ignore());
                 config.CreateMap<SubscriptionServiceItem, SubscriptionServiceItemDto>().ReverseMap();
                 config.CreateMap<Invoice, InvoiceDto>().ReverseMap();
                 config.CreateMap<InvoiceItem, InvoiceItemDto>().ReverseMap();
