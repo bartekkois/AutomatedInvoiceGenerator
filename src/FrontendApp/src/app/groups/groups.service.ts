@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class GroupsService {
-    private _url = "http://localhost:55098/api/Groups";
+    private _url = "http://localhost:5000/api/Groups";
 
     constructor(private _http: Http) { }
 

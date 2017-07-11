@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class SubscriptionServiceItemsService {
-    private _apiUrl = "http://localhost:55098/api/";
+    private _apiUrl = "http://localhost:5000/api/";
 
     constructor(private _http: Http) { }
 
