@@ -22,6 +22,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Serilog;
 using Serilog.Filters;
+using AutomatedInvoiceGenerator.Controllers.API;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -30,8 +31,7 @@ namespace AutomatedInvoiceGenerator
         public Startup(IHostingEnvironment env)
         {
             Log.Logger = new LoggerConfiguration()
-                .Filter.ByIncludingOnly(Matching.FromSource<GenerateInvoiceService>())
-                .Filter.ByIncludingOnly(Matching.FromSource<ExportService>())
+                .Filter.ByIncludingOnly(s => (Matching.FromSource<GenerateInvoiceService>()(s) || Matching.FromSource<InvoicesApiController>()(s)) || Matching.FromSource<ExportService>()(s))
                 .MinimumLevel.Information()
                 .WriteTo.RollingFile("Logs/Log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100)
                 .CreateLogger();
@@ -107,6 +107,7 @@ namespace AutomatedInvoiceGenerator
             // Add application services.
             services.AddAutoMapper();
 
+            services.AddTransient<IGenerateInvoiceService, GenerateInvoiceService>();
             services.AddTransient<IExportService, ExportService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUserResolverService, UserResolverService>();

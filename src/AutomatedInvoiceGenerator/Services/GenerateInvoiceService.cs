@@ -21,7 +21,7 @@ namespace AutomatedInvoiceGenerator.Services
 
         public async Task GenerateInvoice(Customer customer, DateTime invoiceDate)
         {
-            _logger.LogInformation("=== Generowanie faktury dla abonenta (" + customer.CustomerCode + ") " + customer.Name);
+            _logger.LogInformation("== Generowanie faktury dla abonenta (" + customer.CustomerCode + ") " + customer.Name);
 
             // Customer
             if (_context.Invoices.Where(i => i.Customer == customer && i.InvoiceDate.Month == invoiceDate.Month).Any())

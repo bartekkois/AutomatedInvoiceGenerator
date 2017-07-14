@@ -9,6 +9,8 @@ using AutomatedInvoiceGenerator.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using AutomatedInvoiceGenerator.Services;
+using Microsoft.Extensions.Logging;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -17,10 +19,14 @@ namespace AutomatedInvoiceGenerator.Controllers.API
     public class InvoicesApiController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<InvoicesApiController> _logger;
+        private readonly IGenerateInvoiceService _generateInvoiceService;
 
-        public InvoicesApiController(ApplicationDbContext context)
+        public InvoicesApiController(ApplicationDbContext context, ILogger<InvoicesApiController> logger, IGenerateInvoiceService generateInvoiceService)
         {
             _context = context;
+            _logger = logger;
+            _generateInvoiceService = generateInvoiceService;
         }
 
         // GET: api/Invoices/5
@@ -75,6 +81,38 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             }
 
             return CreatedAtRoute("", new { id = newInvoice.Id }, Mapper.Map<InvoiceDto>(newInvoice));
+        }
+
+        // POST api/GenerateInvoice
+        [HttpPost("GenerateInvoice")]
+        public async Task<IActionResult> GenerateInvoice([FromBody]GenerateInvoiceDto generateInvoiceDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _logger.LogInformation("=== Generowanie zestawu faktur z datą: " + generateInvoiceDto.InvoiceDate);
+
+            foreach (int customerId in generateInvoiceDto.Customers)
+            {
+                var customers = await _context.Customers.Where(c => c.Id == customerId).ToListAsync();
+
+                if (!customers.Any())
+                {
+                    _logger.LogError("== Nie znaleziono abonenta o Id: " + customerId);
+                    continue;
+                }
+
+                try
+                {
+                    await _generateInvoiceService.GenerateInvoice(customers.First(),generateInvoiceDto.InvoiceDate);
+                }
+                catch (Exception exception)
+                {
+                    _logger.LogError("== Wystąpił błąd podczas generowania faktury: " + exception);
+                }
+            }
+
+            return StatusCode(201);
         }
 
         // PUT api/Invoices/5
