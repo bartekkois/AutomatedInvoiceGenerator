@@ -17,7 +17,7 @@ namespace AutomatedInvoiceGenerator.Helpers
                 DateTime toDate = CompareDates(new DateTime(nextMonthSeed.Year, nextMonthSeed.Month, 1), dateTimePeriod.EndDate.Value);
                 DateTime periodStartDate = runningDate;
                 runningDate = toDate;
-                yield return new DateTimePeriod(periodStartDate, toDate);
+                yield return new DateTimePeriod(periodStartDate, toDate.AddSeconds(-1));
             }
         }
 
@@ -47,27 +47,28 @@ namespace AutomatedInvoiceGenerator.Helpers
 
         public class DateTimePeriod
         {
-            DateTime? startDate;
-            DateTime? endDate;
-
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
 
             public DateTimePeriod()
             {
-                startDate = null;
-                endDate = null;
+                StartDate = null;
+                EndDate = null;
             }
 
             public DateTimePeriod(DateTime? startDate, DateTime? endDate)
             {
-                this.startDate = startDate;
-                this.endDate = endDate;
+                StartDate = startDate;
+                EndDate = endDate;
             }
 
             public bool IsValid()
             {
-                return startDate.HasValue && endDate.HasValue;
+                if (StartDate.HasValue && EndDate.HasValue)
+                    if (EndDate.Value > StartDate.Value)
+                        return true;
+
+                return false;
             }
         }
     }
