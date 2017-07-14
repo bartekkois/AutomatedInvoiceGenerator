@@ -40,7 +40,7 @@ namespace AutomatedInvoiceGenerator.Helpers
         public static decimal CalculatePeriodAsFractionOfMonth(DateTime startDate, DateTime endDate)
         {
             if (startDate.Year == endDate.Year && startDate.Month == endDate.Month )
-                return (endDate - startDate).Days / DateTime.DaysInMonth(startDate.Year, startDate.Month);
+                return Math.Round((decimal)(endDate - startDate).Days / (decimal)DateTime.DaysInMonth(startDate.Year, startDate.Month),2);
             
             throw new Exception("Błąd obliczania okresu czasu jako części miesiąca");
         }
