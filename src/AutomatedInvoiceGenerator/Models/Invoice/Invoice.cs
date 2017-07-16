@@ -9,7 +9,6 @@ namespace AutomatedInvoiceGenerator.Models
         public int Id { get; set; }
 
         [Display(Name = "Opis:")]
-        [Required]
         public string Description { get; set; }
 
         [Display(Name = "Data wystawienia:")]
