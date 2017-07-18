@@ -16,8 +16,9 @@ namespace AutomatedInvoiceGenerator.Helpers
                 DateTime nextMonthSeed = runningDate.AddMonths(1);
                 DateTime toDate = CompareDates(new DateTime(nextMonthSeed.Year, nextMonthSeed.Month, 1), dateTimePeriod.EndDate.Value);
                 DateTime periodStartDate = runningDate;
+                DateTime periodEndDate = toDate.AddSeconds(-1);
                 runningDate = toDate;
-                yield return new DateTimePeriod(periodStartDate, toDate.AddSeconds(-1));
+                yield return new DateTimePeriod(periodStartDate, periodEndDate);
             }
         }
 
@@ -29,19 +30,24 @@ namespace AutomatedInvoiceGenerator.Helpers
             return (dateFirst.Value < dateSecond.Value ? dateFirst.Value : dateSecond.Value);
         }
 
-        public static DateTime CalculateLastDayOfMonth(DateTime? date)
+        public static DateTime CalculateLastSecondOfTheMonth(DateTime? date)
         {
             if (!date.HasValue)
-                throw new Exception("Błąd wyznaczania ostatniego dnia miesiąca");
+                throw new Exception("Błąd wyznaczania ostatniej sekundy miesiąca");
 
-            return new DateTime(date.Value.Year, date.Value.Month, DateTime.DaysInMonth(date.Value.Year, date.Value.Month));
+            return new DateTime(date.Value.Year, date.Value.Month, 1).AddMonths(1).AddSeconds(-1);
         }
 
         public static decimal CalculatePeriodAsFractionOfMonth(DateTime startDate, DateTime endDate)
         {
-            if (startDate.Year == endDate.Year && startDate.Month == endDate.Month )
-                return Math.Round((decimal)(endDate - startDate).Days / (decimal)DateTime.DaysInMonth(startDate.Year, startDate.Month),2);
-            
+            if (startDate.Year == endDate.Year && startDate.Month == endDate.Month && endDate > startDate)
+            {
+                DateTime firstSecondOfTheMonth = new DateTime(startDate.Year, startDate.Month, 1);
+                DateTime lastSecondOfTheMonth = firstSecondOfTheMonth.AddMonths(1).AddSeconds(-1);
+
+                return Math.Round((decimal)(((endDate - startDate).TotalSeconds) / (lastSecondOfTheMonth - firstSecondOfTheMonth).TotalSeconds),2);
+            }
+
             throw new Exception("Błąd obliczania okresu czasu jako części miesiąca");
         }
 

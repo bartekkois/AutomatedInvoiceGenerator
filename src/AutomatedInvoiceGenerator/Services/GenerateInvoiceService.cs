@@ -128,14 +128,14 @@ namespace AutomatedInvoiceGenerator.Services
                     if (lastlyInvoicedItem == null && subscriptionServiceItem.StartDate.HasValue)
                     {
                         invoicingPeriod.StartDate = subscriptionServiceItem.StartDate.Value;
-                        invoicingPeriod.EndDate = CalculateLastDayOfMonth(invoiceDate);
+                        invoicingPeriod.EndDate = CalculateLastSecondOfTheMonth(invoiceDate);
                     }
                     else
                     {
                         if (lastlyInvoicedItem.InvoicePeriodEndTime < invoiceDate && lastlyInvoicedItem.InvoicePeriodEndTime.HasValue)
                         {
                             invoicingPeriod.StartDate = lastlyInvoicedItem.InvoicePeriodEndTime.Value.AddDays(1);
-                            invoicingPeriod.EndDate = CalculateLastDayOfMonth(invoiceDate);
+                            invoicingPeriod.EndDate = CalculateLastSecondOfTheMonth(invoiceDate);
                         }
                     }
 
@@ -167,10 +167,10 @@ namespace AutomatedInvoiceGenerator.Services
                             Description = subscriptionServiceItem.Name.Replace("%DETALE%", currentItemDetails).Replace("%OKRES%", invoicePreiod.StartDate.Value.ToString("MM/yyyy")),
                             Quantity = subscriptionServiceItem.Quantity,
                             Units = "usł.",                                                             // TO BE FIXED !!!!!
-                            NetUnitPrice = Math.Round(subscriptionServiceItem.NetValue / invoicePeriodAsFractionOfMonth, 2),
-                            NetValueAdded = Math.Round(subscriptionServiceItem.NetValue / invoicePeriodAsFractionOfMonth * subscriptionServiceItem.Quantity, 2),
+                            NetUnitPrice = Math.Round(subscriptionServiceItem.NetValue * invoicePeriodAsFractionOfMonth, 2),
+                            NetValueAdded = Math.Round(subscriptionServiceItem.NetValue * invoicePeriodAsFractionOfMonth * subscriptionServiceItem.Quantity, 2),
                             VATRate = subscriptionServiceItem.VATRate,
-                            GrossValueAdded = Math.Round(subscriptionServiceItem.GrossValueAdded / invoicePeriodAsFractionOfMonth, 2),
+                            GrossValueAdded = Math.Round(subscriptionServiceItem.GrossValueAdded * invoicePeriodAsFractionOfMonth, 2),
                             InvoicePeriodStartTime = invoicePreiod.StartDate,
                             InvoicePeriodEndTime = invoicePreiod.EndDate
                         };
