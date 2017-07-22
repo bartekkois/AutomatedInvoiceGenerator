@@ -19,7 +19,7 @@ namespace AutomatedInvoiceGenerator.Services
             _logger = logger;
         }
 
-        public async Task GenerateInvoice(Customer customer, DateTime invoiceDate)
+        public async Task GenerateInvoice(Customer customer, DateTime startDate, DateTime invoiceDate)
         {
             _logger.LogInformation("== Generowanie faktury dla abonenta (" + customer.CustomerCode + ") " + customer.Name);
 
@@ -138,6 +138,9 @@ namespace AutomatedInvoiceGenerator.Services
                             invoicingPeriod.EndDate = CalculateLastSecondOfTheMonth(invoiceDate);
                         }
                     }
+
+                    if (startDate > invoicingPeriod.StartDate)
+                        invoicingPeriod.StartDate = startDate;
 
                     if (subscriptionServiceItem.EndDate.HasValue)
                         invoicingPeriod.EndDate = subscriptionServiceItem.EndDate;

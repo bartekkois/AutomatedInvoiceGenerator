@@ -104,7 +104,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
                 try
                 {
-                    await _generateInvoiceService.GenerateInvoice(customers.First(),generateInvoiceDto.InvoiceDate);
+                    await _generateInvoiceService.GenerateInvoice(customers.First(), generateInvoiceDto.StartDate, generateInvoiceDto.InvoiceDate);
                 }
                 catch (Exception exception)
                 {

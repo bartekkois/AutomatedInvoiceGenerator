@@ -6,6 +6,6 @@ namespace AutomatedInvoiceGenerator.Services
 {
     public interface IGenerateInvoiceService
     {
-        Task GenerateInvoice(Customer customer, DateTime invoiceDate);
+        Task GenerateInvoice(Customer customer, DateTime startDate, DateTime invoiceDate);
     }
 }

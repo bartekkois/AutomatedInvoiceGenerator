@@ -10,6 +10,9 @@ namespace AutomatedInvoiceGenerator.DTO
         public IEnumerable<int> Customers { get; set; }
 
         [Required]
+        public DateTime StartDate { get; set; }
+
+        [Required]
         public DateTime InvoiceDate { get; set; }
     }
 }
