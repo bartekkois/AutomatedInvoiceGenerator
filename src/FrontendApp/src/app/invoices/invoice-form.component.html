@@ -1,0 +1,107 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left">{{title}}</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form [formGroup]="invoiceForm" (ngSubmit)="save()">
+
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="customerId">Kontrahent (nabywca)</label>
+                      <select class="form-control wide inupt-bold" [(ngModel)]="invoice.customerId" formControlName="customerId" [attr.disabled]="!isCustomerEditable ? '' : null">
+                        <option *ngFor="let customer of customersShort" [ngValue]="customer.id">{{customer.customerCode}} - {{customer.name}}</option>
+                      </select>
+                      <div *ngIf="invoiceForm.controls.customerId.touched && !invoiceForm.controls.customerId.valid" class="alert alert-danger validation-messages">
+                        Kontrahent (nabywca) jest wymagany.
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-3">
+                  <div class="form-group">
+                    <label for="invoiceDate">Data wystawienia</label>
+                    <input [(ngModel)]="invoice.invoiceDate" formControlName="invoiceDate" type="date" class="form-control wide inupt-bold">
+                  </div>
+                </div>
+                <div class="col-xs-9">
+                  <div class="form-group">
+                    <label for="description">Opis</label>
+                    <input [(ngModel)]="invoice.description" formControlName="description" type="text" class="form-control wide inupt-bold">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="priceCalculation">Faktura liczona od</label>
+                    <select class="form-control wide" [(ngModel)]="invoice.priceCalculation" formControlName="priceCalculation">
+                      <option [ngValue]="0">netto</option>
+                      <option [ngValue]="1">brutto</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="invoiceDelivery">Wysyłka faktur</label>
+                    <select class="form-control wide" [(ngModel)]="invoice.invoiceDelivery" formControlName="invoiceDelivery">
+                      <option [ngValue]="0">elektroniczna</option>
+                      <option [ngValue]="1">elektroniczna (wielokrotna)</option>
+                      <option [ngValue]="2">pocztowa</option>
+                      <option [ngValue]="3">bezpośrednia</option>
+                      <option [ngValue]="4">inna</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="paymentMethod">Typ płatności</label>
+                    <select class="form-control wide" [(ngModel)]="invoice.paymentMethod" formControlName="paymentMethod">
+                      <option [ngValue]="0">przelew</option>
+                      <option [ngValue]="1">gotówka</option>
+                      <option [ngValue]="2">inny</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="paymentPeriod">Termin płatności (dni)</label>
+                    <input [(ngModel)]="invoice.paymentPeriod" formControlName="paymentPeriod" type="text" class="form-control wide">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-3">
+                  <div class="form-group">
+                    <input [(ngModel)]="invoice.isExported" formControlName="isExported" type="checkbox" [attr.disabled]="true"> Wyeksportowano
+                  </div>
+                </div>
+              </div>
+
+              <button [disabled]="!invoiceForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
+          </form>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

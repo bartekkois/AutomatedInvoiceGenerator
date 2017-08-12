@@ -42,6 +42,21 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
         }
 
+        // GET: api/CustomersShort
+        [HttpGet("CustomersShort")]
+        public async Task<IActionResult> GetShort()
+        {
+            var customers = await _context.Customers
+                .Where(c => c.IsArchived == false)
+                .OrderBy(o => o.CustomerCode)
+                .ToListAsync();
+
+            if (!customers.Any())
+                return Json(Mapper.Map<IEnumerable<CustomerShortDto>>(Enumerable.Empty<Customer>()));
+
+            return Json(Mapper.Map<IEnumerable<CustomerShortDto>>(customers));
+        }
+
         // GET: api/CustomersByGroup/5
         [HttpGet("CustomersByGroup/{groupId}")]
         public async Task<IActionResult> GetByGroup(int groupId)

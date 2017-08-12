@@ -1,5 +1,4 @@
-﻿using AutomatedInvoiceGenerator.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.DTO
@@ -41,9 +40,7 @@ namespace AutomatedInvoiceGenerator.DTO
 
         // Relationships
         public int InvoiceId { get; set; }
-        public virtual Invoice Invoice { get; set; }
 
         public int? ServiceItemId { get; set; }
-        public virtual ServiceItem ServiceItem { get; set; }
     }
 }

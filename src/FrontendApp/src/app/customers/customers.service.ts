@@ -17,6 +17,11 @@ export class CustomersService {
             .map(res => res.json());
     }
 
+    getCustomersShort() {
+        return this._http.get(this._apiUrl + 'CustomersShort')
+            .map(res => res.json());
+    }
+
     getCustomersByGroup(groupId) {
         return this._http.get(this._apiUrl + 'CustomersByGroup'+ "/" + groupId)
             .map(res => res.json());

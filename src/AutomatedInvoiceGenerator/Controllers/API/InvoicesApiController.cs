@@ -35,27 +35,31 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         {
             var invoices = await _context.Invoices
                 .Where(i => i.Id == id)
+                .Include(o => o.Customer)
                 .Include(o => o.InvoiceItems)
                 .ToListAsync();
 
             if(!invoices.Any())
-                return NotFound();
+                return Json(Mapper.Map<IEnumerable<InvoiceDto>>(Enumerable.Empty<Invoice>()));
 
             return base.Json(Mapper.Map<InvoiceDto>((invoices).First()));
         }
 
-        // GET api/Invoices/5
-        [HttpGet("InvoicesByCustomer/{customerId}")] 
-        public async Task<IActionResult> GetByCustomer(int customerId)
+        // GET api/InvoicesByDateAndCustomer/2017-07-01T00:00:00/2017-07-31T00:00:00/5
+        [HttpGet("InvoicesByDateAndCustomer/{startDate:datetime}/{endDate:datetime}/{customerId?}")] 
+        public async Task<IActionResult> GetByDateAndCustomer(DateTime startDate, DateTime endDate, int? customerId)
         {
             var invoices = await _context.Invoices
-                .Where(g => g.CustomerId == customerId)
-                .Include(o => o.InvoiceItems)
+                .Where(d => d.InvoiceDate.Date >= startDate.Date && d.InvoiceDate.Date <= endDate.Date)
+                .Where(g => !customerId.HasValue || g.CustomerId == customerId)
+                .Include(i => i.Customer)
+                .Include(i => i.InvoiceItems)
+                .OrderBy(o => o.Customer.CustomerCode)
                 .OrderBy(o => o.InvoiceDate)
                 .ToListAsync();
 
             if (!invoices.Any())
-                return NotFound();
+                return Json(Mapper.Map<IEnumerable<InvoiceDto>>(Enumerable.Empty<Invoice>()));
 
             return base.Json(Mapper.Map<IEnumerable<InvoiceDto>>(invoices));
         }
@@ -72,7 +76,6 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             try
             {
                 await _context.Invoices.AddAsync(newInvoice);
-                await _context.InvoicesItems.AddRangeAsync(newInvoice.InvoiceItems);
                 await _context.SaveChangesAsync();
             }
             catch(Exception exception)
@@ -127,36 +130,17 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!invoices.Any())
                 return NotFound();
 
+            var updatedInvoices = invoices.First();
+            Mapper.Map(updatedInvoiceDto, updatedInvoices);
+
             try
             {
-                var updatedInvoices = invoices.First();
-
-                Mapper.Map(updatedInvoiceDto, updatedInvoices);
                 _context.Invoices.Update(updatedInvoices);
-
-                foreach (InvoiceItemDto invoiceItemDto in updatedInvoiceDto.InvoiceItemsDto)
-                {
-                    var relatedInvoiceItems = await _context.InvoicesItems.Where(g => g.Id == invoiceItemDto.Id).ToListAsync();
-
-                    if (relatedInvoiceItems.Any())
-                    {
-                        InvoiceItem updatedInvoiceItem = relatedInvoiceItems.First();
-                        Mapper.Map(invoiceItemDto, updatedInvoiceItem);
-                        _context.InvoicesItems.Update(updatedInvoiceItem);
-                    }
-                    else
-                    {
-                        await _context.InvoicesItems.AddAsync(Mapper.Map<InvoiceItem>(invoiceItemDto));
-                    }
-
-                    await _context.SaveChangesAsync();
-                }
-
                 await _context.SaveChangesAsync();
             }
-            catch(Exception exceptoin)
+            catch(Exception exception)
             {
-                return BadRequest(exceptoin);
+                return BadRequest(exception);
             }
 
             return new NoContentResult();

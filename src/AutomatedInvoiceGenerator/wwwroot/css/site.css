@@ -36,6 +36,11 @@ textarea.wide {
 	font-weight: bold;
 }
 
+.date-input {
+	max-width: 200px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
 
 /* Increase container size on bigger screens */
 @media (min-width: 1600px) {

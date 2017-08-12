@@ -1,4 +1,5 @@
 ﻿using AutomatedInvoiceGenerator.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,8 @@ namespace AutomatedInvoiceGenerator.DTO
         public string Description { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime InvoiceDate { get; set; }
 
         [Required]
@@ -32,11 +35,10 @@ namespace AutomatedInvoiceGenerator.DTO
 
         // Relationships
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual CustomerShortDto Customer { get; set; }
 
         public int? ServiceItemSetId { get; set; }
-        public virtual ServiceItemsSet ServiceItemsSet { get; set; }
 
-        public virtual ICollection<InvoiceItemDto> InvoiceItemsDto { get; set; }
+        public virtual ICollection<InvoiceItemDto> InvoiceItems { get; set; }
     }
 }

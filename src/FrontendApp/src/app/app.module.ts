@@ -14,6 +14,8 @@ import { oneTimeServiceItemsRouting } from './one-time-service-items/one-time-se
 import { routing } from './app.routing';
 import { CustomersModule }  from './customers/customers.module';
 import { customersRouting } from './customers/customers.routing';
+import { InvoicesModule } from './invoices/invoices.module';
+import { invoicesRouting } from './invoices/invoices.routing';
 import { ServiceItemsSetsModule } from './service-items-sets/service-items-sets.module';
 import { OneTimeServiceItemsModule } from './one-time-service-items/one-time-service-items.module';
 import { SubscriptionServiceItemsModule } from './subscription-service-items/subscription-service-items.module';
@@ -37,11 +39,13 @@ import { SubscriptionServiceItemsModule } from './subscription-service-items/sub
     OneTimeServiceItemsModule,
     SubscriptionServiceItemsModule,
     OneTimeServiceItemsModule,
+    InvoicesModule,
     groupsRouting,
     customersRouting,
     serviceItemsSetRouting,
     subscriptionServiceItemsRouting,
     oneTimeServiceItemsRouting,
+    invoicesRouting,
     routing
   ],
   providers: [],

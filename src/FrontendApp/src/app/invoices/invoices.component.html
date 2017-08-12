@@ -1,0 +1,87 @@
+﻿<div class="panel panel-default panel-primary">
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left" >Faktury</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-body">
+    <p>
+      <a routerLink="/invoice/new" class="btn btn-primary">Dodaj fakturę</a>
+      <input #filterTermInput class="form-control pull-right" placeholder="Szukaj..." [(ngModel)]="filterTerm" (input)="filterInvoicesByFilterTerm(filterTermInput.value)">
+      <input type="date" class="form-control pull-right date-input" title="Koniec okresu" #endPeriodDateInput [ngModel]="endPeriodDate | date:'yyyy-MM-dd'" (ngModelChange)="filterInvoicesByDate(startPeriodDateInput.value, endPeriodDateInput.value)" [value]="endPeriodDate | date:'yyyy-MM-dd'">
+      <span class="pull-right"><strong> - </strong></span>
+      <input type="date" class="form-control pull-right date-input" title="Początek okresu" #startPeriodDateInput [ngModel]="startPeriodDate | date:'yyyy-MM-dd'" (ngModelChange)="filterInvoicesByDate(startPeriodDateInput.value, endPeriodDateInput.value)" [value]="startPeriodDate | date:'yyyy-MM-dd'">
+    </p>
+
+      <!-- Invoices -->
+      <template ngFor let-invoice [ngForOf]="filteredInvoices">
+        <table class="table table-hover service-item-set-rows-marker">
+          <thead class="thead-inverse">
+            <tr>
+              <th class="text-left">FV nr {{invoice.id}} z dnia: {{ invoice.invoiceDate | date:'shortDate' }} </th>
+              <th class="text-right customer-code-width"><strong>{{ invoice.customer.customerCode }}</strong></th>
+              <th class="text-left" title="{{ invoice.customer.notes }}"><strong>{{ invoice.customer.name }} <span *ngIf="invoice.customer.brandName">({{invoice.customer.brandName}})</span> <span class="warning-indicator" *ngIf="invoice.customer.shippingCustomerCode">[odbiorca: {{ invoice.customer.shippingCustomerCode }}]</span></strong> <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ invoice.customer.notes }}" *ngIf="invoice.customer.notes"></span></th>
+              <th class="text-right"><strong>Opis:<span *ngIf="invoice.description"> {{ invoice.description }}</span><span *ngIf="!invoice.description"> brak opisu</span></strong></th>
+              <th></th>
+              <th class="text-center"><strong>∑</strong></th>
+              <th class="text-right">
+                <strong>{{ calculateNettoValueAdded(invoice) | currency:'PLN':false:'1.2-2' }}</strong>
+              </th>
+              <th colspan="2"></th>
+              <th class="text-center"><strong>∑</strong></th>
+              <th class="text-right">
+                <strong>{{ calculateGrossValueAdded(invoice) | currency:'PLN':false:'1.2-2' }}</strong>
+              </th>
+              <th class="text-center status-icon-width">
+                <a [routerLink]="['/invoice', invoice.id, 'invoiceItem', 'add']" title="Dodaj pozycję faktury">
+                  <i class="glyphicon glyphicon-plus text-info"></i>
+                </a>
+              </th>
+              <th class="text-center status-icon-width">
+                <a [routerLink]="['/invoice', invoice.id, 'customer', invoice.customer.id]">
+                  <i class="glyphicon glyphicon-edit text-success"></i>
+                </a>
+              </th>
+              <th class="text-center text-danger status-icon-width">
+                <i (click)="deleteInvoice(invoice)" class="glyphicon glyphicon-remove remove-icon"></i>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            
+            <!-- Invoice Items -->
+            <tr *ngFor="let invoiceItem of invoice.invoiceItems">
+                <td></td>
+                <td class="text-right">{{ invoiceItem.remoteSystemServiceCode }}</td>
+                <td colspan="2">{{invoiceItem.description}} <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ invoiceItem.notes }}" *ngIf="invoiceItem.notes"></span></td>
+                <td class="text-right value-width"><strong>{{invoiceItem.quantity}} {{invoiceItem.units}}</strong></td>
+                <td class="text-center sign-width"> x </td>
+                <td class="text-right value-width"><strong>{{invoiceItem.netUnitPrice | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td class="text-center sign-width"> + </td>
+                <td class="text-right percent-width"><strong>{{invoiceItem.vatRate | number:'1.0-2'}} %</strong></td>
+                <td class="text-center sign-width"> = </td>
+                <td class="text-right value-width"><strong>{{invoiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td></td>
+                <td class="text-center status-icon-width">
+                  <a [routerLink]="['/invoice', invoiceItem.id]">
+                    <i class="glyphicon glyphicon-edit text-success"></i>
+                  </a>
+                </td>
+                <td class="text-center text-danger status-icon-width">
+                  <i (click)="deleteInvoiceItem(invoiceItem)" class="glyphicon glyphicon-remove remove-icon"></i>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+    </div>
+</div>
+
