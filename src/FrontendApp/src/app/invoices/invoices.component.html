@@ -21,7 +21,7 @@
     </p>
 
       <!-- Invoices -->
-      <template ngFor let-invoice [ngForOf]="filteredInvoices">
+      <ng-template ngFor let-invoice [ngForOf]="filteredInvoices">
         <table class="table table-hover service-item-set-rows-marker">
           <thead class="thead-inverse">
             <tr>
@@ -81,7 +81,7 @@
             </tr>
           </tbody>
         </table>
-      </template>
+      </ng-template>
     </div>
 </div>
 
