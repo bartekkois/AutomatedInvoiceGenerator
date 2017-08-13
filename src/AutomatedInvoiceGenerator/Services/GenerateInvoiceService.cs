@@ -100,7 +100,7 @@ namespace AutomatedInvoiceGenerator.Services
                         InvoicePeriodEndTime = oneTimeServiceItem.InstallationDate
                     };
 
-                    await _context.InvoicesItems.AddAsync(invoiceItem);
+                    await _context.InvoiceItems.AddAsync(invoiceItem);
 
                     // Update IsInvoiced property
                     oneTimeServiceItem.IsInvoiced = true;
@@ -123,7 +123,7 @@ namespace AutomatedInvoiceGenerator.Services
                     // Calculate the period item must be invoiced for
                     DateTimePeriod invoicingPeriod = new DateTimePeriod();
 
-                    var lastlyInvoicedItem = _context.InvoicesItems.Where(i => i.ServiceItem == subscriptionServiceItem).OrderByDescending(t => t.InvoicePeriodEndTime).FirstOrDefault();
+                    var lastlyInvoicedItem = _context.InvoiceItems.Where(i => i.ServiceItem == subscriptionServiceItem).OrderByDescending(t => t.InvoicePeriodEndTime).FirstOrDefault();
 
                     if (lastlyInvoicedItem == null && subscriptionServiceItem.StartDate.HasValue)
                     {
@@ -178,7 +178,7 @@ namespace AutomatedInvoiceGenerator.Services
                             InvoicePeriodEndTime = invoicePreiod.EndDate
                         };
 
-                        await _context.InvoicesItems.AddAsync(invoiceItem);
+                        await _context.InvoiceItems.AddAsync(invoiceItem);
 
                         _logger.LogInformation("dodano usługę abonamentową: (" + invoiceItem.RemoteSystemServiceCode + ") " + invoiceItem.Description);
                     }

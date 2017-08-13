@@ -23,7 +23,7 @@ namespace AutomatedInvoiceGenerator.Data
         public DbSet<SubscriptionServiceItem> SubscriptionServiceItems { get; set; }
 
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceItem> InvoicesItems { get; set; }
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
 
         private readonly IUserResolverService _userResolverService;
 

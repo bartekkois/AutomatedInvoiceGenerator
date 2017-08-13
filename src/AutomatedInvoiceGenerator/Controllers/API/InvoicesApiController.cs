@@ -156,7 +156,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
                 try
                 {
-                    _context.InvoicesItems.RemoveRange(await _context.InvoicesItems.Where(g => g.InvoiceId == invoiceToBeDeleted.Id).ToListAsync());
+                    _context.InvoiceItems.RemoveRange(await _context.InvoiceItems.Where(g => g.InvoiceId == invoiceToBeDeleted.Id).ToListAsync());
                     _context.Invoices.Remove(invoiceToBeDeleted);
                     await _context.SaveChangesAsync();
                 }

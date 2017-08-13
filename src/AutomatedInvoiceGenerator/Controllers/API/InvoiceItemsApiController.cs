@@ -30,7 +30,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet("InvoiceItems/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var invoiceItems = await _context.InvoicesItems
+            var invoiceItems = await _context.InvoiceItems
                 .Where(i => i.Id == id)
                 .ToListAsync();
 
@@ -51,7 +51,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
             try
             {
-                await _context.InvoicesItems.AddAsync(newInvoiceItem);
+                await _context.InvoiceItems.AddAsync(newInvoiceItem);
                 await _context.SaveChangesAsync();
             }
             catch(Exception exception)
@@ -69,7 +69,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid || updatedInvoiceItemDto.Id != id)
                 return BadRequest();
 
-            var invoiceItems = await _context.InvoicesItems.Where(g => g.Id == id).ToListAsync();
+            var invoiceItems = await _context.InvoiceItems.Where(g => g.Id == id).ToListAsync();
 
             if (!invoiceItems.Any())
                 return NotFound();
@@ -79,7 +79,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
             try
             {
-                _context.InvoicesItems.Update(updatedInvoiceItem);
+                _context.InvoiceItems.Update(updatedInvoiceItem);
                 await _context.SaveChangesAsync();
             }
             catch(Exception exception)
@@ -94,7 +94,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpDelete("InvoiceItems/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var invoiceItems = await _context.InvoicesItems.Where(g => g.Id == id).ToListAsync();
+            var invoiceItems = await _context.InvoiceItems.Where(g => g.Id == id).ToListAsync();
 
             if (invoiceItems.Any())
             {
@@ -102,7 +102,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
 
                 try
                 {
-                    _context.InvoicesItems.Remove(invoiceItemsToBeDeleted);
+                    _context.InvoiceItems.Remove(invoiceItemsToBeDeleted);
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception exception)
