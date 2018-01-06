@@ -4,7 +4,7 @@ import { LocalStorageService } from 'angular-2-local-storage';
 
 import { InvoicesService } from './invoices.service';
 import { Invoice } from './invoice';
-import { InvoiceItem } from './invoice-item';
+import { InvoiceItem } from '../invoice-items/invoice-item';
 import { CustomersService } from '../customers/customers.service';
 import { Customer } from '../customers/customer';
 

@@ -1,4 +1,4 @@
-﻿import { BrowserModule }    from '@angular/platform-browser';
+import { BrowserModule }    from '@angular/platform-browser';
 import { NgModule }         from '@angular/core';
 import { FormsModule }      from '@angular/forms';
 import { HttpModule }       from '@angular/http';
@@ -16,6 +16,8 @@ import { CustomersModule }  from './customers/customers.module';
 import { customersRouting } from './customers/customers.routing';
 import { InvoicesModule } from './invoices/invoices.module';
 import { invoicesRouting } from './invoices/invoices.routing';
+import { InvoiceItemsModule } from './invoice-items/invoice-items.module';
+import { invoiceItemsRouting } from './invoice-items/invoice-items.routing';
 import { ServiceItemsSetsModule } from './service-items-sets/service-items-sets.module';
 import { OneTimeServiceItemsModule } from './one-time-service-items/one-time-service-items.module';
 import { SubscriptionServiceItemsModule } from './subscription-service-items/subscription-service-items.module';
@@ -40,12 +42,14 @@ import { SubscriptionServiceItemsModule } from './subscription-service-items/sub
     SubscriptionServiceItemsModule,
     OneTimeServiceItemsModule,
     InvoicesModule,
+    InvoiceItemsModule,
     groupsRouting,
     customersRouting,
     serviceItemsSetRouting,
     subscriptionServiceItemsRouting,
     oneTimeServiceItemsRouting,
     invoicesRouting,
+    invoiceItemsRouting,
     routing
   ],
   providers: [],

@@ -1,0 +1,169 @@
+<div class="panel panel-default panel-primary">
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left">{{title}}</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form [formGroup]="invoiceItemForm" (ngSubmit)="save()">
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="invoiceItemTemplate">Szablon pozycji</label>
+                  <select class="form-control wide inupt-bold" (change)="setItemDefaultValues(invoiceItemTemplate.value)" #invoiceItemTemplate formControlName="invoiceItemTemplate">
+                    <option [value]="0">Internet</option>
+                    <option [value]="1">Dzierżawa modemu z funckją routera Wi-Fi (firma)</option>
+                    <option [value]="2">Dzierżawa modemu z funckją routera Wi-Fi (prywatny)</option>
+                    <option [value]="3">Opłata za dodatkowy stały publiczny adres IP</option>
+                    <option [value]="4">Telefon (firma)</option>
+                    <option [value]="5">Telefon (prywatny)</option>
+                    <option [value]="6">Telefon - połączenia telefoniczne</option>
+                    <option [value]="7">Dzierżawa pary miedzianej</option>
+                    <option [value]="8">Dzierżawa ciemnych włókien światłowodowych</option>
+                    <option [value]="9">Transmisja danych</option>
+                    <option [value]="10">Telewizja</option>
+                    <option [value]="11">Opłata za fakturę tradycyjną</option>
+                    <option [value]="12">Inny</option>
+
+                    <option [value]="20">Internet - instalacja</option>
+                    <option [value]="21">Telefon - instalacja (firma)</option>
+                    <option [value]="22">Telefon - instalacja (prywatny)</option>
+                    <option [value]="23">Dzierżawa pary miedzianej - instalacja</option>
+                    <option [value]="24">Dzierżawa ciemnych włókien światłowodowych - instalacja</option>
+                    <option [value]="25">Transmisja danych - instalacja</option>
+                    <option [value]="26">Telewizja - instalacja</option>
+                    <option [value]="27">Inny</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="remoteSystemServiceCode">Kod usługi</label>
+                  <input [(ngModel)]="invoiceItem.remoteSystemServiceCode" formControlName="remoteSystemServiceCode" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="invoiceItemForm.controls.remoteSystemServiceCode.touched && !invoiceItemForm.controls.remoteSystemServiceCode.valid" class="alert alert-danger validation-messages">
+                    Kod usługi jest wymagany.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="description">Opis usługi</label>
+                  <input [(ngModel)]="invoiceItem.description" formControlName="description" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="invoiceItemForm.controls.description.touched && !invoiceItemForm.controls.description.valid" class="alert alert-danger validation-messages">
+                    Opis usługi jest wymagany.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="units">Jednostka</label>
+                  <input [(ngModel)]="invoiceItem.units" formControlName="units" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="invoiceItemForm.controls.units.touched && !invoiceItemForm.controls.units.valid" class="alert alert-danger validation-messages">
+                    Jednostka jest wymagana.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="netUnitPrice">Wartość netto</label>
+                  <input currencyMask [options]="{ prefix: '', suffix: ' PLN', thousands: '.', decimal: ',', allowNegative : 'false' }" [(ngModel)]="invoiceItem.netUnitPrice" formControlName="netUnitPrice" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="invoiceItemForm.controls.netUnitPrice.touched && !invoiceItemForm.controls.netUnitPrice.valid" class="alert alert-danger validation-messages">
+                    Wartość netto jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                x
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="quantity">Ilość</label>
+                  <input [(ngModel)]="invoiceItem.quantity" formControlName="quantity" type="number" min="1" step="1" class="form-control wide inupt-bold">
+                  <div *ngIf="invoiceItemForm.controls.quantity.touched && !invoiceItemForm.controls.quantity.valid" class="alert alert-danger validation-messages">
+                    Ilość jest wymagana
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                +
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="vatRate">Stawka VAT</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="invoiceItem.vatRate" formControlName="vatRate">
+                    <option [ngValue]="23">23%</option>
+                    <option [ngValue]="8">8%</option>
+                    <option [ngValue]="5">5%</option>
+                  </select>
+                  <div *ngIf="invoiceItemForm.controls.vatRate.touched && !invoiceItemForm.controls.vatRate.valid" class="alert alert-danger validation-messages">
+                    Stawka VAT jest wymagana.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-1 sign-div">
+                =
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="grossValueAdded">Wartość brutto</label>
+                  <input currencyMask [options]="{ prefix: '', suffix: ' PLN', thousands: '.', decimal: ',', allowNegative : 'false' }" [(ngModel)]="invoiceItem.grossValueAdded" formControlName="grossValueAdded" type="text" class="form-control wide inupt-bold">
+                  <div *ngIf="invoiceItemForm.controls.grossValueAdded.touched && !invoiceItemForm.controls.grossValueAdded.valid" class="alert alert-danger validation-messages">
+                    Wartość brutto jest wymagana
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" hidden>
+              <input [(ngModel)]="invoiceItem.netValueAdded" formControlName="netValueAdded" type="number" class="form-control wide">
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="invoicePeriodStartTime">Początek okresu fakturowania</label>
+                  <input [(ngModel)]="invoiceItem.invoicePeriodStartTime" formControlName="invoicePeriodStartTime" type="datetime-local" class="form-control wide">
+                  <div *ngIf="invoiceItemForm.controls.invoicePeriodStartTime.touched && !invoiceItemForm.controls.invoicePeriodStartTime.valid" class="alert alert-danger validation-messages">
+                    Początek okresu fakturowania jest wymagany.
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="invoicePeriodEndTime">Koniec okresu fakturowania</label>
+                  <input [(ngModel)]="invoiceItem.invoicePeriodEndTime" formControlName="invoicePeriodEndTime" type="datetime-local" class="form-control wide">
+                  <div *ngIf="invoiceItemForm.controls.invoicePeriodEndTime.touched && !invoiceItemForm.controls.invoicePeriodEndTime.valid" class="alert alert-danger validation-messages">
+                    Koniec okresu fakturowania jest wymagany.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" hidden>
+              <input [(ngModel)]="invoiceItem.invoiceId" formControlName="invoiceId" type="number" class="form-control wide" hidden>
+            </div>
+
+            <button [disabled]="!invoiceItemForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
+          </form>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

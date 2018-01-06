@@ -1,4 +1,4 @@
-﻿import { InvoiceItem } from './invoice-item';
+import { InvoiceItem } from '../invoice-items/invoice-item';
 import { CustomerShort } from '../customers/customerShort';
 
 export class Invoice {
