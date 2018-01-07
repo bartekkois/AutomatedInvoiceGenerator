@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -13,6 +13,7 @@ import { CustomersService } from '../customers/customers.service';
 import { InvoicesComponent } from './invoices.component';
 import { InvoiceFormComponent } from './invoice-form.component';
 import { InvoicesService } from './invoices.service';
+import { InvoiceItemsService } from '../invoice-items/invoice-items.service';
 import { GroupsService } from '../groups/groups.service';
 import { SubscriptionServiceItemsService } from './../subscription-service-items/subscription-service-items.service';
 import { OneTimeServiceItemsService } from './../one-time-service-items/one-time-service-items.service';
@@ -38,7 +39,8 @@ import { OneTimeServiceItemsService } from './../one-time-service-items/one-time
         GroupsService,
         SubscriptionServiceItemsService,
         OneTimeServiceItemsService,
-        InvoicesService
+        InvoicesService,
+        InvoiceItemsService
     ]
 })
 export class InvoicesModule {

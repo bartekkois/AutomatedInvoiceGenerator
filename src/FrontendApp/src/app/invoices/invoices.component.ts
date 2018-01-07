@@ -1,10 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
 
 import { InvoicesService } from './invoices.service';
 import { Invoice } from './invoice';
 import { InvoiceItem } from '../invoice-items/invoice-item';
+import { InvoiceItemsService } from '../invoice-items/invoice-items.service';
 import { CustomersService } from '../customers/customers.service';
 import { Customer } from '../customers/customer';
 
@@ -12,7 +13,7 @@ import { Customer } from '../customers/customer';
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.css'],
-  providers: [InvoicesService, CustomersService]
+  providers: [InvoicesService, InvoiceItemsService, CustomersService]
 })
 export class InvoicesComponent implements OnInit {
     invoices: Invoice[];
@@ -23,6 +24,7 @@ export class InvoicesComponent implements OnInit {
     isBusy: boolean = false;
 
     constructor(private _invoicesService: InvoicesService,
+                private _invoiceItemsService: InvoiceItemsService,
                 private _customersService: CustomersService,
                 private _routerService: Router,
                 private _route: ActivatedRoute) {
@@ -100,7 +102,7 @@ export class InvoicesComponent implements OnInit {
 
     deleteInvoice(invoice) {
         if (confirm("Czy na pewno chcesz usunąć fakturę kontrahenta " + invoice.customer.customerCode + " " + invoice.customer.name + "?")) {
-            var index = this.invoices.indexOf(invoice)
+            var index = this.invoices.indexOf(invoice);
             this.invoices.splice(index, 1);
 
             this._invoicesService.deleteInvoice(invoice.id)
@@ -115,5 +117,24 @@ export class InvoicesComponent implements OnInit {
                     this.invoices.splice(index, 0, invoice);
                 });
         }
+    }
+
+    deleteInvoiceItem(invoiceId, invoiceItem) {
+      if (confirm("Czy na pewno chcesz usunąć wybraną pozycję z faktury?")) {
+        var index = this.invoices.find(i => i.id == invoiceId).invoiceItems.indexOf(invoiceItem);
+        this.invoices.find(i => i.id == invoiceId).invoiceItems.splice(index, 1);
+
+        this._invoiceItemsService.deleteInvoiceItem(invoiceItem.id)
+          .subscribe(
+          success => {
+          },
+          error => {
+            if (error.status === 401)
+              this._routerService.navigate(['unauthorized']);
+
+            alert("Usunięcie pozycji z faktury nie powiodło się !!!");
+            this.invoices.find(i => i.id == invoiceId).invoiceItems.splice(index, 0, invoiceItem);
+          });
+      }
     }
 }

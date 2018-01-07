@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
 
@@ -95,7 +95,7 @@ export class CustomersComponent implements OnInit {
 
     deleteCustomer(customer) {
         if (confirm("Czy na pewno chcesz usunąć kontrahenta " + customer.customerCode + " - " + customer.name + "?")) {
-            var index = this.customers.indexOf(customer)
+            var index = this.customers.indexOf(customer);
             this.customers.splice(index, 1);
 
             this._customersService.deleteCustomer(customer.id)
@@ -114,7 +114,7 @@ export class CustomersComponent implements OnInit {
 
     deleteSubscriptionServiceItem(customerId, serviceItemsSetId, subscriptionServiceItemId, subscriptionServiceItem) {
         if (confirm("Czy na pewno chcesz usunąć usługę abonamentową " + subscriptionServiceItem.name + " - " +  subscriptionServiceItem.subName + "?")) {
-            var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.indexOf(subscriptionServiceItem)
+            var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.indexOf(subscriptionServiceItem);
             this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).subscriptionServiceItems.splice(index, 1);
 
             this._subscriptionServiceItemsService.deleteSubscriptionServiceItem(subscriptionServiceItem.id)
@@ -133,7 +133,7 @@ export class CustomersComponent implements OnInit {
 
     deleteOneTimeServiceItem(customerId, serviceItemsSetId, oneTimeServiceItemId, oneTimeServiceItem) {
         if (confirm("Czy na pewno chcesz usunąć usługę jednorazową " + oneTimeServiceItem.name + " - " +  oneTimeServiceItem.subName + "?")) {
-            var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.indexOf(oneTimeServiceItem)
+            var index = this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.indexOf(oneTimeServiceItem);
             this.customers.find(c => c.id == customerId).serviceItemsSets.find(s => s.id == serviceItemsSetId).oneTimeServiceItems.splice(index, 1);
 
             this._oneTimeServiceItemsService.deleteOneTimeServiceItem(oneTimeServiceItemId)
