@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default panel-primary">
+<div class="panel panel-default panel-primary">
   <div class="panel-heading clearfix">
     <div class="panel-title pull-left">{{title}}</div>
     <div class="pull-right" [hidden]="!isBusy">
@@ -21,7 +21,7 @@
                 <div class="form-group">
                   <label for="serviceItemsSetId">Zestaw usług</label>
                   <select class="form-control wide inupt-bold" [(ngModel)]="subscriptionServiceItem.serviceItemsSetId" formControlName="serviceItemsSetId">
-                    <option *ngFor="let serviceItemsSet of currentCustomerServiceItemsSets; let i = index" [ngValue]="serviceItemsSet.id" [attr.selected]="i == 0 ? true : null">{{serviceItemsSet.name}}</option>
+                    <option *ngFor="let serviceItemsSet of currentCustomerServiceItemsSets; let i = index" [ngValue]="serviceItemsSet.id">{{serviceItemsSet.name}}</option>
                   </select>
                   <div *ngIf="subscriptionServiceItemForm.controls.serviceItemsSetId.touched && !subscriptionServiceItemForm.controls.serviceItemsSetId.valid" class="alert alert-danger validation-messages">
                     Zestaw usług jest wymagany.
