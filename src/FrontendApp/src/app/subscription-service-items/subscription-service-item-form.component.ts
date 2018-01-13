@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -287,7 +287,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                 break;
             case "9":
                 subscriptionServiceItemTemplate.serviceCategoryType = 3;
-                subscriptionServiceItemTemplate.remoteSystemServiceCode = "";
+                subscriptionServiceItemTemplate.remoteSystemServiceCode = "1243";
                 subscriptionServiceItemTemplate.name = "Transmisja danych %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;
@@ -299,7 +299,7 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
                 break;
             case "10":
                 subscriptionServiceItemTemplate.serviceCategoryType = 4;
-                subscriptionServiceItemTemplate.remoteSystemServiceCode = "";
+                subscriptionServiceItemTemplate.remoteSystemServiceCode = "1310";
                 subscriptionServiceItemTemplate.name = "Telewizja %DETALE% - abonament %OKRES%";
                 subscriptionServiceItemTemplate.subName = "";
                 subscriptionServiceItemTemplate.isSubNamePrinted = false;

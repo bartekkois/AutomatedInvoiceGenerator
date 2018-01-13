@@ -280,7 +280,7 @@ export class InvoiceItemFormComponent implements OnInit {
           invoiceItemTemplate.invoicePeriodEndTime = this._datePipe.transform(date, 'yyyy-MM-ddThh:mm');
           break;
         case "9":
-          invoiceItemTemplate.remoteSystemServiceCode = "1263";
+          invoiceItemTemplate.remoteSystemServiceCode = "1243";
           invoiceItemTemplate.description = "Transmisja danych DETALE - abonament OKRES";
           invoiceItemTemplate.quantity = 1;
           invoiceItemTemplate.units = "usł.";
@@ -292,7 +292,7 @@ export class InvoiceItemFormComponent implements OnInit {
           invoiceItemTemplate.invoicePeriodEndTime = this._datePipe.transform(date, 'yyyy-MM-ddThh:mm');
           break;
         case "10":
-          invoiceItemTemplate.remoteSystemServiceCode = "1263";
+          invoiceItemTemplate.remoteSystemServiceCode = "1310";
           invoiceItemTemplate.description = "Telewizja DETALE - abonament OKRES";
           invoiceItemTemplate.quantity = 1;
           invoiceItemTemplate.units = "usł.";
@@ -389,7 +389,7 @@ export class InvoiceItemFormComponent implements OnInit {
           invoiceItemTemplate.invoicePeriodEndTime = this._datePipe.transform(date, 'yyyy-MM-ddThh:mm');
           break;
         case "25":
-          invoiceItemTemplate.remoteSystemServiceCode = "1210";
+          invoiceItemTemplate.remoteSystemServiceCode = "1241";
           invoiceItemTemplate.description = "Transmisja danych DETALE - instalacja";
           invoiceItemTemplate.quantity = 1;
           invoiceItemTemplate.units = "usł.";
@@ -401,7 +401,7 @@ export class InvoiceItemFormComponent implements OnInit {
           invoiceItemTemplate.invoicePeriodEndTime = this._datePipe.transform(date, 'yyyy-MM-ddThh:mm');
           break;
         case "26":
-          invoiceItemTemplate.remoteSystemServiceCode = "1211";
+          invoiceItemTemplate.remoteSystemServiceCode = "1300";
           invoiceItemTemplate.description = "Telewizja DETALE - instalacja";
           invoiceItemTemplate.quantity = 1;
           invoiceItemTemplate.units = "usł.";

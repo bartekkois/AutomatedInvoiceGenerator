@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -239,7 +239,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
                 break;
             case "5":
                 oneTimeServiceItemTemplate.serviceCategoryType = 1;
-                oneTimeServiceItemTemplate.remoteSystemServiceCode = "1210";
+                oneTimeServiceItemTemplate.remoteSystemServiceCode = "1241";
                 oneTimeServiceItemTemplate.name = "Transmisja danych %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
@@ -251,7 +251,7 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
                 break;
             case "6":
                 oneTimeServiceItemTemplate.serviceCategoryType = 1;
-                oneTimeServiceItemTemplate.remoteSystemServiceCode = "1211";
+                oneTimeServiceItemTemplate.remoteSystemServiceCode = "1300";
                 oneTimeServiceItemTemplate.name = "Telewizja %DETALE% - instalacja";
                 oneTimeServiceItemTemplate.subName = "";
                 oneTimeServiceItemTemplate.isSubNamePrinted = false;
