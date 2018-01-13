@@ -17,7 +17,7 @@ namespace AutomatedInvoiceGenerator.Models
 
 
         // Relationships
-        public int ServiceItemsSetId { get; set; }
+        public int? ServiceItemsSetId { get; set; }
         [Display(Name = "Zestaw usług:")]
         public virtual ServiceItemsSet ServiceItemsSet { get; set; }
 
