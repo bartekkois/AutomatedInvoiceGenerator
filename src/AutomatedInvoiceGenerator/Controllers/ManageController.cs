@@ -7,7 +7,6 @@ using AutomatedInvoiceGenerator.Models;
 using AutomatedInvoiceGenerator.Models.ManageViewModels;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;

@@ -1,6 +1,5 @@
 ﻿using AutomatedInvoiceGenerator.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -499,7 +498,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
             var admin = new ApplicationUser
             {
                 UserName = "admin@company.com",
-                Email = "admin@company.com",
+                Email = "admin@company.com"
             };
 
             if (await userManager.FindByNameAsync(admin.UserName) == null)
@@ -507,12 +506,12 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                 await userManager.CreateAsync(admin, "admin");
             }
 
-            if (!await userManager.IsInRoleAsync(admin, "Admin"))
+            if (!await userManager.IsInRoleAsync(await userManager.FindByNameAsync(admin.UserName), "Admin"))
             {
                 await userManager.AddToRoleAsync(admin, "Admin");
             }
 
-            if (!await userManager.IsInRoleAsync(admin, "User"))
+            if (!await userManager.IsInRoleAsync(await userManager.FindByNameAsync(admin.UserName), "User"))
             {
                 await userManager.AddToRoleAsync(admin, "User");
             }
@@ -524,7 +523,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
             var user = new ApplicationUser
             {
                 UserName = "user@company.com",
-                Email = "user@company.com",
+                Email = "user@company.com"
             };
 
             if (await userManager.FindByNameAsync(user.UserName) == null)
@@ -532,7 +531,7 @@ namespace AutomatedInvoiceGenerator.Models.SampleData
                 await userManager.CreateAsync(user, "user");
             }
 
-            if (!await userManager.IsInRoleAsync(user, "User"))
+            if (!await userManager.IsInRoleAsync(await userManager.FindByNameAsync(user.UserName), "User"))
             {
                 await userManager.AddToRoleAsync(user, "User");
             }

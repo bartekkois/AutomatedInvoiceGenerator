@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,14 +7,12 @@ using Microsoft.Extensions.Logging;
 using AutomatedInvoiceGenerator.Data;
 using AutomatedInvoiceGenerator.Models;
 using AutomatedInvoiceGenerator.Services;
-using AutomatedInvoiceGenerator.Models.SampleData;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using System.IO;
 using AutoMapper;
-using AutomatedInvoiceGenerator.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
@@ -23,6 +20,7 @@ using System.Threading.Tasks;
 using Serilog;
 using Serilog.Filters;
 using AutomatedInvoiceGenerator.Controllers.API;
+using AutomatedInvoiceGenerator.Models.SampleData;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -62,24 +60,33 @@ namespace AutomatedInvoiceGenerator
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-                options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
-                {
-                    OnRedirectToLogin = context =>
-                    {
-                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == (int)HttpStatusCode.OK)
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        }
-                        else
-                        {
-                            context.Response.Redirect(context.RedirectUri);
-                        }
-                        return Task.FromResult(0);
-                    }
-                })
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromDays(90);
+                    options.LoginPath = "/Account/LogIn";
+                    options.LogoutPath = "/Account/LogOff";
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = context =>
+                        {
+                            if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == (int)HttpStatusCode.OK)
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            }
+                            else
+                            {
+                                context.Response.Redirect(context.RedirectUri);
+                            }
+                            return Task.FromResult(0);
+                        }
+                    };
+                }
+                );
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -88,10 +95,6 @@ namespace AutomatedInvoiceGenerator
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
-
-                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(90);
-                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
-                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
 
                 options.User.RequireUniqueEmail = true;
             });
@@ -105,7 +108,7 @@ namespace AutomatedInvoiceGenerator
             });
 
             // Add application services.
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddTransient<IGenerateInvoiceService, GenerateInvoiceService>();
             services.AddTransient<IExportService, ExportService>();
@@ -142,11 +145,11 @@ namespace AutomatedInvoiceGenerator
                 app.UseDatabaseErrorPage();
                 //app.UseBrowserLink();
 
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-                    var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
-                    var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+                    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                     context.Database.Migrate();
                     context.EnsureSeedData().GetAwaiter().GetResult();
@@ -159,29 +162,17 @@ namespace AutomatedInvoiceGenerator
             {
                 app.UseExceptionHandler("/Home/Error");
 
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-                    var userManager = app.ApplicationServices.GetService<UserManager<ApplicationUser>>();
-                    var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+                    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                     context.Database.Migrate();
                     roleManager.EnsureSeedRoles().GetAwaiter().GetResult();
                     userManager.EnsureSeedAdministrators().GetAwaiter().GetResult();
                 }
             }
-
-            Mapper.Initialize(config =>
-            {
-                config.CreateMap<Group, GroupDto>().ReverseMap();
-                config.CreateMap<Customer, CustomerDto>().ReverseMap().ForMember(dest => dest.ServiceItemsSets, opt => opt.Ignore());
-                config.CreateMap<Customer, CustomerShortDto>();
-                config.CreateMap<ServiceItemsSet, ServiceItemsSetDto>().ReverseMap().ForMember(dest => dest.OneTimeServiceItems, opt => opt.Ignore()).ForMember(dest => dest.SubscriptionServiceItems, opt => opt.Ignore());
-                config.CreateMap<OneTimeServiceItem, OneTimeServiceItemDto>().ReverseMap().ForMember(dest => dest.InvoiceItems, opt => opt.Ignore());
-                config.CreateMap<SubscriptionServiceItem, SubscriptionServiceItemDto>().ReverseMap().ForMember(dest => dest.InvoiceItems, opt => opt.Ignore());
-                config.CreateMap<Invoice, InvoiceDto>().ReverseMap().ForMember(dest => dest.Customer, opt => opt.Ignore()).ForMember(dest => dest.InvoiceItems, opt => opt.Ignore());
-                config.CreateMap<InvoiceItem, InvoiceItemDto>().ReverseMap();
-            });
 
             app.Use(async (context, next) =>
             {
@@ -198,8 +189,7 @@ namespace AutomatedInvoiceGenerator
             });
 
             app.UseStaticFiles();
-
-            app.UseIdentity();
+            app.UseAuthentication();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseMvc(routes =>

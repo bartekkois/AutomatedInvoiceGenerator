@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using AutomatedInvoiceGenerator.Models;
 using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading.Tasks;
 using System.Threading;
@@ -50,6 +49,13 @@ namespace AutomatedInvoiceGenerator.Data
             }
 
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+               .HasMany(e => e.Roles)
+               .WithOne()
+               .HasForeignKey(e => e.UserId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Cascade);
         }
 
         public override int SaveChanges()
