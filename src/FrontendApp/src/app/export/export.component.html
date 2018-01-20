@@ -1,0 +1,63 @@
+<div class="panel panel-default panel-primary">
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left">Eksport</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Początek zakres eksportu:</span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <input type="date" class="form-control date-input wide inupt-bold" [ngModel]="exportStartDate | date:'yyyy-MM-dd'" (ngModelChange)="exportStartDateChanged($event)">
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Koniec zakresu eksportu:</span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <input type="date" class="form-control date-input wide inupt-bold" [ngModel]="exportEndDate | date:'yyyy-MM-dd'" (ngModelChange)="exportEndDateChanged($event)">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Status eksportu:</span>
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <div class="form-group">
+              <span><strong>{{exportStatusMessage}}</strong></span>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="form-group pull-righ">
+              <a (click)="exportInvoicesToComarchOptimaXMLFormatArchive()" class="pull-right btn btn-primary">Exportuj faktury</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

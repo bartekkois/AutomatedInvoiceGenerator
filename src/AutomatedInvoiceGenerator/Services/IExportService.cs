@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace AutomatedInvoiceGenerator.Services
 {
     public interface IExportService
     {
-        Task ExportToOptimaXML(DateTime exportStartDate, DateTime exportEndDate);
+        void FlushOrCreateDirectory(string path);
+        void ExportInvoicesToComarchOptimaXMLFormat(DateTime exportStartDate, DateTime exportEndDate, string temporaryXMLDirectory);
+        void CreateZipArchive(string sourceDirectory, string destinationFile);
     }
 }
