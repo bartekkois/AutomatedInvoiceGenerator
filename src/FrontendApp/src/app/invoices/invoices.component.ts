@@ -13,7 +13,7 @@ import { Customer } from '../customers/customer';
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
   styleUrls: ['./invoices.component.css'],
-  providers: [InvoicesService, InvoiceItemsService, CustomersService]
+  providers: [InvoicesService, InvoiceItemsService, CustomersService, CookieService]
 })
 export class InvoicesComponent implements OnInit {
     invoices: Invoice[];
@@ -27,15 +27,16 @@ export class InvoicesComponent implements OnInit {
                 private _invoiceItemsService: InvoiceItemsService,
                 private _customersService: CustomersService,
                 private _routerService: Router,
-                private _route: ActivatedRoute) {
+                private _route: ActivatedRoute,
+                private _cookieService: CookieService) {
     }
 
     ngOnInit() {
         this.isBusy = true;
 
         var date = new Date();
-        this.startPeriodDate = new Date(date.getFullYear(), date.getMonth(), 1);
-        this.endPeriodDate = new Date(date.getFullYear(), date.getMonth() +1, 0);
+        this._cookieService.check('startPeriodDate') ? this.startPeriodDate = new Date(this._cookieService.get('startPeriodDate')) : this.startPeriodDate = new Date(date.getFullYear(), date.getMonth(), 1);
+        this._cookieService.check('endPeriodDate') ? this.endPeriodDate = new Date(this._cookieService.get('endPeriodDate')) : this.endPeriodDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
         this._route.params
             .subscribe(params => {
@@ -44,7 +45,9 @@ export class InvoicesComponent implements OnInit {
     }
 
     filterInvoicesByDate(startPeriodDate, endPeriodDate) {
-        this.refreshInvoicesView(startPeriodDate, endPeriodDate);
+      this._cookieService.set('startPeriodDate', (new Date(startPeriodDate)).toString(), 1);
+      this._cookieService.set('endPeriodDate', (new Date(endPeriodDate)).toString(), 1);
+      this.refreshInvoicesView(startPeriodDate, endPeriodDate);
     }
 
     filterInvoicesByFilterTerm(filterTerm) {

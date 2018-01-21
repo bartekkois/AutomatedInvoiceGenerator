@@ -91,7 +91,7 @@ export class CustomersComponent implements OnInit {
 
     toggleShowArchived() {
         this.showArchived = !this.showArchived;
-        this._cookieService.set('showArchived', this.showArchived ? 'true' : 'false');
+        this._cookieService.set('showArchived', this.showArchived ? 'true' : 'false', 1);
     }
 
     deleteCustomer(customer) {
