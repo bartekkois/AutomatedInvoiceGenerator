@@ -32,12 +32,12 @@
               <th></th>
               <th class="text-center"><strong>∑</strong></th>
               <th class="text-right">
-                <strong>{{ calculateNettoValueAdded(invoice) | currency:'PLN':false:'1.2-2' }}</strong>
+                <strong>{{ calculateNettoValueAdded(invoice) | currency:'PLN':code:'1.2-2':'pl' }}</strong>
               </th>
               <th colspan="2"></th>
               <th class="text-center"><strong>∑</strong></th>
               <th class="text-right">
-                <strong>{{ calculateGrossValueAdded(invoice) | currency:'PLN':false:'1.2-2' }}</strong>
+                <strong>{{ calculateGrossValueAdded(invoice) | currency:'PLN':code:'1.2-2':'pl' }}</strong>
               </th>
               <th class="text-center status-icon-width">
                 <a [routerLink]="['/invoice', invoice.id, 'invoiceItem', 'new']" title="Dodaj pozycję faktury">
@@ -64,11 +64,11 @@
                 <td colspan="2">{{invoiceItem.description}} <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ invoiceItem.notes }}" *ngIf="invoiceItem.notes"></span></td>
                 <td class="text-right value-width"><strong>{{invoiceItem.quantity}} {{invoiceItem.units}}</strong></td>
                 <td class="text-center sign-width"> x </td>
-                <td class="text-right value-width"><strong>{{invoiceItem.netUnitPrice | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td class="text-right value-width"><strong>{{invoiceItem.netUnitPrice | currency:'PLN':code:'1.2-2':'pl' }}</strong></td>
                 <td class="text-center sign-width"> + </td>
                 <td class="text-right percent-width"><strong>{{invoiceItem.vatRate | number:'1.0-2'}} %</strong></td>
                 <td class="text-center sign-width"> = </td>
-                <td class="text-right value-width"><strong>{{invoiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td class="text-right value-width"><strong>{{invoiceItem.grossValueAdded | currency:'PLN':code:'1.2-2':'pl' }}</strong></td>
                 <td></td>
                 <td class="text-center status-icon-width">
                   <a [routerLink]="['/invoice', invoice.id, 'invoiceItem', invoiceItem.id]">

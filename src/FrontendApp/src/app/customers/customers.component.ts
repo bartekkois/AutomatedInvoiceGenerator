@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { CookieService } from 'ngx-cookie-service';
 
 import { CustomersService } from './customers.service';
 import { Customer } from './customer';
@@ -10,7 +10,8 @@ import { OneTimeServiceItemsService } from './../one-time-service-items/one-time
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
-  styleUrls: ['./customers.component.css']
+  styleUrls: ['./customers.component.css'],
+  providers: [CookieService]
 })
 export class CustomersComponent implements OnInit {
     customers: Customer[];
@@ -23,13 +24,13 @@ export class CustomersComponent implements OnInit {
                 private _oneTimeServiceItemsService: OneTimeServiceItemsService,
                 private _routerService: Router,
                 private _route: ActivatedRoute,
-                private _localStorageService: LocalStorageService) {
+                private _cookieService : CookieService ) {
     }
 
     ngOnInit() {
         this.isBusy = true;
 
-        this._localStorageService.get('showArchived') == "true" ? this.showArchived = true : this.showArchived = false;
+        this._cookieService.get('showArchived') == "true" ? this.showArchived = true : this.showArchived = false;
 
         this._route.params
             .subscribe(params => {
@@ -90,7 +91,7 @@ export class CustomersComponent implements OnInit {
 
     toggleShowArchived() {
         this.showArchived = !this.showArchived;
-        this._localStorageService.set('showArchived', this.showArchived ? 'true' : 'false');
+        this._cookieService.set('showArchived', this.showArchived ? 'true' : 'false');
     }
 
     deleteCustomer(customer) {

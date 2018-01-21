@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default panel-primary">
+<div class="panel panel-default panel-primary">
   <div class="panel-heading clearfix">
     <div class="panel-title pull-left" >Kontrahenci</div>
     <div class="pull-right" [hidden]="!isBusy">
@@ -79,11 +79,11 @@
                 <td colspan="3" title="{{ subscriptionServiceItem.notes }}">{{subscriptionServiceItem.fullName}} <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ subscriptionServiceItem.notes }}" *ngIf="subscriptionServiceItem.notes"></span></td>
                 <td class="text-right value-width"><strong>{{subscriptionServiceItem.quantity}}</strong></td>
                 <td class="text-center sign-width"> x </td>
-                <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td class="text-right value-width"><strong>{{subscriptionServiceItem.netValue | currency:'PLN':code:'1.2-2':'pl'}}</strong></td>
                 <td class="text-center sign-width"> + </td>
                 <td class="text-right percent-width"><strong>{{subscriptionServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
                 <td class="text-center sign-width"> = </td>
-                <td class="text-right value-width" colspan="2"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+                <td class="text-right value-width" colspan="2"><strong>{{subscriptionServiceItem.grossValueAdded | currency:'PLN':code:'1.2-2':'pl'}}</strong></td>
                 <td class="text-center status-icon-width">
                   <a [routerLink]="['/customer', customer.id, 'serviceItemsSet', serviceItemsSet.id, 'subscriptionServiceItem', subscriptionServiceItem.id]">
                     <i class="glyphicon glyphicon-edit text-success"></i>
@@ -108,11 +108,11 @@
               <td colspan="3" title="{{ oneTimeServiceItem.notes }}">{{oneTimeServiceItem.fullName}} <span class="glyphicon glyphicon-info-sign notes-indicator" title="{{ oneTimeServiceItem.notes }}" *ngIf="oneTimeServiceItem.notes"></span></td>
               <td class="text-right value-width"><strong>{{oneTimeServiceItem.quantity}}</strong></td>
               <td class="text-center sign-width"> x </td>
-              <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-right value-width"><strong>{{oneTimeServiceItem.netValue | currency:'PLN':code:'1.2-2':'pl'}}</strong></td>
               <td class="text-center sign-width"> + </td>
               <td class="text-right percent-width"><strong>{{oneTimeServiceItem.vatRate | number:'1.0-2'}} %</strong></td>
               <td class="text-center sign-width"> = </td>
-              <td class="text-right value-width" colspan="2"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':false:'1.2-2'}}</strong></td>
+              <td class="text-right value-width" colspan="2"><strong>{{oneTimeServiceItem.grossValueAdded | currency:'PLN':code:'1.2-2':'pl'}}</strong></td>
               <td class="text-center status-icon-width">
                 <a [routerLink]="['/customer', customer.id, 'serviceItemsSet', serviceItemsSet.id, 'oneTimeServiceItem', oneTimeServiceItem.id]">
                   <i class="glyphicon glyphicon-edit text-success"></i>

@@ -2,7 +2,7 @@ import { BrowserModule }    from '@angular/platform-browser';
 import { NgModule }         from '@angular/core';
 import { FormsModule }      from '@angular/forms';
 import { HttpModule }       from '@angular/http';
-import { LocalStorageModule } from 'angular-2-local-storage';
+import { CookieService }    from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -33,10 +33,6 @@ import { ExportModule } from './export/export.module';
     FormsModule,
     HttpModule,
     SharedModule,
-    LocalStorageModule.withConfig({
-        prefix: 'automated-invoice-generator',
-        storageType: 'localStorage'
-    }),
     GroupsModule,
     CustomersModule,
     ServiceItemsSetsModule,
@@ -56,7 +52,7 @@ import { ExportModule } from './export/export.module';
     exportRouting,
     routing
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

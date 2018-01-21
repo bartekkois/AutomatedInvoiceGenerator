@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { LocalStorageService } from 'angular-2-local-storage';
 import * as FileSaver from "file-saver";
 
 import { ExportService } from './export.service';

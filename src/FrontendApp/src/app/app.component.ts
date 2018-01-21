@@ -1,11 +1,12 @@
-﻿import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Event, Router, NavigationEnd } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [{ provide: LOCALE_ID, useValue: 'pl-PL' }]
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent implements OnInit {
@@ -14,6 +15,8 @@ export class AppComponent implements OnInit {
     constructor(private _routerService: Router) {  }
 
     ngOnInit() {
+        registerLocaleData(localePl);
+
         this._routerService.events
             .subscribe((event: Event) => {
                 if (event instanceof NavigationEnd && event.url === '/unauthorized')

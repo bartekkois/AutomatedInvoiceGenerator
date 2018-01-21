@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { CookieService } from 'ngx-cookie-service';
 
 import { InvoicesService } from './invoices.service';
 import { Invoice } from './invoice';
