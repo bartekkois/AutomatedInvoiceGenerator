@@ -11,6 +11,7 @@ import { groupsRouting } from './groups/groups.routing';
 import { serviceItemsSetRouting } from './service-items-sets/service-items-sets.routing';
 import { subscriptionServiceItemsRouting } from './subscription-service-items/subscription-service-items.routing';
 import { oneTimeServiceItemsRouting } from './one-time-service-items/one-time-service-items.routing';
+import { generateInvoicesRouting } from './generate-invoices/generate-invoices.routing';
 import { exportRouting } from './export/export.routing';
 import { routing } from './app.routing';
 import { CustomersModule }  from './customers/customers.module';
@@ -22,6 +23,7 @@ import { invoiceItemsRouting } from './invoice-items/invoice-items.routing';
 import { ServiceItemsSetsModule } from './service-items-sets/service-items-sets.module';
 import { OneTimeServiceItemsModule } from './one-time-service-items/one-time-service-items.module';
 import { SubscriptionServiceItemsModule } from './subscription-service-items/subscription-service-items.module';
+import { GenerateInvoicesModule } from './generate-invoices/generate-invoices.module';
 import { ExportModule } from './export/export.module';
 
 @NgModule({
@@ -41,6 +43,7 @@ import { ExportModule } from './export/export.module';
     OneTimeServiceItemsModule,
     InvoicesModule,
     InvoiceItemsModule,
+    GenerateInvoicesModule,
     ExportModule,
     groupsRouting,
     customersRouting,
@@ -49,6 +52,7 @@ import { ExportModule } from './export/export.module';
     oneTimeServiceItemsRouting,
     invoicesRouting,
     invoiceItemsRouting,
+    generateInvoicesRouting,
     exportRouting,
     routing
   ],

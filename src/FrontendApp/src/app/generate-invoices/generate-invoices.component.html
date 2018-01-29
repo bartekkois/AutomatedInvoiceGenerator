@@ -1,0 +1,80 @@
+<div class="panel panel-default panel-primary">
+  <div class="panel-heading clearfix">
+    <div class="panel-title pull-left">Generowanie faktur</div>
+    <div class="pull-right" [hidden]="!isBusy">
+      <!-- Loading spinner -->
+      <div id="loadFacebookG">
+        <div id="blockG_1" class="facebook_blockG"></div>
+        <div id="blockG_2" class="facebook_blockG"></div>
+        <div id="blockG_3" class="facebook_blockG"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Początek generowania faktur:</span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <input type="date" class="form-control date-input wide inupt-bold" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDateChanged($event)">
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Data faktur:</span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="form-group">
+              <input type="date" class="form-control date-input wide inupt-bold" [ngModel]="invoiceDate | date:'yyyy-MM-dd'" (ngModelChange)="invoiceDateChanged($event)">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Status generowania faktur:</span>
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <div class="form-group">
+              <span><strong>{{generateInvoicesStatusMessage}}</strong></span>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="form-group pull-righ">
+              <a (click)="generateInvoices()" class="pull-right btn btn-primary" [class.disabled]="isGeneratingInvoices">Generuj faktury</a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Logi procesu generowania faktur:</span>
+            </div>
+          </div>
+          <div class="col-xs-9">
+            <div class="form-group">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <span><pre [innerHTML]="generateInvoicesLogs"></pre></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

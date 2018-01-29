@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using AutomatedInvoiceGenerator.Services;
 using Microsoft.Extensions.Logging;
+using System.IO;
+using System.Text;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -50,7 +52,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         public async Task<IActionResult> GetByDateAndCustomer(DateTime startDate, DateTime endDate, int? customerId)
         {
             var invoices = await _context.Invoices
-                .Where(d => d.InvoiceDate.Date >= startDate.Date && d.InvoiceDate.Date <= endDate.Date)
+                .Where(d => d.InvoiceDate.Date >= startDate.ToLocalTime().Date && d.InvoiceDate.ToLocalTime().Date <= endDate.Date)
                 .Where(g => !customerId.HasValue || g.CustomerId == customerId)
                 .Include(i => i.Customer)
                 .Include(i => i.InvoiceItems)
@@ -86,28 +88,20 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             return CreatedAtRoute("", new { id = newInvoice.Id }, Mapper.Map<InvoiceDto>(newInvoice));
         }
 
-        // POST api/GenerateInvoice
-        [HttpPost("GenerateInvoice")]
-        public async Task<IActionResult> GenerateInvoice([FromBody]GenerateInvoiceDto generateInvoiceDto)
+        // POST api/GenerateInvoices
+        [HttpPost("GenerateInvoices")]
+        public async Task<IActionResult> GenerateInvoices([FromBody]GenerateInvoicesDto generateInvoiceDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            _logger.LogInformation("=== Generowanie zestawu faktur z datą: " + generateInvoiceDto.InvoiceDate);
+            _logger.LogInformation("=== Generowanie zestawu faktur z datą: " + generateInvoiceDto.InvoiceDate.ToLocalTime().Date + " od dnia: " + generateInvoiceDto.StartDate.ToLocalTime().Date);
 
-            foreach (int customerId in generateInvoiceDto.Customers)
+            foreach (Customer customer in _context.Customers.Where(c => c.IsArchived == false).ToList())
             {
-                var customers = await _context.Customers.Where(c => c.Id == customerId).ToListAsync();
-
-                if (!customers.Any())
-                {
-                    _logger.LogError("== Nie znaleziono abonenta o Id: " + customerId);
-                    continue;
-                }
-
                 try
                 {
-                    await _generateInvoiceService.GenerateInvoice(customers.First(), generateInvoiceDto.StartDate, generateInvoiceDto.InvoiceDate);
+                    await _generateInvoiceService.GenerateInvoice(customer, generateInvoiceDto.StartDate.ToLocalTime(), generateInvoiceDto.InvoiceDate.ToLocalTime());
                 }
                 catch (Exception exception)
                 {
@@ -116,6 +110,39 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             }
 
             return StatusCode(201);
+        }
+
+        // GET api/GenerateInvoicesLogs/2017-07-01T00:00:00
+        [HttpGet("GenerateInvoicesLogs/{logsDate:datetime}")]
+        public async Task<IActionResult> GenerateInvoiceLogs(DateTime logsDate)
+        {
+            var logsFilePath = "Logs/GenerateInvoices/log-" + logsDate.ToString("yyyy") + logsDate.ToString("MM") + logsDate.ToString("dd") + ".txt";
+
+            if (logsDate.ToLocalTime().Date > DateTime.Now.ToLocalTime().Date)
+                return BadRequest();
+
+            if (!System.IO.File.Exists(logsFilePath))
+                return NotFound();
+
+            try
+            {
+                StringBuilder logs = new StringBuilder();
+                using (var stream = new FileStream(logsFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var reader = new StreamReader(stream))
+                {
+                    string line;
+                    while ((line = await reader.ReadLineAsync()) != null)
+                    {
+                        logs.Append(line + "\n");
+                    }
+                }
+
+                return Content(logs.ToString());
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception);
+            }
         }
 
         // PUT api/Invoices/5

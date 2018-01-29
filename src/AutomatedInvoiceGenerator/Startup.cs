@@ -31,9 +31,14 @@ namespace AutomatedInvoiceGenerator
             Configuration = configuration;
 
             Log.Logger = new LoggerConfiguration()
-                .Filter.ByIncludingOnly(s => (Matching.FromSource<GenerateInvoiceService>()(s) || Matching.FromSource<InvoicesApiController>()(s)) || Matching.FromSource<ExportService>()(s))
-                .MinimumLevel.Information()
-                .WriteTo.RollingFile("Logs/Log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100)
+                .WriteTo.Logger(c => c
+                    .Filter.ByIncludingOnly(s => (Matching.FromSource<GenerateInvoiceService>()(s) || Matching.FromSource<InvoicesApiController>()(s)))
+                    .MinimumLevel.Information()
+                    .WriteTo.RollingFile("Logs/GenerateInvoices/log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100, shared: true))
+                .WriteTo.Logger(c => c
+                    .Filter.ByIncludingOnly(s => Matching.FromSource<ExportService>()(s))
+                    .MinimumLevel.Information()
+                    .WriteTo.RollingFile("Logs/ExportInvoices/log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100, shared: true))
                 .CreateLogger();
         }
 

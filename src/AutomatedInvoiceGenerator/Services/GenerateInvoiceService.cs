@@ -23,26 +23,26 @@ namespace AutomatedInvoiceGenerator.Services
         {
             _logger.LogInformation("== Generowanie faktury dla abonenta (" + customer.CustomerCode + ") " + customer.Name);
 
-            // Customer
+            // Customer checks
+            if (customer.IsArchived == true)
+            {
+                var message = "abonent (" + customer.CustomerCode + ") " + customer.Name + " zarchiwizowany - pominięto";
+                _logger.LogError(message);
+                return;
+            }
+
             if (_context.Invoices.Where(i => i.Customer == customer && i.InvoiceDate.Month == invoiceDate.Month).Any())
             {
-                var message = "abonent (" + customer.CustomerCode + ") " + customer.Name + " posiada już fakturę wystawioną w podanym miesiącu";
+                var message = "abonent (" + customer.CustomerCode + ") " + customer.Name + " posiada już fakturę wystawioną w podanym miesiącu - pominięto";
                 _logger.LogError(message);
-                throw new Exception(message);
+                return;
             }
 
             if (customer.IsSuspended == true)
             {
-                var message = "abonent (" + customer.CustomerCode + ") " + customer.Name + " zawieszony";
-                _logger.LogError(message);
-                throw new Exception(message);
-            }
-
-            if (customer.IsArchived == true)
-            {
-                var message = "abonent (" + customer.CustomerCode + ") " + customer.Name + " zarchiwizowany";
-                _logger.LogError(message);
-                throw new Exception(message);
+                var message = "abonent (" + customer.CustomerCode + ") " + customer.Name + " zawieszony - pominięto";
+                _logger.LogWarning(message);
+                return;
             }
 
             // Service Items Sets
@@ -149,7 +149,7 @@ namespace AutomatedInvoiceGenerator.Services
                     {
                         var message = "wystąpił błąd podczas obliczania okresu fakturowania usługi abonamentowej: " + subscriptionServiceItem.Name + " " + subscriptionServiceItem.SubName + " kontrahenta: " + customer.CustomerCode + " " + customer.Name;
                         _logger.LogError(message);
-                        throw new Exception(message);
+                        return;
                     }
 
                     // Build Invoice Items

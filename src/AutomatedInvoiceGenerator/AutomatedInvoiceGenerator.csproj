@@ -45,7 +45,8 @@
   </Target>
 
   <ItemGroup>
-    <Folder Include="Logs\" />
+    <Folder Include="Logs\ExportInvoices\" />
+    <Folder Include="Logs\GenerateInvoices\" />
   </ItemGroup>
 
 </Project>

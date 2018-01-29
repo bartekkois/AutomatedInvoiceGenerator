@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.DTO
 {
-    public class GenerateInvoiceDto
+    public class GenerateInvoicesDto
     {
-        [Required]
-        public IEnumerable<int> Customers { get; set; }
-
         [Required]
         public DateTime StartDate { get; set; }
 

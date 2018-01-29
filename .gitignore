@@ -245,7 +245,8 @@ ModelManifest.xml
 .fake/
 
 # Application logs
-**/Logs/*.txt
+**/Logs/ExportInvoices/*.txt
+**/Logs/GenerateInvoices/*.txt
 
 # Temporary export directory
 **/Temp/
