@@ -50,11 +50,28 @@
           </div>
           <div class="col-xs-4">
             <div class="form-group pull-righ">
-              <a (click)="exportInvoicesToComarchOptimaXMLFormatArchive()" class="pull-right btn btn-primary">Exportuj faktury</a>
+              <a (click)="exportInvoicesToComarchOptimaXMLFormatArchive()" class="pull-right btn btn-primary" [class.disabled]="isExportingInvoices">Exportuj faktury</a>
             </div>
           </div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="form-group pull-right">
+              <span>Logi procesu eksportu faktur:</span>
+            </div>
+          </div>
+          <div class="col-xs-9">
+            <div class="form-group">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <span><pre [innerHTML]="exportInvoicesToComarchOptimaXMLFormatArchiveLogs"></pre></span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

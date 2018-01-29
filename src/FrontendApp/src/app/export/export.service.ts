@@ -12,4 +12,9 @@ export class ExportService {
       return this._http.get(this._apiUrl + 'ExportInvoicesToComarchOptimaXMLFormatArchive' + "/" + exportStartDate + "/" + exportEndDate, { responseType: ResponseContentType.ArrayBuffer })
         .map(res => res);
     }
+
+    exportInvoicesToComarchOptimaXMLFormatArchiveLogs(logsDate) {
+      return this._http.get(this._apiUrl + 'ExportInvoicesToComarchOptimaXMLFormatArchiveLogs' + "/" + logsDate)
+        .map(res => res.text());
+    }
 }

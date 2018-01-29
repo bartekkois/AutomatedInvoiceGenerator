@@ -16,6 +16,8 @@ export class ExportComponent implements OnInit {
     exportEndDate: Date;
     exportStatusMessage: string = " ";
     isBusy: boolean = false;
+    isExportingInvoices: boolean = false;
+    exportInvoicesToComarchOptimaXMLFormatArchiveLogs: string = "";
 
     constructor(private _exportService: ExportService,
                 private _routerService: Router,
@@ -40,6 +42,29 @@ export class ExportComponent implements OnInit {
       this.exportEndDate = new Date(newExportEndDate);
     }
 
+    private refreshExportInvoicesToComarchOptimaXMLFormatArchiveLogs() {
+      this._exportService.exportInvoicesToComarchOptimaXMLFormatArchiveLogs(new Date().toISOString())
+        .subscribe(response => {
+          this.exportInvoicesToComarchOptimaXMLFormatArchiveLogs = "";
+          var lines: string[] = response.split("\n");
+
+          for (var i = 0, l = lines.length; i < l; i++) {
+            var formatting: string = "text-info";
+
+            if (lines[i].indexOf("[Error]") >= 0)
+              formatting = "text-danger";
+
+            if (lines[i].indexOf("[Warning]") >= 0)
+              formatting = "text-warning";
+
+            this.exportInvoicesToComarchOptimaXMLFormatArchiveLogs = this.exportInvoicesToComarchOptimaXMLFormatArchiveLogs + "<span class=" + formatting + ">" + lines[i] + "</span>" + "\n";
+          }
+        },
+        error => {
+          this.exportInvoicesToComarchOptimaXMLFormatArchiveLogs = error;
+        });
+    }
+
     exportInvoicesToComarchOptimaXMLFormatArchive() {
       this.isBusy = true;
       this.exportStatusMessage = "Rozpoczęto eksport ..."
@@ -54,10 +79,14 @@ export class ExportComponent implements OnInit {
           FileSaver.saveAs(blob, filename);
 
           this.exportStatusMessage = "Poprawnie zakończono eksport"
+          this.refreshExportInvoicesToComarchOptimaXMLFormatArchiveLogs();
+          this.isExportingInvoices = false;
           this.isBusy = false;
         },
         error => {
           this.exportStatusMessage = "Wystapił błąd podczas eksportu"
+          this.refreshExportInvoicesToComarchOptimaXMLFormatArchiveLogs();
+          this.isExportingInvoices = false;
           this.isBusy = false;
         });
     }
