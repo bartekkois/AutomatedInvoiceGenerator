@@ -46,12 +46,12 @@ namespace AutomatedInvoiceGenerator.Controllers
 
                 await Task.Run(() =>
                 {
-                    _logger.LogInformation("== Rozpoczecie eksportu faktur z zakresu: " + exportStartDate.ToLocalTime() + " - " + exportEndDate.ToLocalTime());
+                    _logger.LogInformation("=== Rozpoczecie eksportu faktur z zakresu: " + exportStartDate.ToLocalTime() + " - " + exportEndDate.ToLocalTime());
                     _exportService.FlushOrCreateDirectory(temporaryXMLDirectory);
                     _exportService.FlushOrCreateDirectory(temporaryZIPDirectory);
                     _exportService.ExportInvoicesToComarchOptimaXMLFormat(exportStartDate.ToLocalTime(), exportEndDate.ToLocalTime(), temporaryXMLDirectory);
                     _exportService.CreateZipArchive(temporaryXMLDirectory, temporaryZIPDirectory + temporaryZIPFile);
-                    _logger.LogInformation("== Zakończenie eksportu faktur z zakresu: " + exportStartDate.ToLocalTime() + " - " + exportEndDate.ToLocalTime());
+                    _logger.LogInformation("=== Zakończenie eksportu faktur z zakresu: " + exportStartDate.ToLocalTime() + " - " + exportEndDate.ToLocalTime());
                 });
 
                 return PhysicalFile(temporaryZIPDirectory + temporaryZIPFile, "application/zip", temporaryZIPFile);

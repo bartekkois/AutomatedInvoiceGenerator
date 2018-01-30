@@ -21,6 +21,7 @@ using Serilog;
 using Serilog.Filters;
 using AutomatedInvoiceGenerator.Controllers.API;
 using AutomatedInvoiceGenerator.Models.SampleData;
+using AutomatedInvoiceGenerator.Controllers;
 
 namespace AutomatedInvoiceGenerator
 {
@@ -36,7 +37,7 @@ namespace AutomatedInvoiceGenerator
                     .MinimumLevel.Information()
                     .WriteTo.RollingFile("Logs/GenerateInvoices/log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100, shared: true))
                 .WriteTo.Logger(c => c
-                    .Filter.ByIncludingOnly(s => Matching.FromSource<ExportService>()(s))
+                    .Filter.ByIncludingOnly(s => (Matching.FromSource<ExportService>()(s)) || Matching.FromSource <ExportController>()(s))
                     .MinimumLevel.Information()
                     .WriteTo.RollingFile("Logs/ExportInvoices/log-{Date}.txt", fileSizeLimitBytes: 1024 * 1024 * 100, shared: true))
                 .CreateLogger();

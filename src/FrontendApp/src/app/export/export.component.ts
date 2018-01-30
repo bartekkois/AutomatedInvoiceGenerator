@@ -67,6 +67,7 @@ export class ExportComponent implements OnInit {
 
     exportInvoicesToComarchOptimaXMLFormatArchive() {
       this.isBusy = true;
+      this.isExportingInvoices = true;
       this.exportStatusMessage = "Rozpoczęto eksport ..."
 
       this._exportService.exportInvoicesToComarchOptimaXMLFormatArchive(this.exportStartDate.toISOString(), this.exportEndDate.toISOString())
