@@ -97,7 +97,8 @@ namespace AutomatedInvoiceGenerator.Services
                         VATRate = oneTimeServiceItem.VATRate,
                         GrossValueAdded = oneTimeServiceItem.GrossValueAdded,
                         InvoicePeriodStartTime = oneTimeServiceItem.InstallationDate,
-                        InvoicePeriodEndTime = oneTimeServiceItem.InstallationDate
+                        InvoicePeriodEndTime = oneTimeServiceItem.InstallationDate,
+                        ServiceItem = oneTimeServiceItem
                     };
 
                     await _context.InvoiceItems.AddAsync(invoiceItem);
@@ -175,7 +176,8 @@ namespace AutomatedInvoiceGenerator.Services
                             VATRate = subscriptionServiceItem.VATRate,
                             GrossValueAdded = Math.Round(subscriptionServiceItem.GrossValueAdded * invoicePeriodAsFractionOfMonth, 2),
                             InvoicePeriodStartTime = invoicePreiod.StartDate,
-                            InvoicePeriodEndTime = invoicePreiod.EndDate
+                            InvoicePeriodEndTime = invoicePreiod.EndDate,
+                            ServiceItem = subscriptionServiceItem
                         };
 
                         await _context.InvoiceItems.AddAsync(invoiceItem);
