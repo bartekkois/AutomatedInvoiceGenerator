@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/debounceTime';
 import { DatePipe } from '@angular/common';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/toPromise';
 
 import { InvoicesService } from '../invoices/invoices.service';
 import { Invoice } from '../invoices/invoice';
@@ -11,6 +12,7 @@ import { InvoiceItemsService } from './invoice-items.service';
 import { InvoiceItem } from './invoice-item';
 import { CustomerShort } from '../customers/customerShort';
 import { CustomersService } from '../customers/customers.service';
+import { ServiceItemsSet } from 'app/service-items-sets/service-items-set';
 
 @Component({
   selector: 'invoice-item-form',
@@ -23,6 +25,7 @@ export class InvoiceItemFormComponent implements OnInit {
     invoiceItem = new InvoiceItem();
     invoiceItemForm: FormGroup;
     invoiceItemTemplateTypeIsSet = false;
+    currentCustomerServiceItemsSets: ServiceItemsSet[];
     title: string = " ";
     isBusy: boolean = false;
 
@@ -65,7 +68,7 @@ export class InvoiceItemFormComponent implements OnInit {
                 this._invoicesService.getInvoice(this.invoiceId)
                     .subscribe(
                     invoice => {
-                        this.title = invoiceItemId ? "Edytuj" : "Dodaj" + " pozycję faktury o numerze wewnętrznym FID" + invoice.id + " kontrahenta " + invoice.customer.name; 
+                      this.title = invoiceItemId ? "Edytuj" : "Dodaj" + " pozycję faktury o numerze wewnętrznym FID" + invoice.id + " kontrahenta " + invoice.customer.name;
                     },
                     error => {
                         if (error.status === 401)
@@ -75,6 +78,27 @@ export class InvoiceItemFormComponent implements OnInit {
                             this._routerService.navigate(['invoices']);
                         }
                     });
+
+                this._invoicesService.getInvoice(this.invoiceId).toPromise()
+                  .then(result =>
+                    this._customersService.getCustomer(result.customerId)
+                      .subscribe(
+                      customer => {
+                        this.currentCustomerServiceItemsSets = customer.serviceItemsSets;
+                      })
+                  )
+                  .catch
+                    (
+                    error => {
+                      if (error.status === 401)
+                        this._routerService.navigate(['unauthorized']);
+
+                      if (error.status === 404) {
+                        this._routerService.navigate(['invoices']);
+                      }
+                      this.isBusy = false;
+                    }
+                  );
 
                 if (!invoiceItemId) {
                     var date = new Date();
@@ -89,10 +113,6 @@ export class InvoiceItemFormComponent implements OnInit {
                     this.invoiceItem.invoicePeriodStartTime = this._datePipe.transform(date, 'yyyy-MM-dd');
                     this.invoiceItem.invoicePeriodEndTime = this._datePipe.transform(date, 'yyyy-MM-dd');
                     this.invoiceItem.invoiceId = this.invoiceId;
-
-                    //
-                    // Add missing serviceItemId assignment
-                    //
 
                     this.isBusy = false;
                     return;

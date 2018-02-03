@@ -57,12 +57,31 @@
             </div>
 
             <div class="row">
-              <div class="col-xs-6">
+              <div class="col-xs-12">
                 <div class="form-group">
                   <label for="description">Opis usługi</label>
                   <input [(ngModel)]="invoiceItem.description" formControlName="description" type="text" class="form-control wide inupt-bold">
                   <div *ngIf="invoiceItemForm.controls.description.touched && !invoiceItemForm.controls.description.valid" class="alert alert-danger validation-messages">
                     Opis usługi jest wymagany.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="serviceItemId">Usługa powiązana</label>
+                  <select class="form-control wide inupt-bold" [(ngModel)]="invoiceItem.serviceItemId" formControlName="serviceItemId">
+                    <ng-template ngFor let-serviceItemsSet [ngForOf]="currentCustomerServiceItemsSets">
+                      <optgroup label="{{serviceItemsSet.name}}">
+                        <option *ngFor="let serviceItem of serviceItemsSet.oneTimeServiceItems.children; let i = index" [ngValue]="serviceItem.id">{{serviceItem.name}}</option>
+                        <option *ngFor="let serviceItem of serviceItemsSet.subscriptionServiceItems; let i = index" [ngValue]="serviceItem.id">{{serviceItem.name}}</option>
+                      </optgroup>
+                    </ng-template>
+                  </select>
+                  <div *ngIf="invoiceItemForm.controls.serviceItemId.touched && !invoiceItemForm.controls.serviceItemId.valid" class="alert alert-danger validation-messages">
+                    Usluga powiązana jest wymagana.
                   </div>
                 </div>
               </div>

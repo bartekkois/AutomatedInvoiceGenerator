@@ -1,24 +1,6 @@
-﻿export class OneTimeServiceItem {
-    id: number;
-    serviceCategoryType: number;
-    remoteSystemServiceCode: string;
-    name: string;
-    subName: string;
-    fullName: string;
-    isSubNamePrinted: boolean;
-    specificLocation: string;
-    serviceItemCustomerSpecificTag: string;
-    notes: string;
-    isValueVariable: boolean;
-    netValue: number;
-    quantity: number;
-    vatRate: number;
-    grossValueAdded: number;
-    isManual: boolean;
-    isBlocked: boolean;
-    isSuspended: boolean;
+import { ServiceItem } from "app/service-items/service-item";
+
+export class OneTimeServiceItem extends ServiceItem {
     installtionDate: string;
     isInvoiced: boolean;
-    isArchived: boolean;
-    serviceItemsSetId: number;
 }
