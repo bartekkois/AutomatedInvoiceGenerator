@@ -91,7 +91,7 @@ namespace AutomatedInvoiceGenerator.Services
                         RemoteSystemServiceCode = oneTimeServiceItem.RemoteSystemServiceCode,
                         Description = oneTimeServiceItem.Name.Replace("%DETALE%", currentItemDetails),
                         Quantity = oneTimeServiceItem.Quantity,
-                        Units = "usł.",                                                                 // TO BE FIXED !!!!!
+                        Units = "usł.",
                         NetUnitPrice = oneTimeServiceItem.NetValue,
                         NetValueAdded = oneTimeServiceItem.NetValue * oneTimeServiceItem.Quantity,
                         VATRate = oneTimeServiceItem.VATRate,
@@ -170,7 +170,7 @@ namespace AutomatedInvoiceGenerator.Services
                             RemoteSystemServiceCode = subscriptionServiceItem.RemoteSystemServiceCode,
                             Description = subscriptionServiceItem.Name.Replace("%DETALE%", currentItemDetails).Replace("%OKRES%", invoicePreiod.StartDate.Value.ToString("MM/yyyy")),
                             Quantity = subscriptionServiceItem.Quantity,
-                            Units = "usł.",                                                             // TO BE FIXED !!!!!
+                            Units = "usł.",
                             NetUnitPrice = Math.Round(subscriptionServiceItem.NetValue * invoicePeriodAsFractionOfMonth, 2),
                             NetValueAdded = Math.Round(subscriptionServiceItem.NetValue * invoicePeriodAsFractionOfMonth * subscriptionServiceItem.Quantity, 2),
                             VATRate = subscriptionServiceItem.VATRate,
