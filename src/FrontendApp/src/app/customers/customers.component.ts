@@ -6,6 +6,7 @@ import { CustomersService } from './customers.service';
 import { Customer } from './customer';
 import { SubscriptionServiceItemsService } from './../subscription-service-items/subscription-service-items.service';
 import { OneTimeServiceItemsService } from './../one-time-service-items/one-time-service-items.service';
+import { ServiceItemInvoiceHistoryComponent } from './../service-item-invoice-history/service-item-invoice-history.component';
 
 @Component({
   selector: 'app-customers',
@@ -39,7 +40,7 @@ export class CustomersComponent implements OnInit {
                 if (!isNaN(groupId)) {
                     this._customersService.getCustomersByGroup(groupId)
                         .subscribe(
-                        customers => {
+                          customers => {
                             this.customers = customers;
                             this.filteredCustomers = customers;
                             this.isBusy = false;
@@ -57,7 +58,7 @@ export class CustomersComponent implements OnInit {
                 else {
                     this._customersService.getCustomers()
                         .subscribe(
-                        customers => {
+                          customers => {
                             this.customers = customers;
                             this.filteredCustomers = customers;
                             this.isBusy = false;

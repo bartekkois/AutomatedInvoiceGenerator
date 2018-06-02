@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,7 @@ import { CustomersService } from './customers.service';
 import { GroupsService } from '../groups/groups.service';
 import { SubscriptionServiceItemsService } from './../subscription-service-items/subscription-service-items.service';
 import { OneTimeServiceItemsService } from './../one-time-service-items/one-time-service-items.service';
+import { ServiceItemInvoiceHistoryModule } from 'app/service-item-invoice-history/service-item-invoice-history.module';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { OneTimeServiceItemsService } from './../one-time-service-items/one-time
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        HttpModule
+        HttpModule,
+        ServiceItemInvoiceHistoryModule
     ],
     declarations: [
         CustomersComponent,

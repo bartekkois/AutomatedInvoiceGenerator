@@ -138,6 +138,37 @@ textarea.wide {
 	font-weight: bold;
 }
 
+/* Progress bar for displaying invoiced periods */
+.invoice-periods {
+	margin-bottom: 0px;
+	padding: 0px;
+	min-width: 366px;
+	max-width: 366px;
+}
+
+.period {
+	height: inherit;
+	width: 1px;
+	max-width: 1px;
+	border: 0px;
+}
+
+.period-not-invoiced {
+	background-color: #f6f6f6;
+}
+
+.period-invoiced {
+	background-color: #c4e3f3;
+}
+
+.period-not-invoiced-month-marker {
+	background-color: #ddd;
+}
+
+.period-invoiced-month-marker {
+	background-color: #008cba;
+}
+
 /* Loading spinner */
 #loadFacebookG{
 	width:29px;

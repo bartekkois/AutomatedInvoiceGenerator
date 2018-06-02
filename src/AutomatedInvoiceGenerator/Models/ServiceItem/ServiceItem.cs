@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.Models
 {
@@ -73,5 +74,10 @@ namespace AutomatedInvoiceGenerator.Models
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+
+        // Relationships
+        [Display(Name = "Pozycja faktury:")]
+        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
     }
 }
