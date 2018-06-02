@@ -1,3 +1,5 @@
+import { InvoiceItemShort } from "../invoice-items/invoice-item-short";
+
 export class  ServiceItem {
     id: number;
     serviceCategoryType: number;
@@ -19,4 +21,5 @@ export class  ServiceItem {
     isSuspended: boolean;
     isArchived: boolean;
     serviceItemsSetId: number;
+    invoiceItemsForLastYearShorts: InvoiceItemShort[];
 }

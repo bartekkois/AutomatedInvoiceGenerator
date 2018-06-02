@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedInvoiceGenerator.Models
@@ -20,8 +19,5 @@ namespace AutomatedInvoiceGenerator.Models
         public int? ServiceItemsSetId { get; set; }
         [Display(Name = "Zestaw usług:")]
         public virtual ServiceItemsSet ServiceItemsSet { get; set; }
-
-        [Display(Name = "Pozycja faktury:")]
-        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
     }
 }

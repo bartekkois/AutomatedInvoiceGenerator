@@ -1,7 +1,9 @@
 ﻿using AutomatedInvoiceGenerator.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AutomatedInvoiceGenerator.DTO
 {
@@ -80,5 +82,16 @@ namespace AutomatedInvoiceGenerator.DTO
 
         [Required]
         public int ServiceItemsSetId { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<InvoiceItemShortDto> InvoiceItemShorts { get; set; }
+
+        public virtual ICollection<InvoiceItemShortDto> InvoiceItemsForLastYearShorts
+        {
+            get
+            {
+                return InvoiceItemShorts.Where(x => x.InvoicePeriodStartTime > DateTime.Now.AddMonths(-13) || x.InvoicePeriodEndTime > DateTime.Now.AddMonths(-13)).ToList();
+            }
+        }
     }
 }

@@ -30,8 +30,10 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             var customers = await _context.Customers
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.OneTimeServiceItems)
+                        .ThenInclude(j => j.InvoiceItems)
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.SubscriptionServiceItems)
+                        .ThenInclude(j => j.InvoiceItems)
                 .OrderBy(o => o.IsArchived)
                 .ThenBy(o => o.CustomerCode)
                 .ToListAsync();
@@ -65,8 +67,10 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 .Where(g => g.GroupId == groupId)
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.OneTimeServiceItems)
+                        .ThenInclude(j => j.InvoiceItems)
                 .Include(s => s.ServiceItemsSets)
                     .ThenInclude(i => i.SubscriptionServiceItems)
+                        .ThenInclude(j => j.InvoiceItems)
                 .OrderBy(o => o.IsArchived)
                 .ThenBy(o => o.CustomerCode)
                 .ToListAsync();

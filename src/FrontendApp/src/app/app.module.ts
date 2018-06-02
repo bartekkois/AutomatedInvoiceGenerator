@@ -25,6 +25,7 @@ import { OneTimeServiceItemsModule } from './one-time-service-items/one-time-ser
 import { SubscriptionServiceItemsModule } from './subscription-service-items/subscription-service-items.module';
 import { GenerateInvoicesModule } from './generate-invoices/generate-invoices.module';
 import { ExportModule } from './export/export.module';
+import { ServiceItemInvoiceHistoryModule } from './service-item-invoice-history/service-item-invoice-history.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ExportModule } from './export/export.module';
     InvoicesModule,
     InvoiceItemsModule,
     GenerateInvoicesModule,
+    ServiceItemInvoiceHistoryModule,
     ExportModule,
     groupsRouting,
     customersRouting,
