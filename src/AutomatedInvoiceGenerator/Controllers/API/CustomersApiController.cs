@@ -9,6 +9,7 @@ using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -17,31 +18,39 @@ namespace AutomatedInvoiceGenerator.Controllers.API
     public class CustomersApiController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
 
-        public CustomersApiController(ApplicationDbContext context)
+        public CustomersApiController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         // GET: api/Customers
         [HttpGet("Customers")]
         public async Task<IActionResult> Get()
         {
-            var customers = await _context.Customers
-                .Include(s => s.ServiceItemsSets)
-                    .ThenInclude(i => i.OneTimeServiceItems)
-                        .ThenInclude(j => j.InvoiceItems)
-                .Include(s => s.ServiceItemsSets)
-                    .ThenInclude(i => i.SubscriptionServiceItems)
-                        .ThenInclude(j => j.InvoiceItems)
-                .OrderBy(o => o.IsArchived)
-                .ThenBy(o => o.CustomerCode)
-                .ToListAsync();
+            if (!_cache.TryGetValue(IMemoryCacheKeys.customersCacheKey, out IList<Customer> cacheCustomersEntry))
+            {
+                cacheCustomersEntry = await _context.Customers
+                    .Include(s => s.ServiceItemsSets)
+                        .ThenInclude(i => i.OneTimeServiceItems)
+                            .ThenInclude(j => j.InvoiceItems)
+                    .Include(s => s.ServiceItemsSets)
+                        .ThenInclude(i => i.SubscriptionServiceItems)
+                            .ThenInclude(j => j.InvoiceItems)
+                    .OrderBy(o => o.IsArchived)
+                    .ThenBy(o => o.CustomerCode)
+                    .ToListAsync();
 
-            if (!customers.Any())
+                _cache.Set(IMemoryCacheKeys.customersCacheKey, cacheCustomersEntry, new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(300)));
+            }
+
+            if (!cacheCustomersEntry.Any())
                 return Json(Mapper.Map<IEnumerable<CustomerDto>>(Enumerable.Empty<Customer>()));
 
-            return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
+            return Json(Mapper.Map<IEnumerable<CustomerDto>>(cacheCustomersEntry));
         }
 
         // GET: api/CustomersShort
@@ -63,22 +72,24 @@ namespace AutomatedInvoiceGenerator.Controllers.API
         [HttpGet("CustomersByGroup/{groupId}")]
         public async Task<IActionResult> GetByGroup(int groupId)
         {
-            var customers = await _context.Customers
-                .Where(g => g.GroupId == groupId)
-                .Include(s => s.ServiceItemsSets)
-                    .ThenInclude(i => i.OneTimeServiceItems)
-                        .ThenInclude(j => j.InvoiceItems)
-                .Include(s => s.ServiceItemsSets)
-                    .ThenInclude(i => i.SubscriptionServiceItems)
-                        .ThenInclude(j => j.InvoiceItems)
-                .OrderBy(o => o.IsArchived)
-                .ThenBy(o => o.CustomerCode)
-                .ToListAsync();
+            if (!_cache.TryGetValue(IMemoryCacheKeys.customersCacheKey, out IList<Customer> cacheCustomersEntry))
+            {
+                cacheCustomersEntry = await _context.Customers
+                    .Include(s => s.ServiceItemsSets)
+                        .ThenInclude(i => i.OneTimeServiceItems)
+                            .ThenInclude(j => j.InvoiceItems)
+                    .Include(s => s.ServiceItemsSets)
+                        .ThenInclude(i => i.SubscriptionServiceItems)
+                            .ThenInclude(j => j.InvoiceItems)
+                    .OrderBy(o => o.IsArchived)
+                    .ThenBy(o => o.CustomerCode)
+                    .ToListAsync();
+            }
 
-            if (!customers.Any())
+            if (!cacheCustomersEntry.Where(g => g.GroupId == groupId).Any())
                 return Json(Mapper.Map<IEnumerable<CustomerDto>>(Enumerable.Empty<Customer>()));
 
-            return Json(Mapper.Map<IEnumerable<CustomerDto>>(customers));
+            return base.Json(Mapper.Map<IEnumerable<CustomerDto>>(cacheCustomersEntry.Where(g => g.GroupId == groupId)));
         }
 
         // GET api/Customers/5
@@ -114,9 +125,10 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             var newCustomer = Mapper.Map<Customer>(newCustomerDto);
 
             try
-            { 
+            {
                 _context.Customers.Add(newCustomer);
                 await _context.SaveChangesAsync();
+                _cache.Remove(IMemoryCacheKeys.customersCacheKey);
             }
             catch (Exception exception)
             {
@@ -145,6 +157,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             {
                 _context.Customers.Update(updatedCustomer);
                 await _context.SaveChangesAsync();
+                _cache.Remove(IMemoryCacheKeys.customersCacheKey);
             }
             catch(Exception exception)
             {
@@ -172,6 +185,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 {
                     _context.Customers.Remove(customerToBeDeleted);
                     await _context.SaveChangesAsync();
+                    _cache.Remove(IMemoryCacheKeys.customersCacheKey);
                 }
                 catch (Exception exception)
                 {

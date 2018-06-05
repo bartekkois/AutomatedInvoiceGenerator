@@ -9,6 +9,7 @@ using AutomatedInvoiceGenerator.DTO;
 using AutomatedInvoiceGenerator.Models;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AutomatedInvoiceGenerator.Controllers.API
 {
@@ -17,10 +18,12 @@ namespace AutomatedInvoiceGenerator.Controllers.API
     public class OneTimeServiceItemsApiController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMemoryCache _cache;
 
-        public OneTimeServiceItemsApiController(ApplicationDbContext context)
+        public OneTimeServiceItemsApiController(ApplicationDbContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         // GET: api/OneTimeServiceItems
@@ -61,6 +64,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             {
                 _context.ServiceItems.Add(newOneTimeServiceItem);
                 await _context.SaveChangesAsync();
+                _cache.Remove(IMemoryCacheKeys.customersCacheKey);
             }
             catch (Exception exception)
             {
@@ -89,6 +93,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             {
                 _context.ServiceItems.Update(updatedOneTimeServiceItem);
                 await _context.SaveChangesAsync();
+                _cache.Remove(IMemoryCacheKeys.customersCacheKey);
             }
             catch (Exception exception)
             {
@@ -112,6 +117,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 {
                     _context.ServiceItems.Remove(oneTimeServiceItemToBeDeleted);
                     await _context.SaveChangesAsync();
+                    _cache.Remove(IMemoryCacheKeys.customersCacheKey);
                 }
                 catch (Exception exception)
                 {

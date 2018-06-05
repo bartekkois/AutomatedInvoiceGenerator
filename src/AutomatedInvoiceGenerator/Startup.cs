@@ -93,6 +93,8 @@ namespace AutomatedInvoiceGenerator
                 options.User.RequireUniqueEmail = true;
             });
 
+            services.AddMemoryCache();
+
             services.AddMvc();
 
             services.AddAuthorization(options =>
