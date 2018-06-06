@@ -20,14 +20,14 @@ export class ServiceItemInvoiceHistoryComponent implements OnInit  {
 
   ngOnInit() {
     var todaysMonthBeginningDate = moment(new Date()).startOf('month').startOf('day').toDate();
-    var numberOfDaysYearAgo = moment(new Date()).add(-1, 'year').add(1, 'month').startOf('month').startOf('day').diff(todaysMonthBeginningDate, 'days', false) -1;
-    var numberOfDaysMonthAhead = moment(new Date()).add(1, 'month').startOf('month').startOf('day').add(-1, 'day').diff(todaysMonthBeginningDate, 'days', false);
+    var numberOfDaysYearAgo = moment(new Date()).add(-1, 'year').add(1, 'month').startOf('month').startOf('day').diff(todaysMonthBeginningDate, 'days', false);
+    var numberOfDaysMonthAhead = moment(new Date()).endOf('month').endOf('day').diff(todaysMonthBeginningDate, 'days', false);
 
     // Initilize array of days
-    this.yearTimeline = new Array(Math.abs(numberOfDaysYearAgo) + Math.abs(numberOfDaysMonthAhead));
+    this.yearTimeline = new Array(Math.abs(numberOfDaysYearAgo) + Math.abs(numberOfDaysMonthAhead) + 1);
 
     // Add dates and markers to indicate months beginnings
-    for (var arrayIndex = 0; arrayIndex < (Math.abs(numberOfDaysYearAgo) + Math.abs(numberOfDaysMonthAhead)); arrayIndex++) {
+    for (var arrayIndex = 0; arrayIndex < (Math.abs(numberOfDaysYearAgo) + Math.abs(numberOfDaysMonthAhead) + 1); arrayIndex++) {
       var currentIndexMoment = moment(new Date(this.calculateDateFromArrayIndex(numberOfDaysYearAgo, arrayIndex)));
       var currentArrayIndexMonthBeginningMoment = moment(new Date(currentIndexMoment.toDate())).startOf('month');
 
@@ -66,7 +66,7 @@ export class ServiceItemInvoiceHistoryComponent implements OnInit  {
   }
 
   calculateArrayIndexFromDay(numberOfDaysYearAgo, relativeDay) {
-    return Math.abs(numberOfDaysYearAgo - relativeDay +1);
+    return Math.abs(numberOfDaysYearAgo - relativeDay);
   }
 
   calculateDayFromArrayIndex(numberOfDaysYearAgo, arrayIndex) {
@@ -74,7 +74,6 @@ export class ServiceItemInvoiceHistoryComponent implements OnInit  {
   }
 
   calculateDateFromArrayIndex(numberOfDaysYearAgo, arrayIndex) {
-    return moment(new Date()).add(numberOfDaysYearAgo + arrayIndex, 'day').startOf('day').toDate();
-    
+    return moment(new Date()).startOf('month').startOf('day').add(numberOfDaysYearAgo + arrayIndex, 'day').startOf('day').toDate();
   }
 }
