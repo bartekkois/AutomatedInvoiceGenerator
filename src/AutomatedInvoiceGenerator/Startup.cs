@@ -104,7 +104,8 @@ namespace AutomatedInvoiceGenerator
             });
 
             // Add application services.
-            services.AddAutoMapper(typeof(AutoMapperProfile));
+            Mapper.Initialize(cfg => cfg.AddProfile<AutoMapperProfile>());
+            services.AddAutoMapper();
 
             services.AddTransient<IGenerateInvoiceService, GenerateInvoiceService>();
             services.AddTransient<IExportService, ExportService>();
@@ -131,15 +132,12 @@ namespace AutomatedInvoiceGenerator
                 SupportedUICultures = supportedCultures
             });
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                //app.UseBrowserLink();
 
                 using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {

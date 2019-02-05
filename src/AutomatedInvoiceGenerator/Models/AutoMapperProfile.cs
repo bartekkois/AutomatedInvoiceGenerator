@@ -21,12 +21,12 @@ namespace AutomatedInvoiceGenerator.Models
                 .ForMember(dest => dest.SubscriptionServiceItems, opt => opt.Ignore());
 
             CreateMap<OneTimeServiceItem, OneTimeServiceItemDto>()
-                .ForMember(dest => dest.InvoiceItemShorts, opt => opt.ResolveUsing(s => s.InvoiceItems))
+                .ForMember(dest => dest.InvoiceItemShorts, opt => opt.MapFrom(s => s.InvoiceItems))
                 .ReverseMap()
                 .ForMember(dest => dest.InvoiceItems, opt => opt.Ignore());
 
             CreateMap<SubscriptionServiceItem, SubscriptionServiceItemDto>()
-                .ForMember(dest => dest.InvoiceItemShorts, opt => opt.ResolveUsing(s => s.InvoiceItems))
+                .ForMember(dest => dest.InvoiceItemShorts, opt => opt.MapFrom(s => s.InvoiceItems))
                 .ReverseMap()
                 .ForMember(dest => dest.InvoiceItems, opt => opt.Ignore());
 
