@@ -1,6 +1,8 @@
-﻿import { Injectable } from '@angular/core';
+
+import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class OneTimeServiceItemsService {
@@ -13,8 +15,8 @@ export class OneTimeServiceItemsService {
     }
 
     getOneTimeServiceItems() {
-        return this._http.get(this._apiUrl + 'OneTimeServiceItems')
-            .map(res => res.json());
+        return this._http.get(this._apiUrl + 'OneTimeServiceItems').pipe(
+            map(res => res.json()));
     }
 
     //getOneTimeServiceItemsByServiceItemsSet(serviceItemsSetId) {
@@ -23,22 +25,22 @@ export class OneTimeServiceItemsService {
     //}
 
     getOneTimeServiceItem(oneTimeServiceItemId) {
-        return this._http.get(this.getOneTimeServiceItemUrl(oneTimeServiceItemId))
-            .map(res => res.json());
+        return this._http.get(this.getOneTimeServiceItemUrl(oneTimeServiceItemId)).pipe(
+            map(res => res.json()));
     }
 
     addOneTimeServiceItem(oneTimeServiceItem) {
-        return this._http.post(this._apiUrl + 'OneTimeServiceItems', oneTimeServiceItem)
-            .map(res => res.json());
+        return this._http.post(this._apiUrl + 'OneTimeServiceItems', oneTimeServiceItem).pipe(
+            map(res => res.json()));
     }
 
     updateOneTimeServiceItem(oneTimeServiceItem) {
-        return this._http.put(this.getOneTimeServiceItemUrl(oneTimeServiceItem.id), oneTimeServiceItem)
-            .map(res => res.json());
+        return this._http.put(this.getOneTimeServiceItemUrl(oneTimeServiceItem.id), oneTimeServiceItem).pipe(
+            map(res => res.json()));
     }
 
     deleteOneTimeServiceItem(oneTimeServiceItemId) {
-        return this._http.delete(this.getOneTimeServiceItemUrl(oneTimeServiceItemId))
-            .map(res => res.json());
+        return this._http.delete(this.getOneTimeServiceItemUrl(oneTimeServiceItemId)).pipe(
+            map(res => res.json()));
     }
 }

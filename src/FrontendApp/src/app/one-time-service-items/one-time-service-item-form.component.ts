@@ -1,8 +1,10 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/debounceTime';
+import { Observable } from 'rxjs';
+
 
 import { OneTimeServiceItem } from './one-time-service-item';
 import { OneTimeServiceItemsService } from './one-time-service-items.service';
@@ -127,27 +129,27 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
 
 
         // Realtime form recalculations
-        this.oneTimeServiceItemForm.controls["netValue"].valueChanges
-            .debounceTime(100)
+        this.oneTimeServiceItemForm.controls["netValue"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 this.oneTimeServiceItem.grossValueAdded = (this.oneTimeServiceItem.netValue * this.oneTimeServiceItem.quantity) * (1 + (this.oneTimeServiceItem.vatRate / 100));
             });
 
-        this.oneTimeServiceItemForm.controls["quantity"].valueChanges
-            .debounceTime(100)
+        this.oneTimeServiceItemForm.controls["quantity"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 if (Number.isInteger(this.oneTimeServiceItem.quantity))
                     this.oneTimeServiceItem.grossValueAdded = (this.oneTimeServiceItem.netValue * this.oneTimeServiceItem.quantity) * (1 + (this.oneTimeServiceItem.vatRate / 100));
             });
 
-        this.oneTimeServiceItemForm.controls["vatRate"].valueChanges
-            .debounceTime(100)
+        this.oneTimeServiceItemForm.controls["vatRate"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 this.oneTimeServiceItem.grossValueAdded = (this.oneTimeServiceItem.netValue * this.oneTimeServiceItem.quantity) * (1 + (this.oneTimeServiceItem.vatRate / 100));
             });
 
-        this.oneTimeServiceItemForm.controls["grossValueAdded"].valueChanges
-            .debounceTime(100)
+        this.oneTimeServiceItemForm.controls["grossValueAdded"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 this.oneTimeServiceItem.netValue = this.oneTimeServiceItem.grossValueAdded / (1 + (this.oneTimeServiceItem.vatRate / 100)) / this.oneTimeServiceItem.quantity;
             });

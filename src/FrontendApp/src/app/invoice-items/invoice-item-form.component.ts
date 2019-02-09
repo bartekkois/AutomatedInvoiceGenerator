@@ -1,10 +1,12 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/toPromise';
+
+
 
 import { InvoicesService } from '../invoices/invoices.service';
 import { Invoice } from '../invoices/invoice';
@@ -136,30 +138,30 @@ export class InvoiceItemFormComponent implements OnInit {
           });
 
         // Realtime form recalculations
-        this.invoiceItemForm.controls["netUnitPrice"].valueChanges
-          .debounceTime(100)
+        this.invoiceItemForm.controls["netUnitPrice"].valueChanges.pipe(
+          debounceTime(100))
           .subscribe((ngModelChange) => {
             this.invoiceItem.netValueAdded = this.invoiceItem.netUnitPrice * this.invoiceItem.quantity;
             this.invoiceItem.grossValueAdded = (this.invoiceItem.netUnitPrice * this.invoiceItem.quantity) * (1 + (this.invoiceItem.vatRate / 100));
           });
 
-        this.invoiceItemForm.controls["quantity"].valueChanges
-          .debounceTime(100)
+        this.invoiceItemForm.controls["quantity"].valueChanges.pipe(
+          debounceTime(100))
           .subscribe((ngModelChange) => {
             if (Number.isInteger(this.invoiceItem.quantity))
               this.invoiceItem.netValueAdded = this.invoiceItem.netUnitPrice * this.invoiceItem.quantity;
               this.invoiceItem.grossValueAdded = (this.invoiceItem.netUnitPrice * this.invoiceItem.quantity) * (1 + (this.invoiceItem.vatRate / 100));
           });
 
-        this.invoiceItemForm.controls["vatRate"].valueChanges
-          .debounceTime(100)
+        this.invoiceItemForm.controls["vatRate"].valueChanges.pipe(
+          debounceTime(100))
           .subscribe((ngModelChange) => {
             this.invoiceItem.netValueAdded = this.invoiceItem.netUnitPrice * this.invoiceItem.quantity;
             this.invoiceItem.grossValueAdded = (this.invoiceItem.netUnitPrice * this.invoiceItem.quantity) * (1 + (this.invoiceItem.vatRate / 100));
           });
 
-        this.invoiceItemForm.controls["grossValueAdded"].valueChanges
-          .debounceTime(100)
+        this.invoiceItemForm.controls["grossValueAdded"].valueChanges.pipe(
+          debounceTime(100))
           .subscribe((ngModelChange) => {
             this.invoiceItem.netValueAdded = this.invoiceItem.grossValueAdded / (1 + (this.invoiceItem.vatRate / 100));
             this.invoiceItem.netUnitPrice = this.invoiceItem.grossValueAdded / (1 + (this.invoiceItem.vatRate / 100)) / this.invoiceItem.quantity;

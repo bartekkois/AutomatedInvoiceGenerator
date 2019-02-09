@@ -1,6 +1,8 @@
-﻿import { Injectable } from '@angular/core';
+
+import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class SubscriptionServiceItemsService {
@@ -13,8 +15,8 @@ export class SubscriptionServiceItemsService {
     }
 
     getSubscriptionServiceItems() {
-        return this._http.get(this._apiUrl + 'SubscriptionServiceItems')
-            .map(res => res.json());
+        return this._http.get(this._apiUrl + 'SubscriptionServiceItems').pipe(
+            map(res => res.json()));
     }
 
     //getSubscriptionServiceItemsByServiceItemsSet(serviceItemsSetId) {
@@ -23,22 +25,22 @@ export class SubscriptionServiceItemsService {
     //}
 
     getSubscriptionServiceItem(subscriptionServiceItemId) {
-        return this._http.get(this.getSubscriptionServiceItemUrl(subscriptionServiceItemId))
-            .map(res => res.json());
+        return this._http.get(this.getSubscriptionServiceItemUrl(subscriptionServiceItemId)).pipe(
+            map(res => res.json()));
     }
 
     addSubscriptionServiceItem(subscriptionServiceItem) {
-        return this._http.post(this._apiUrl + 'SubscriptionServiceItems', subscriptionServiceItem)
-            .map(res => res.json());
+        return this._http.post(this._apiUrl + 'SubscriptionServiceItems', subscriptionServiceItem).pipe(
+            map(res => res.json()));
     }
 
     updateSubscriptionServiceItem(subscriptionServiceItem) {
-        return this._http.put(this.getSubscriptionServiceItemUrl(subscriptionServiceItem.id), subscriptionServiceItem)
-            .map(res => res.json());
+        return this._http.put(this.getSubscriptionServiceItemUrl(subscriptionServiceItem.id), subscriptionServiceItem).pipe(
+            map(res => res.json()));
     }
 
     deleteSubscriptionServiceItem(subscriptionServiceItemId) {
-        return this._http.delete(this.getSubscriptionServiceItemUrl(subscriptionServiceItemId))
-            .map(res => res.json());
+        return this._http.delete(this.getSubscriptionServiceItemUrl(subscriptionServiceItemId)).pipe(
+            map(res => res.json()));
     }
 }

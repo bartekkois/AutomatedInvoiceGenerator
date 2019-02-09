@@ -1,8 +1,10 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/debounceTime';
+import { Observable } from 'rxjs';
+
 
 import { SubscriptionServiceItem } from './subscription-service-item';
 import { SubscriptionServiceItemsService } from './subscription-service-items.service';
@@ -127,27 +129,27 @@ export class SubscriptionServiceItemFormComponent implements OnInit  {
 
 
         // Realtime form recalculations
-        this.subscriptionServiceItemForm.controls["netValue"].valueChanges
-            .debounceTime(100)
+        this.subscriptionServiceItemForm.controls["netValue"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 this.subscriptionServiceItem.grossValueAdded = (this.subscriptionServiceItem.netValue * this.subscriptionServiceItem.quantity) * (1 + (this.subscriptionServiceItem.vatRate / 100));
             });
 
-        this.subscriptionServiceItemForm.controls["quantity"].valueChanges
-            .debounceTime(100)
+        this.subscriptionServiceItemForm.controls["quantity"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 if (Number.isInteger(this.subscriptionServiceItem.quantity))
                     this.subscriptionServiceItem.grossValueAdded = (this.subscriptionServiceItem.netValue * this.subscriptionServiceItem.quantity) * (1 + (this.subscriptionServiceItem.vatRate / 100));
             });
 
-        this.subscriptionServiceItemForm.controls["vatRate"].valueChanges
-            .debounceTime(100)
+        this.subscriptionServiceItemForm.controls["vatRate"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 this.subscriptionServiceItem.grossValueAdded = (this.subscriptionServiceItem.netValue * this.subscriptionServiceItem.quantity) * (1 + (this.subscriptionServiceItem.vatRate / 100));
             });
 
-        this.subscriptionServiceItemForm.controls["grossValueAdded"].valueChanges
-            .debounceTime(100)
+        this.subscriptionServiceItemForm.controls["grossValueAdded"].valueChanges.pipe(
+            debounceTime(100))
             .subscribe((ngModelChange) => {
                 this.subscriptionServiceItem.netValue = this.subscriptionServiceItem.grossValueAdded / (1 + (this.subscriptionServiceItem.vatRate / 100)) / this.subscriptionServiceItem.quantity;
             });

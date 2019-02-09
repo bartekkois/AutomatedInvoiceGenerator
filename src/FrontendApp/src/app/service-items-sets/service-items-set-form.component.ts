@@ -1,7 +1,7 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { ServiceItemsSet } from '../service-items-sets/service-items-set';
 import { ServiceItemsSetsService } from '../service-items-sets/service-items-sets.service';
