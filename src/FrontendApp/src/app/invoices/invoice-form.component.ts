@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -115,6 +115,7 @@ export class InvoiceFormComponent implements OnInit {
     }
 
     save() {
+        this.isBusy = true;
         var result;
 
         if (this.invoice.id)
@@ -125,6 +126,19 @@ export class InvoiceFormComponent implements OnInit {
         result.subscribe(success => {
             this.invoiceForm.markAsPristine();
             this._routerService.navigate(['invoices']);
+            this.isBusy = false;
+        },
+        error => {
+            if (error.status === 401)
+                this._routerService.navigate(['unauthorized']);
+
+            if (error.status === 404) 
+                this._routerService.navigate(['invoices']);
+
+            if (error.status === 409)
+                this._routerService.navigate(['invoices']);
+
+            this.isBusy = false;
         });
     }
 

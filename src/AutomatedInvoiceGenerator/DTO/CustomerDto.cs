@@ -50,6 +50,9 @@ namespace AutomatedInvoiceGenerator.DTO
         [Required]
         public bool IsArchived { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         [Required]
         public int GroupId { get; set; }
 

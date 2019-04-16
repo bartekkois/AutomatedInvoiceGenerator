@@ -145,21 +145,22 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid || updatedCustomerDto.Id != id)
                 return BadRequest();
 
-            var customers = await _context.Customers.Where(g => g.Id == id).ToListAsync();
-
-            if (!customers.Any())
-                return NotFound();
-
-            Customer updatedCustomer = customers.First();
-            Mapper.Map(updatedCustomerDto, updatedCustomer);
-
             try
             {
+                var updatedCustomer = await _context.Customers.SingleAsync(g => g.Id == id);
+
+                Mapper.Map(updatedCustomerDto, updatedCustomer);
+                _context.Entry(updatedCustomer).OriginalValues["RowVersion"] = updatedCustomerDto.RowVersion;
+
                 _context.Customers.Update(updatedCustomer);
                 await _context.SaveChangesAsync();
                 _cache.Remove(IMemoryCacheKeys.customersCacheKey);
             }
-            catch(Exception exception)
+            catch (DbUpdateConcurrencyException exception)
+            {
+                Conflict(exception);
+            }
+            catch (Exception exception)
             {
                 BadRequest(exception);
             }

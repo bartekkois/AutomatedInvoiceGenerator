@@ -1,4 +1,4 @@
-﻿export class InvoiceItem {
+export class InvoiceItem {
     id: number;
     remoteSystemServiceCode: string;
     description: string;
@@ -10,6 +10,7 @@
     grossValueAdded: number;
     invoicePeriodStartTime: string;
     invoicePeriodEndTime: string;
+    rowVersion: string;
     invoiceId: number;
     serviceItemId: number;
 }

@@ -169,6 +169,7 @@ export class InvoiceItemFormComponent implements OnInit {
     }
 
     save() {
+      this.isBusy = true;
       var result;
 
       if (this.invoiceItem.id)
@@ -179,7 +180,20 @@ export class InvoiceItemFormComponent implements OnInit {
       result.subscribe(success => {
         this.invoiceItemForm.markAsPristine();
         this._routerService.navigate(['invoices']);
-      });
+        this.isBusy = false;
+      },
+        error => {
+          if (error.status === 401)
+            this._routerService.navigate(['unauthorized']);
+
+          if (error.status === 404)
+            this._routerService.navigate(['invoices']);
+
+          if (error.status === 409)
+            this._routerService.navigate(['invoices']);
+
+          this.isBusy = false;
+        });
     }
 
     setItemDefaultValues(invoiceItemTemplateType) {

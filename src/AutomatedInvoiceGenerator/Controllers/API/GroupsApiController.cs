@@ -82,23 +82,23 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid || updatedGroupDto.Id != id)
                 return BadRequest();
 
-            var groups = await _context.Groups.Where(g => g.Id == id).ToListAsync();
-
-            if (!groups.Any())
-                return NotFound();
-
-            var updatedGroup = groups.First();
-
-            Mapper.Map(updatedGroupDto, updatedGroup);
-
             try
-            { 
+            {
+                var updatedGroup = await _context.Groups.SingleAsync(g => g.Id == id);
+
+                Mapper.Map(updatedGroupDto, updatedGroup);
+                _context.Entry(updatedGroup).OriginalValues["RowVersion"] = updatedGroupDto.RowVersion;
+
                 _context.Groups.Update(updatedGroup);
                 await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException exception)
+            {
+                Conflict(exception);
+            }
             catch (Exception exception)
             {
-                return BadRequest(exception);
+                BadRequest(exception);
             }
 
             return new NoContentResult();

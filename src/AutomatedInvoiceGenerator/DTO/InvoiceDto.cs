@@ -33,6 +33,10 @@ namespace AutomatedInvoiceGenerator.DTO
 
         public int PaymentPeriod { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
+
         // Relationships
         public int CustomerId { get; set; }
         public virtual CustomerShortDto Customer { get; set; }

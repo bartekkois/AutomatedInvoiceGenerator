@@ -81,19 +81,20 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid || updatedSubscriptionServiceItemDto.Id != id)
                 return BadRequest();
 
-            var subscriptionServiceItems = await _context.ServiceItems.OfType<SubscriptionServiceItem>().Where(g => g.Id == id).ToListAsync();
-
-            if (!subscriptionServiceItems.Any())
-                return NotFound();
-
-            var updatedSubscriptionServiceItem = subscriptionServiceItems.First();
-            Mapper.Map(updatedSubscriptionServiceItemDto, updatedSubscriptionServiceItem);
-
             try
             {
+                var updatedSubscriptionServiceItem = await _context.ServiceItems.OfType<SubscriptionServiceItem>().SingleAsync(g => g.Id == id);
+
+                Mapper.Map(updatedSubscriptionServiceItemDto, updatedSubscriptionServiceItem);
+                _context.Entry(updatedSubscriptionServiceItem).OriginalValues["RowVersion"] = updatedSubscriptionServiceItemDto.RowVersion;
+
                 _context.ServiceItems.Update(updatedSubscriptionServiceItem);
                 await _context.SaveChangesAsync();
                 _cache.Remove(IMemoryCacheKeys.customersCacheKey);
+            }
+            catch (DbUpdateConcurrencyException exception)
+            {
+                Conflict(exception);
             }
             catch (Exception exception)
             {

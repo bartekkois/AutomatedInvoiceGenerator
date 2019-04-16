@@ -3,4 +3,5 @@ export class Group {
     name: string;
     description: string;
     colour: string;
+    rowVersion: string;
 }

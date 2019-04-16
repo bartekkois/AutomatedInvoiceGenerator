@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Group } from './group';
@@ -29,6 +29,9 @@ export class GroupsComponent implements OnInit {
             error => {
                 if (error.status === 401)
                     this._routerService.navigate(['unauthorized']);
+
+                if (error.status === 409)
+                    this._routerService.navigate(['customers']);
             });
     }
 

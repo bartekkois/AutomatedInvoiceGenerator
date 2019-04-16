@@ -13,5 +13,8 @@ namespace AutomatedInvoiceGenerator.DTO
         public string Description { get; set; }
 
         public string Colour { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

@@ -10,6 +10,7 @@ export class Invoice {
     priceCalculation: number;
     paymentMethod: number;
     paymentPeriod: number;
+    rowVersion: string;
     customerId: number;
     customer: CustomerShort;
     serviceItemSetId: number;

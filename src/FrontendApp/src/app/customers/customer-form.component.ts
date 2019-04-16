@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -85,9 +85,12 @@ export class CustomerFormComponent implements OnInit {
                         if (error.status === 401)
                             this._routerService.navigate(['unauthorized']);
 
-                        if (error.status === 404) {
+                        if (error.status === 404)
                             this._routerService.navigate(['customers']);
-                        }
+
+                        if (error.status === 409)
+                            this._routerService.navigate(['customers']);
+
                         this.isBusy = false;
                     });
             });

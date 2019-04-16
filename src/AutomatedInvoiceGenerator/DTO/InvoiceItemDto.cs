@@ -37,6 +37,9 @@ namespace AutomatedInvoiceGenerator.DTO
         [Required]
         public DateTime? InvoicePeriodEndTime { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
 
         // Relationships
         public int InvoiceId { get; set; }

@@ -1,4 +1,4 @@
-﻿import { ServiceItemsSet } from '../service-items-sets/service-items-set';
+import { ServiceItemsSet } from '../service-items-sets/service-items-set';
 
 
 export class Customer {
@@ -18,6 +18,7 @@ export class Customer {
     isBlocked: boolean;
     isSuspended: boolean;
     isArchived: boolean;
+    rowVersion: string;
     groupId: number;
 
     serviceItemsSets: ServiceItemsSet[];
