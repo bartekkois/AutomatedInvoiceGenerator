@@ -20,6 +20,7 @@ export class  ServiceItem {
     isBlocked: boolean;
     isSuspended: boolean;
     isArchived: boolean;
+    rowVersion: string;
     serviceItemsSetId: number;
     invoiceItemsForLastYearShorts: InvoiceItemShort[];
 }

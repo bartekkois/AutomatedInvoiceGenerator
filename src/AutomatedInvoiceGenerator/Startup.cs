@@ -146,10 +146,10 @@ namespace AutomatedInvoiceGenerator
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                     context.Database.Migrate();
-                    context.EnsureSeedData().GetAwaiter().GetResult();
                     roleManager.EnsureSeedRoles().GetAwaiter().GetResult();
                     userManager.EnsureSeedAdministrators().GetAwaiter().GetResult();
                     userManager.EnsureSeedUsers().GetAwaiter().GetResult();
+                    context.EnsureSeedData().GetAwaiter().GetResult();
                 }
             }
             else

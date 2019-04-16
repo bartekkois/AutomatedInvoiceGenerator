@@ -81,19 +81,20 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             if (!ModelState.IsValid || updatedOneTimeServiceItemDto.Id != id)
                 return BadRequest();
 
-            var oneTimeServiceItems = await _context.ServiceItems.OfType<OneTimeServiceItem>().Where(g => g.Id == id).ToListAsync();
-
-            if (!oneTimeServiceItems.Any())
-                return NotFound();
-
-            var updatedOneTimeServiceItem = oneTimeServiceItems.First();
-            Mapper.Map(updatedOneTimeServiceItemDto, updatedOneTimeServiceItem);
-
             try
             {
+                var updatedOneTimeServiceItem = await _context.ServiceItems.OfType<OneTimeServiceItem>().SingleAsync(g => g.Id == id);
+
+                Mapper.Map(updatedOneTimeServiceItemDto, updatedOneTimeServiceItem);
+                _context.Entry(updatedOneTimeServiceItem).OriginalValues["RowVersion"] = updatedOneTimeServiceItemDto.RowVersion;
+
                 _context.ServiceItems.Update(updatedOneTimeServiceItem);
                 await _context.SaveChangesAsync();
                 _cache.Remove(IMemoryCacheKeys.customersCacheKey);
+            }
+            catch(DbUpdateConcurrencyException exception)
+            {
+                Conflict(exception);
             }
             catch (Exception exception)
             {

@@ -14,7 +14,14 @@ namespace AutomatedInvoiceGenerator.Services
         
         public string GetCurrentUserId()
         {
-            return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            }
+            catch (System.NullReferenceException)
+            {
+                return string.Empty;
+            }
         }
     }
 }
