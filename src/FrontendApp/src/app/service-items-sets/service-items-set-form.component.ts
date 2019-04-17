@@ -80,7 +80,10 @@ export class ServiceItemsSetFormComponent implements OnInit  {
 
                       if (error.status === 404) 
                         this._routerService.navigate(['customers']);
-                      
+
+                      if (error.status === 409)
+                        this._routerService.navigate(['customers']);
+
                       this.isBusy = false;
                   });
             });
