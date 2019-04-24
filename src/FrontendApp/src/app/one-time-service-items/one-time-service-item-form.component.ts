@@ -27,6 +27,8 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
     currentCustomerServiceItemsSets = [ServiceItemsSet];
     oneTimeServiceTemplateTypeIsSet = false;
     title: string = " ";
+    alertIsVisible: boolean = false;
+    alertMessage: string = "";
     isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
@@ -123,8 +125,10 @@ export class OneTimeServiceItemFormComponent implements OnInit  {
                           if (error.status === 404) 
                               this._routerService.navigate(['customers']);
 
-                          if (error.status === 409)
-                              this._routerService.navigate(['customers']);
+                          if (error.status === 409) {
+                              this.alertMessage = "Wystąpił błąd. Element został zmodyfikowany przez innego użytkownika";
+                              this.alertIsVisible = true;
+                          }
 
                           this.isBusy = false;
                       });

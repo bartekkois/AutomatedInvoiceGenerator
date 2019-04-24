@@ -82,7 +82,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             }
             catch (Exception exception)
             {
-                BadRequest(exception);
+                return BadRequest(exception);
             }
 
             return CreatedAtRoute("", new { id = newServiceItemsSet.Id }, Mapper.Map<ServiceItemsSetDto>(newServiceItemsSet));
@@ -108,11 +108,11 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             }
             catch (DbUpdateConcurrencyException exception)
             {
-                Conflict(exception);
+                return Conflict(exception);
             }
             catch (Exception exception)
             {
-                BadRequest(exception);
+                return BadRequest(exception);
             }
 
             return new NoContentResult();
@@ -142,7 +142,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 }
                 catch (Exception exception)
                 {
-                    BadRequest(exception);
+                    return BadRequest(exception);
                 }
 
                 return new NoContentResult();

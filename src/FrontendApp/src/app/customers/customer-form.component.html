@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default panel-primary">
+<div class="panel panel-default panel-primary">
   <div class="panel-heading clearfix">
     <div class="panel-title pull-left">{{title}}</div>
     <div class="pull-right" [hidden]="!isBusy">
@@ -12,7 +12,7 @@
   </div>
   <div class="panel-body">
     <div class="row">
-      <div class="col-md-2"></div>
+        <div class="col-md-2"></div>
         <div class="col-md-8">
           <form [formGroup]="customerForm" (ngSubmit)="save()">
             <div class="row">
@@ -148,13 +148,18 @@
                 </div>
               </div>
             </div>
-
+            <div class="alert alert-danger alert-dismissible" role="alert" *ngIf="alertIsVisible">
+              {{ alertMessage }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <button [disabled]="!customerForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
           </form>
           <div class="col-md-2"></div>
         </div>
       </div>
+    </div>
   </div>
-</div>
 
 

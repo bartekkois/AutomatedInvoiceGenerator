@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default panel-primary">
+<div class="panel panel-default panel-primary">
   <div class="panel-heading clearfix">
     <div class="panel-title pull-left">{{title}}</div>
     <div class="pull-right" [hidden]="!isBusy">
@@ -94,6 +94,13 @@
                     <input [(ngModel)]="invoice.isExported" formControlName="isExported" type="checkbox" [attr.disabled]="true"> Wyeksportowano
                   </div>
                 </div>
+              </div>
+
+              <div class="alert alert-danger alert-dismissible" role="alert" *ngIf="alertIsVisible">
+                {{ alertMessage }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
 
               <button [disabled]="!invoiceForm.valid" type="submit" class="btn btn-primary">Zapisz</button>

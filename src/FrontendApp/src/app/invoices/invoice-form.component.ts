@@ -20,6 +20,8 @@ export class InvoiceFormComponent implements OnInit {
     invoiceForm: FormGroup;
     title: string = " ";
     isCustomerEditable = false;
+    alertIsVisible: boolean = false;
+    alertMessage: string = "";
     isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
@@ -123,22 +125,25 @@ export class InvoiceFormComponent implements OnInit {
         else
             result = this._invoicesService.addInvoice(this.invoice)
 
-        result.subscribe(success => {
-            this.invoiceForm.markAsPristine();
-            this._routerService.navigate(['invoices']);
-            this.isBusy = false;
-        },
-        error => {
-            if (error.status === 401)
-                this._routerService.navigate(['unauthorized']);
+        result.subscribe(
+          success => {
+              this.invoiceForm.markAsPristine();
+              this._routerService.navigate(['invoices']);
+              this.isBusy = false;
+          },
+          error => {
+              if (error.status === 401)
+                  this._routerService.navigate(['unauthorized']);
 
-            if (error.status === 404) 
-                this._routerService.navigate(['invoices']);
+              if (error.status === 404) 
+                  this._routerService.navigate(['invoices']);
 
-            if (error.status === 409)
-                this._routerService.navigate(['invoices']);
+              if (error.status === 409) {
+                this.alertMessage = "Wystąpił błąd. Element został zmodyfikowany przez innego użytkownika";
+                this.alertIsVisible = true;
+              }
 
-            this.isBusy = false;
+              this.isBusy = false;
         });
     }
 

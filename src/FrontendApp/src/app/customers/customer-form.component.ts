@@ -18,6 +18,8 @@ export class CustomerFormComponent implements OnInit {
     customerForm: FormGroup;
     groups = [Group];
     title: string = " ";
+    alertIsVisible: boolean = false;
+    alertMessage: string = "";
     isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
@@ -88,9 +90,6 @@ export class CustomerFormComponent implements OnInit {
                         if (error.status === 404)
                             this._routerService.navigate(['customers']);
 
-                        if (error.status === 409)
-                            this._routerService.navigate(['customers']);
-
                         this.isBusy = false;
                     });
             });
@@ -104,10 +103,23 @@ export class CustomerFormComponent implements OnInit {
         else
             result = this._customersService.addCustomer(this.customer)
 
-        result.subscribe(success => {
-            this.customerForm.markAsPristine();
-            this._routerService.navigate(['customers']);
-        });
+        result.subscribe(
+            success => {
+                this.customerForm.markAsPristine();
+                this._routerService.navigate(['customers']);
+            },
+            error => {
+                if (error.status === 401)
+                    this._routerService.navigate(['unauthorized']);
+
+                if (error.status === 404)
+                    this._routerService.navigate(['customers']);
+
+                if (error.status === 409) {
+                    this.alertMessage = "Wystąpił błąd. Element został zmodyfikowany przez innego użytkownika";
+                    this.alertIsVisible = true;
+                }
+            });
     }
 
     canDeactivate() {

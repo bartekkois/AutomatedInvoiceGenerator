@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default panel-primary">
+<div class="panel panel-default panel-primary">
   <div class="panel-heading clearfix">
     <div class="panel-title pull-left">{{title}}</div>
     <div class="pull-right" [hidden]="!isBusy">
@@ -38,6 +38,12 @@
               </div>
             </div>
           </fieldset>
+          <div class="alert alert-danger alert-dismissible" role="alert" *ngIf="alertIsVisible">
+            {{ alertMessage }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           <button [disabled]="!groupForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
         </form>
       </div>

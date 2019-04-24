@@ -126,7 +126,7 @@
                 </div>
               </div>
               <div class="col-xs-1 sign-div">
-                   x
+                x
               </div>
               <div class="col-xs-2">
                 <div class="form-group">
@@ -229,6 +229,12 @@
               </div>
             </div>
 
+            <div class="alert alert-danger alert-dismissible" role="alert" *ngIf="alertIsVisible">
+              {{ alertMessage }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <button [disabled]="!subscriptionServiceItemForm.valid" type="submit" class="btn btn-primary">Zapisz</button>
           </form>
           <div class="col-md-2"></div>

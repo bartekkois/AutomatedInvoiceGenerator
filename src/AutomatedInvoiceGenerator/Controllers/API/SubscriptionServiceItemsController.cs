@@ -68,7 +68,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             }
             catch (Exception exception)
             {
-                BadRequest(exception);
+                return BadRequest(exception);
             }
 
             return CreatedAtRoute("", new { id = newSubscriptionServiceItem.Id }, Mapper.Map<SubscriptionServiceItemDto>(newSubscriptionServiceItem));
@@ -94,11 +94,11 @@ namespace AutomatedInvoiceGenerator.Controllers.API
             }
             catch (DbUpdateConcurrencyException exception)
             {
-                Conflict(exception);
+                return Conflict(exception);
             }
             catch (Exception exception)
             {
-                BadRequest(exception);
+                return BadRequest(exception);
             }
 
             return new NoContentResult();
@@ -122,7 +122,7 @@ namespace AutomatedInvoiceGenerator.Controllers.API
                 }
                 catch (Exception exception)
                 {
-                    BadRequest(exception);
+                    return BadRequest(exception);
                 }
 
                 return new NoContentResult();

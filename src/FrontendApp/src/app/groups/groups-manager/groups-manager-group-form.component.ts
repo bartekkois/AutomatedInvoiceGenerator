@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -16,6 +16,8 @@ export class GroupsManagerGroupFormComponent implements OnInit {
     group = new Group();
     groupForm: FormGroup;
     title: string;
+    alertIsVisible: boolean = false;
+    alertMessage: string = "";
     isBusy: boolean = false;
 
     constructor(private _fb: FormBuilder,
@@ -75,10 +77,23 @@ export class GroupsManagerGroupFormComponent implements OnInit {
         else
             result = this._groupsService.addGroup(this.group)
 
-        result.subscribe(success => {
+        result.subscribe(
+          success => {
             this.groupForm.markAsPristine();
             this._routerService.navigate(['groups-manager']);
             this._refreshGroupsNavigationService.sendRefreshEvent(); 
+        },
+          error => {
+            if (error.status === 401)
+              this._routerService.navigate(['unauthorized']);
+
+            if (error.status === 404)
+              this._routerService.navigate(['groups-manager']);
+
+            if (error.status === 409) {
+              this.alertMessage = "Wystąpił błąd. Element został zmodyfikowany przez innego użytkownika";
+              this.alertIsVisible = true;
+            }
         });
     }
 
